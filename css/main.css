@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+}
+canvas {
+    position: absolute;
+}
+form {
+    position: absolute;
+    top: 800px;
+}
