@@ -126,27 +126,41 @@ function uploadImage(event) {
     }
 
     if (fileIsSupported) {
-        let layer = createNewLayer();
         let img = new Image();
 
         img.src = URL.createObjectURL(event.target.files[0]);
 
         img.addEventListener('load', () => {
-            layer.getContext('2d').drawImage(img, 0, 0);
+            let layer = createNewLayer(img.width, img.height);
+            let ctxLayer = layer.getContext('2d');
+            
+            ctxLayer.drawImage(img, 0, 0);
+
+            ctxLayer.rect(0, 0, layer.width, layer.height);
+            ctxLayer.setLineDash([5, 5]);
+            ctxLayer.lineWidth = 1;
+            ctxLayer.strokeStyle = '#000000';
+            ctxLayer.stroke();
+
+            ctxLayer.beginPath();
+            ctxLayer.rect(0, 0, layer.width, layer.height);
+            ctxLayer.setLineDash([0, 5, 5, 0]);
+            ctxLayer.strokeStyle = '#ffffff';
+            ctxLayer.stroke();
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
-        event.target.value = "";
+        event.target.value = '';
     }
 }
 
-function createNewLayer() {
+function createNewLayer(width, height) {
     let layer = document.createElement('canvas');
 
-    layer.width = background.width;
-    layer.height = background.height;
-    layer.style.left = WORKSPACE_LEFT +'px';
-    layer.style.top = WORKSPACE_TOP +'px';
+    layer.width = width;
+    layer.height = height;
+    layer.style.left = WORKSPACE_LEFT + (WORKSPACE_WIDTH - width) / 2 + 'px';
+    layer.style.top = WORKSPACE_TOP + (WORKSPACE_HEIGHT - height) / 2 + 'px';
     
     layers.appendChild(layer);
 
