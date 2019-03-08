@@ -4,7 +4,12 @@ body {
 canvas {
     position: absolute;
 }
-form {
-    position: absolute;
-    top: 800px;
+#background {
+    z-index: 0;
+}
+.tool {
+    width: 50px;
+    height: 20px;
+    background-color: red;
+    display: inline-block;
 }
