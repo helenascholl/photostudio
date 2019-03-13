@@ -8,7 +8,7 @@ let selectedArea;
 let selection;
 let ctxSelection;
 let layers;
-let selectedLayer;
+let selectedLayer = null;
 let tool = 'select';
 
 addEventListener('load', init);
@@ -68,6 +68,7 @@ function mouseDown(event) {
         switch (tool) {
             case 'select':
                 select(event);
+                break;
 
             case 'select_rectangle':
                 selectRectangle(event);
@@ -76,7 +77,17 @@ function mouseDown(event) {
             case 'move':
                 move(event);
                 break;
+
+            case 'fill':
+                fill();
+                break;
         }
+    }
+}
+
+function fill() {
+    if (selectedLayer !== null) {
+
     }
 }
 
@@ -109,13 +120,15 @@ function move(event) {
     }
 
     let moveLayer = (event) => {
-        selectedLayer.style.left = parseInt(selectedLayer.style.left) + event.clientX - originalPosition.x + 'px';
-        selectedLayer.style.top = parseInt(selectedLayer.style.top) + event.clientY - originalPosition.y + 'px';
+        if (selectedLayer =! null) {
+            selectedLayer.style.left = parseInt(selectedLayer.style.left) + event.clientX - originalPosition.x + 'px';
+            selectedLayer.style.top = parseInt(selectedLayer.style.top) + event.clientY - originalPosition.y + 'px';
 
-        drawBorder(parseInt(selectedLayer.style.left) - WORKSPACE_LEFT, parseInt(selectedLayer.style.top) - WORKSPACE_TOP, selectedLayer.width, selectedLayer.height);
+            drawBorder(parseInt(selectedLayer.style.left) - WORKSPACE_LEFT, parseInt(selectedLayer.style.top) - WORKSPACE_TOP, selectedLayer.width, selectedLayer.height);
 
-        originalPosition.x = event.clientX;
-        originalPosition.y = event.clientY;
+            originalPosition.x = event.clientX;
+            originalPosition.y = event.clientY;
+        }
     };
 
     let removeMouseMove = () => {
@@ -125,22 +138,11 @@ function move(event) {
 
     window.addEventListener('mousemove', moveLayer);
     window.addEventListener('mouseup', removeMouseMove);
-
-    /*let layer = layers.childNodes[selectedLayer];
-    let data = layer.getContext('2d').getImageData(0, 0, layer.width, layer.height).data;
-
-    for (let i = 0; i < data.length; i += 4) {
-        for (let j = 0; j < 4; j++) {
-            if (i / 4 <= layer.height) {
-                data[i + j] = 0;
-            } else {
-                data[i + j] = undefined;
-            }
-        }
-    }*/
 }
 
 function selectRectangle(event) {
+    selectedLayer = null;
+
     let drawSelection = (event) => {
         if (event.clientX < WORKSPACE_LEFT) {
             selectedArea.x2 = WORKSPACE_LEFT;
@@ -231,7 +233,12 @@ function createNewLayer(width, height) {
     
     layers.appendChild(layer);
 
-    drawBorder(parseInt(layer.style.left) - WORKSPACE_LEFT, parseInt(layer.style.top) - WORKSPACE_TOP, layer.width, layer.height);
+    selectedArea.x1 = parseInt(layer.style.left) - WORKSPACE_LEFT;
+    selectedArea.y1 = parseInt(layer.style.left) - WORKSPACE_TOP;
+    selectedArea.x2 = selectedArea.x1 + layer.width;
+    selectedArea.y2 = selectedArea.y1 + layer.height;
+
+    drawBorder(selectedArea.x1, selectedArea.y1, layer.width, layer.height);
 
     selectedLayer = layer;
 
