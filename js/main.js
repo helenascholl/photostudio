@@ -1,9 +1,8 @@
-'use strict';
-
 const WORKSPACE_WIDTH = innerWidth - 80;
 const WORKSPACE_HEIGHT = innerHeight - 80;
 const WORKSPACE_LEFT = 40;
 const WORKSPACE_TOP = 40;
+const SUPPORTED_FILE_EXTENSIONS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png'];
 let background;
 let ctxBackground;
 let selectedArea = [];
@@ -17,17 +16,16 @@ let selectedColor = '#ffffff';
 window.addEventListener('load', init);
 
 function init() {
-    let filename = document.getElementById('filename');
-
-    filename.addEventListener('change', uploadImage);
+    document.getElementById('filename').addEventListener('change', uploadImage);
+    document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
 
     layers = document.getElementById('layers');
 
     background = document.getElementById('background');;
-    background.width = WORKSPACE_WIDTH;
-    background.height = WORKSPACE_HEIGHT;
-    background.style.left = WORKSPACE_LEFT + 'px';
-    background.style.top = WORKSPACE_TOP + 'px';
+    background.width = WORKSPACE_WIDTH - 20;
+    background.height = WORKSPACE_HEIGHT - 20;
+    background.style.left = WORKSPACE_LEFT + 10 + 'px';
+    background.style.top = WORKSPACE_TOP + 10 + 'px';
 
     ctxBackground = background.getContext('2d');
     ctxBackground.rect(0, 0, background.width, background.height);
@@ -93,8 +91,27 @@ function mouseDown(event) {
 
 function freeSelect(event) {
     let addCoordinates = (event) => {
-        selectedArea.push({x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP});
-        ctxSelection.lineTo(selectedArea[selectedArea.length - 1].x, selectedArea[selectedArea.length - 1].y);
+        let x;
+        let y;
+
+        if (event.clientX < WORKSPACE_LEFT) {
+            x = 0;
+        } else if (event.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
+            x = WORKSPACE_WIDTH;
+        } else {
+            x = event.clientX - WORKSPACE_LEFT;
+        }
+    
+        if (event.clientY < WORKSPACE_TOP) {
+            y = 0;
+        } else if (event.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
+            y = WORKSPACE_HEIGHT;
+        } else {
+            y = event.clientY - WORKSPACE_TOP;
+        }
+
+        selectedArea.push({x, y});
+        ctxSelection.lineTo(x, y);
 
         ctxSelection.lineWidth = 2.5;
         ctxSelection.strokeStyle = '#000000';
@@ -169,7 +186,7 @@ function selectLayer(event) {
 
             selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + layer.width, y: layerTop}, {x: layerLeft + layer.width, y: layerTop + layer.height}, {x: layerLeft, y: layerTop + layer.height}];
             drawSelectedArea();
-            //drawBorder(parseFloat(layer.style.left) - WORKSPACE_LEFT, parseFloat(layer.style.top) - WORKSPACE_TOP, layer.width, layer.height);
+
             selectedLayer = layer;
         } else {
 
@@ -209,8 +226,6 @@ function move(event) {
 
         selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop + selectedLayer.height}, {x: layerLeft, y: layerTop + selectedLayer.height}];
         drawSelectedArea();
-
-        //drawBorder(parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT, parseFloat(selectedLayer.style.top) - WORKSPACE_TOP, selectedLayer.width, selectedLayer.height);
     };
 
     let removeMouseMove = () => {
@@ -230,34 +245,29 @@ function selectRectangle(event) {
         let y;
 
         if (eventMouseMove.clientX < WORKSPACE_LEFT) {
-            x = WORKSPACE_LEFT;
+            x = 0;
         } else if (eventMouseMove.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
-            x = WORKSPACE_LEFT + WORKSPACE_WIDTH;
+            x = WORKSPACE_WIDTH;
         } else {
             x = eventMouseMove.clientX - WORKSPACE_LEFT;
         }
     
         if (eventMouseMove.clientY < WORKSPACE_TOP) {
-            y = WORKSPACE_TOP;
+            y = 0;
         } else if (eventMouseMove.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
-            y = WORKSPACE_TOP + WORKSPACE_HEIGHT;
+            y = WORKSPACE_HEIGHT;
         } else {
             y = eventMouseMove.clientY - WORKSPACE_TOP;
         }
 
-        selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}, {x: x, y: event.clientY - WORKSPACE_TOP}, {x: x, y: y}, {x: event.clientX - WORKSPACE_LEFT, y: y}];
+        selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}, {x, y: event.clientY - WORKSPACE_TOP}, {x, y}, {x: event.clientX - WORKSPACE_LEFT, y}];
         drawSelectedArea();
-
-        //drawBorder(selectedArea.x1 - WORKSPACE_LEFT, selectedArea.y1 - WORKSPACE_TOP, selectedArea.x2 - selectedArea.x1, selectedArea.y2 - selectedArea.y1);
     };
 
     let removeMouseMove = () => {
         window.removeEventListener('mousemove', drawSelection);
         window.removeEventListener('mouseup', removeMouseMove);
     };
-
-    /*selectedArea.x1 = event.clientX;
-    selectedArea.y1 = event.clientY;*/
 
     window.addEventListener('mousemove', drawSelection);
     window.addEventListener('mouseup', removeMouseMove);
@@ -292,30 +302,11 @@ function drawSelectedArea() {
     ctxSelection.setLineDash([]);
 }
 
-/*function drawBorder(x, y, width, height) {
-    ctxSelection.beginPath();
-    ctxSelection.clearRect(0, 0, selection.width, selection.height);
-    ctxSelection.rect(x, y, width, height);
-    ctxSelection.setLineDash([5, 5]);
-    ctxSelection.lineWidth = 1;
-    ctxSelection.strokeStyle = '#000000';
-    ctxSelection.stroke();
-
-    ctxSelection.beginPath();
-    ctxSelection.rect(x, y, width, height);
-    ctxSelection.setLineDash([0, 5, 5, 0]);
-    ctxSelection.strokeStyle = '#ffffff';
-    ctxSelection.stroke();
-
-    ctxSelection.setLineDash([]);
-}*/
-
 function uploadImage(event) {
     let fileExtension = event.target.value.split('.').pop().toLowerCase();
-    let supportedFileExtensions = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png'];
     let fileIsSupported = false;
 
-    for (let extension of supportedFileExtensions) {
+    for (let extension of SUPPORTED_FILE_EXTENSIONS) {
         if (fileExtension === extension) {
             fileIsSupported = true;
         }
@@ -328,15 +319,44 @@ function uploadImage(event) {
 
         img.addEventListener('load', () => {
             let layer = createNewLayer(img.width, img.height);
-            let ctxLayer = layer.getContext('2d');
+            let ctx = layer.getContext('2d');
             
-            ctxLayer.drawImage(img, 0, 0);
+            ctx.drawImage(img, 0, 0);
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
     }
 
     event.target.value = '';
+}
+
+function getImageFromUrl() {
+    let url = document.getElementById('url');
+    let fileExtension = url.value.split('.').pop().toLowerCase();
+    let fileIsSupported = false;
+
+    for (let extension of SUPPORTED_FILE_EXTENSIONS) {
+        if (fileExtension === extension) {
+            fileIsSupported = true;
+        }
+    }
+
+    if (fileIsSupported) {
+        let img = new Image();
+
+        img.src = url.value;
+
+        img.addEventListener('load', () => {
+            let layer = createNewLayer(img.width, img.height);
+            let ctx = layer.getContext('2d');
+            
+            ctx.drawImage(img, 0, 0);
+        });
+    } else if (fileExtension !== '') {
+        alert('File format is not supported!');
+    }
+
+    url.value = '';
 }
 
 function createNewLayer(width, height) {
@@ -373,13 +393,6 @@ function createNewLayer(width, height) {
     ];
 
     drawSelectedArea();
-
-    /*selectedArea.x1 = parseFloat(layer.style.left) - WORKSPACE_LEFT;
-    selectedArea.y1 = parseFloat(layer.style.left) - WORKSPACE_TOP;
-    selectedArea.x2 = selectedArea.x1 + layer.width;
-    selectedArea.y2 = selectedArea.y1 + layer.height;
-
-    drawBorder(selectedArea.x1, selectedArea.y1, layer.width, layer.height);*/
 
     selectedLayer = layer;
 

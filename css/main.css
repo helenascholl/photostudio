@@ -7,6 +7,9 @@ canvas {
 #background {
     z-index: 0;
 }
+#selection {
+    border: 1px solid black;
+}
 .tool {
     width: 50px;
     height: 20px;
