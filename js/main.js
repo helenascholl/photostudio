@@ -1,3 +1,5 @@
+'use strict';
+
 const WORKSPACE_WIDTH = innerWidth - 80;
 const WORKSPACE_HEIGHT = innerHeight - 80;
 const WORKSPACE_LEFT = 40;
@@ -10,8 +12,9 @@ let ctxSelection;
 let layers;
 let selectedLayer = null;
 let tool = 'select_layer';
+let selectedColor = '#ffffff';
 
-addEventListener('load', init);
+window.addEventListener('load', init);
 
 function init() {
     let filename = document.getElementById('filename');
@@ -50,7 +53,6 @@ function init() {
     selection.addEventListener('mousedown', mouseDown);
 
     ctxSelection = selection.getContext('2d');
-    ctxSelection.translate(0.5, 0.5);
 
     selectedArea = [WORKSPACE_LEFT, WORKSPACE_TOP, background.width + WORKSPACE_TOP, background.height + WORKSPACE_LEFT];
 
@@ -83,40 +85,71 @@ function mouseDown(event) {
                 break;
 
             case 'fill':
-                fill();
+                fill(event);
                 break;
         }
     }
 }
 
-// not working yet
 function freeSelect(event) {
-    let coordinates = [[event.clientX, event.clientY]];
-    let addCoordinates = function(event) {
-        line.push([event.clientX, event.clientY]);
+    let addCoordinates = (event) => {
+        selectedArea.push({x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP});
+        ctxSelection.lineTo(selectedArea[selectedArea.length - 1].x, selectedArea[selectedArea.length - 1].y);
 
-        for (let coordinate of coordinates) {
-            ctxSelection.beginPath();
-            cctxSelection.lineTo()
-            ctxSelection.stroke();
-        }
-    };
-
-    ctxSelection.beginPath();
-    ctxSelection.moveTo(coordinates[0][0], coordinates[0][1]);
-
-    selection.addEventListener('mousemove', addCoordinates);
-}
-
-function fill() {
-    if (selectedLayer !== null) {
-        let ctx = selectedLayer.getContext('2d');
-        
-        ctxSelection.rect(sele, y, width, height);
-        ctxSelection.setLineDash([5, 5]);
-        ctxSelection.lineWidth = 1;
+        ctxSelection.lineWidth = 2.5;
         ctxSelection.strokeStyle = '#000000';
         ctxSelection.stroke();
+
+        ctxSelection.lineWidth = 1.5;
+        ctxSelection.strokeStyle = '#ffffff';
+        ctxSelection.stroke();
+
+        ctxSelection.lineWidth = 1;
+    };
+
+    let removeMouseMove = () => {
+        drawSelectedArea();
+
+        window.removeEventListener('mousemove', addCoordinates);
+        window.removeEventListener('mouseup', removeMouseMove);
+    }
+
+    selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}];
+
+    ctxSelection.beginPath();
+    ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
+
+    window.addEventListener('mousemove', addCoordinates);
+    window.addEventListener('mouseup', removeMouseMove);
+}
+
+function fill(event) {
+    if (selectedLayer !== null) {
+        let maxZIndex = '0';
+
+        for (let layer of layers.childNodes) {
+            if (event.clientX >= parseFloat(layer.style.left) && event.clientX <= parseFloat(layer.style.left) + layer.width && event.clientY >= parseFloat(layer.style.top) && event.clientY <= parseFloat(layer.style.top) + layer.height && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
+                maxZIndex = layer.style.zIndex;
+            }
+        }
+
+        if (selectedLayer.style.zIndex === maxZIndex) {
+            let ctx = selectedLayer.getContext('2d');
+            let left = parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT;
+            let top = parseFloat(selectedLayer.style.top) - WORKSPACE_TOP;
+            
+            ctx.beginPath();
+            ctx.moveTo(selectedArea[0].x - left, selectedArea[0].y - top);
+
+            for (let coordinates of selectedArea) {
+                ctx.lineTo(coordinates.x - left, coordinates.y - top);
+            }
+
+            ctx.lineTo(selectedArea[0].x - left, selectedArea[0].y - top);
+            
+            ctx.fillStyle = selectedColor;
+            ctx.fill();
+        }
     }
 }
 
@@ -124,17 +157,19 @@ function selectLayer(event) {
     let maxZIndex = '0';
 
     for (let layer of layers.childNodes) {
-        let layerLeft = WORKSPACE_LEFT + parseInt(layer.style.left);
-        let layerTop = WORKSPACE_TOP + parseInt(layer.style.top);
-
-        if (event.clientX >= layerLeft && event.clientX <= layerLeft + layer.width && event.clientY >= layerTop && event.clientY <= layerTop + layer.height && parseInt(maxZIndex) < parseInt(layer.style.zIndex)) {
+        if (event.clientX >= parseFloat(layer.style.left) && event.clientX <= parseFloat(layer.style.left) + layer.width && event.clientY >= parseFloat(layer.style.top) && event.clientY <= parseFloat(layer.style.top) + layer.height && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
             maxZIndex = layer.style.zIndex;
         }
     }
 
     for (let layer of layers.childNodes) {
         if (maxZIndex === layer.style.zIndex) {
-            drawBorder(parseInt(layer.style.left) - WORKSPACE_LEFT, parseInt(layer.style.top) - WORKSPACE_TOP, layer.width, layer.height);
+            let layerLeft = parseFloat(layer.style.left) - WORKSPACE_LEFT;
+            let layerTop = parseFloat(layer.style.top) - WORKSPACE_TOP;
+
+            selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + layer.width, y: layerTop}, {x: layerLeft + layer.width, y: layerTop + layer.height}, {x: layerLeft, y: layerTop + layer.height}];
+            drawSelectedArea();
+            //drawBorder(parseFloat(layer.style.left) - WORKSPACE_LEFT, parseFloat(layer.style.top) - WORKSPACE_TOP, layer.width, layer.height);
             selectedLayer = layer;
         } else {
 
@@ -143,21 +178,39 @@ function selectLayer(event) {
 }
 
 function move(event) {
-    let originalPosition = {
-        x: event.clientX,
-        y: event.clientY
-    }
+    let originalPosition = {x: event.clientX, y: event.clientY};
 
     let moveLayer = (event) => {
-        if (selectedLayer =! null) {
-            selectedLayer.style.left = parseInt(selectedLayer.style.left) + event.clientX - originalPosition.x + 'px';
-            selectedLayer.style.top = parseInt(selectedLayer.style.top) + event.clientY - originalPosition.y + 'px';
+        let newLeft = parseFloat(selectedLayer.style.left) + event.clientX - originalPosition.x;
+        let newTop = parseFloat(selectedLayer.style.top) + event.clientY - originalPosition.y;
+        let layerLeft;
+        let layerTop;
 
-            drawBorder(parseInt(selectedLayer.style.left) - WORKSPACE_LEFT, parseInt(selectedLayer.style.top) - WORKSPACE_TOP, selectedLayer.width, selectedLayer.height);
-
+        if (newLeft < WORKSPACE_LEFT) {
+            selectedLayer.style.left = WORKSPACE_LEFT + 'px';
+        } else if (newLeft + selectedLayer.width > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
+            selectedLayer.style.left = WORKSPACE_LEFT + WORKSPACE_WIDTH - selectedLayer.width + 'px';
+        } else {
+            selectedLayer.style.left = newLeft + 'px';
             originalPosition.x = event.clientX;
+        }
+        
+        if (newTop < WORKSPACE_TOP) {
+            selectedLayer.style.top = WORKSPACE_TOP + 'px';
+        } else if (newTop + selectedLayer.height > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
+            selectedLayer.style.top = WORKSPACE_TOP + WORKSPACE_HEIGHT - selectedLayer.height + 'px';
+        } else {
+            selectedLayer.style.top = newTop + 'px';
             originalPosition.y = event.clientY;
         }
+
+        layerLeft = parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT;
+        layerTop = parseFloat(selectedLayer.style.top) - WORKSPACE_TOP;
+
+        selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop + selectedLayer.height}, {x: layerLeft, y: layerTop + selectedLayer.height}];
+        drawSelectedArea();
+
+        //drawBorder(parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT, parseFloat(selectedLayer.style.top) - WORKSPACE_TOP, selectedLayer.width, selectedLayer.height);
     };
 
     let removeMouseMove = () => {
@@ -165,32 +218,37 @@ function move(event) {
         window.removeEventListener('mouseup', removeMouseMove);
     }
 
-    window.addEventListener('mousemove', moveLayer);
-    window.addEventListener('mouseup', removeMouseMove);
+    if (selectedLayer !== null && event.clientX >= parseFloat(selectedLayer.style.left) && event.clientX <= parseFloat(selectedLayer.style.left) + selectedLayer.width && event.clientY >= parseFloat(selectedLayer.style.top) && event.clientY <= parseFloat(selectedLayer.style.top) + selectedLayer.height) {
+        window.addEventListener('mousemove', moveLayer);
+        window.addEventListener('mouseup', removeMouseMove);
+    }
 }
 
-// does not work with the current implemetation
 function selectRectangle(event) {
-    selectedLayer = null;
+    let drawSelection = (eventMouseMove) => {
+        let x;
+        let y;
 
-    let drawSelection = (event) => {
-        if (event.clientX < WORKSPACE_LEFT) {
-            selectedArea.x2 = WORKSPACE_LEFT;
-        } else if (event.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
-            selectedArea.x2 = WORKSPACE_LEFT + WORKSPACE_WIDTH - 0.5;
+        if (eventMouseMove.clientX < WORKSPACE_LEFT) {
+            x = WORKSPACE_LEFT;
+        } else if (eventMouseMove.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
+            x = WORKSPACE_LEFT + WORKSPACE_WIDTH;
         } else {
-            selectedArea.x2 = event.clientX;
+            x = eventMouseMove.clientX - WORKSPACE_LEFT;
         }
     
-        if (event.clientY < WORKSPACE_TOP) {
-            selectedArea.y2 = WORKSPACE_TOP;
-        } else if (event.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
-            selectedArea.y2 = WORKSPACE_TOP + WORKSPACE_HEIGHT - 0.5;
+        if (eventMouseMove.clientY < WORKSPACE_TOP) {
+            y = WORKSPACE_TOP;
+        } else if (eventMouseMove.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
+            y = WORKSPACE_TOP + WORKSPACE_HEIGHT;
         } else {
-            selectedArea.y2 = event.clientY;
+            y = eventMouseMove.clientY - WORKSPACE_TOP;
         }
-    
-        drawBorder(selectedArea.x1 - WORKSPACE_LEFT, selectedArea.y1 - WORKSPACE_TOP, selectedArea.x2 - selectedArea.x1, selectedArea.y2 - selectedArea.y1);
+
+        selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}, {x: x, y: event.clientY - WORKSPACE_TOP}, {x: x, y: y}, {x: event.clientX - WORKSPACE_LEFT, y: y}];
+        drawSelectedArea();
+
+        //drawBorder(selectedArea.x1 - WORKSPACE_LEFT, selectedArea.y1 - WORKSPACE_TOP, selectedArea.x2 - selectedArea.x1, selectedArea.y2 - selectedArea.y1);
     };
 
     let removeMouseMove = () => {
@@ -198,16 +256,45 @@ function selectRectangle(event) {
         window.removeEventListener('mouseup', removeMouseMove);
     };
 
-    selectedArea.x1 = event.clientX;
-    selectedArea.y1 = event.clientY;
+    /*selectedArea.x1 = event.clientX;
+    selectedArea.y1 = event.clientY;*/
 
     window.addEventListener('mousemove', drawSelection);
     window.addEventListener('mouseup', removeMouseMove);
 }
 
-function drawBorder(x, y, width, height) {
+function drawSelectedArea() {
     ctxSelection.beginPath();
-    ctxSelection.clearRect(-0.5, -0.5, selection.width, selection.height);
+    ctxSelection.clearRect(0, 0, selection.width, selection.height);
+    ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
+    ctxSelection.setLineDash([5, 5]);
+    ctxSelection.strokeStyle = '#000000';
+
+    for (let coordinates of selectedArea) {
+        ctxSelection.lineTo(coordinates.x, coordinates.y);
+    }
+
+    ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
+    ctxSelection.stroke();
+
+    ctxSelection.beginPath();
+    ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
+    ctxSelection.setLineDash([0, 5, 5, 0]);
+    ctxSelection.strokeStyle = '#ffffff';
+
+    for (let coordinates of selectedArea) {
+        ctxSelection.lineTo(coordinates.x, coordinates.y);
+    }
+
+    ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
+    ctxSelection.stroke();
+
+    ctxSelection.setLineDash([]);
+}
+
+/*function drawBorder(x, y, width, height) {
+    ctxSelection.beginPath();
+    ctxSelection.clearRect(0, 0, selection.width, selection.height);
     ctxSelection.rect(x, y, width, height);
     ctxSelection.setLineDash([5, 5]);
     ctxSelection.lineWidth = 1;
@@ -219,7 +306,9 @@ function drawBorder(x, y, width, height) {
     ctxSelection.setLineDash([0, 5, 5, 0]);
     ctxSelection.strokeStyle = '#ffffff';
     ctxSelection.stroke();
-}
+
+    ctxSelection.setLineDash([]);
+}*/
 
 function uploadImage(event) {
     let fileExtension = event.target.value.split('.').pop().toLowerCase();
@@ -245,8 +334,9 @@ function uploadImage(event) {
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
-        event.target.value = '';
     }
+
+    event.target.value = '';
 }
 
 function createNewLayer(width, height) {
@@ -263,12 +353,33 @@ function createNewLayer(width, height) {
     
     layers.appendChild(layer);
 
-    selectedArea.x1 = parseInt(layer.style.left) - WORKSPACE_LEFT;
-    selectedArea.y1 = parseInt(layer.style.left) - WORKSPACE_TOP;
+    selectedArea = [
+        {
+            x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
+            y: parseFloat(layer.style.top) - WORKSPACE_TOP
+        },
+        {
+            x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
+            y: parseFloat(layer.style.top) - WORKSPACE_TOP
+        },
+        {
+            x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
+            y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
+        },
+        {
+            x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
+            y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
+        }
+    ];
+
+    drawSelectedArea();
+
+    /*selectedArea.x1 = parseFloat(layer.style.left) - WORKSPACE_LEFT;
+    selectedArea.y1 = parseFloat(layer.style.left) - WORKSPACE_TOP;
     selectedArea.x2 = selectedArea.x1 + layer.width;
     selectedArea.y2 = selectedArea.y1 + layer.height;
 
-    drawBorder(selectedArea.x1, selectedArea.y1, layer.width, layer.height);
+    drawBorder(selectedArea.x1, selectedArea.y1, layer.width, layer.height);*/
 
     selectedLayer = layer;
 
