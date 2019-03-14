@@ -4,12 +4,12 @@ const WORKSPACE_LEFT = 40;
 const WORKSPACE_TOP = 40;
 let background;
 let ctxBackground;
-let selectedArea;
+let selectedArea = [];
 let selection;
 let ctxSelection;
 let layers;
 let selectedLayer = null;
-let tool = 'select';
+let tool = 'select_layer';
 
 addEventListener('load', init);
 
@@ -52,7 +52,7 @@ function init() {
     ctxSelection = selection.getContext('2d');
     ctxSelection.translate(0.5, 0.5);
 
-    selectedArea = { x1: WORKSPACE_LEFT, y1: WORKSPACE_TOP, x2: selection.width + WORKSPACE_TOP, y2: selection.height + WORKSPACE_LEFT };
+    selectedArea = [WORKSPACE_LEFT, WORKSPACE_TOP, background.width + WORKSPACE_TOP, background.height + WORKSPACE_LEFT];
 
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
@@ -66,12 +66,16 @@ function init() {
 function mouseDown(event) {
     if (event.button === 0) {
         switch (tool) {
-            case 'select':
-                select(event);
+            case 'select_layer':
+                selectLayer(event);
                 break;
 
             case 'select_rectangle':
                 selectRectangle(event);
+                break;
+
+            case 'free_select':
+                freeSelect(event);
                 break;
             
             case 'move':
@@ -85,13 +89,38 @@ function mouseDown(event) {
     }
 }
 
+// not working yet
+function freeSelect(event) {
+    let coordinates = [[event.clientX, event.clientY]];
+    let addCoordinates = function(event) {
+        line.push([event.clientX, event.clientY]);
+
+        for (let coordinate of coordinates) {
+            ctxSelection.beginPath();
+            cctxSelection.lineTo()
+            ctxSelection.stroke();
+        }
+    };
+
+    ctxSelection.beginPath();
+    ctxSelection.moveTo(coordinates[0][0], coordinates[0][1]);
+
+    selection.addEventListener('mousemove', addCoordinates);
+}
+
 function fill() {
     if (selectedLayer !== null) {
-
+        let ctx = selectedLayer.getContext('2d');
+        
+        ctxSelection.rect(sele, y, width, height);
+        ctxSelection.setLineDash([5, 5]);
+        ctxSelection.lineWidth = 1;
+        ctxSelection.strokeStyle = '#000000';
+        ctxSelection.stroke();
     }
 }
 
-function select(event) {
+function selectLayer(event) {
     let maxZIndex = '0';
 
     for (let layer of layers.childNodes) {
@@ -140,6 +169,7 @@ function move(event) {
     window.addEventListener('mouseup', removeMouseMove);
 }
 
+// does not work with the current implemetation
 function selectRectangle(event) {
     selectedLayer = null;
 
