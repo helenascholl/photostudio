@@ -4,6 +4,13 @@ body {
 canvas {
     position: absolute;
 }
+#tools {
+    position: absolute;
+    top: 5vh;
+    width: 3vw;
+    height: 95vh;
+    background-color: rgb(18, 18, 18);
+}
 #background {
     z-index: 0;
 }
@@ -11,8 +18,11 @@ canvas {
     border: 1px solid black;
 }
 .tool {
-    width: 50px;
-    height: 20px;
-    background-color: red;
-    display: inline-block;
+    margin-left: 0.5vw;
+    margin-top: 0.5vw;
+    width: 2vw;
+    height: 2vw;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 0.3vw;
 }

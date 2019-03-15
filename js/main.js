@@ -1,10 +1,8 @@
-const WORKSPACE_WIDTH = innerWidth - 80;
-const WORKSPACE_HEIGHT = innerHeight - 80;
-const WORKSPACE_LEFT = 40;
-const WORKSPACE_TOP = 40;
+const WORKSPACE_WIDTH = innerWidth / 100 * 80;
+const WORKSPACE_HEIGHT = innerHeight / 100 * 80;
+const WORKSPACE_LEFT = innerWidth / 100 * 5;
+const WORKSPACE_TOP = innerHeight / 100 * 10;
 const SUPPORTED_FILE_EXTENSIONS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png'];
-let background;
-let ctxBackground;
 let selectedArea = [];
 let selection;
 let ctxSelection;
@@ -16,18 +14,19 @@ let selectedColor = '#ffffff';
 window.addEventListener('load', init);
 
 function init() {
+    let background = document.getElementById('background');
+    let ctxBackground = background.getContext('2d');
+
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
 
     layers = document.getElementById('layers');
 
-    background = document.getElementById('background');;
     background.width = WORKSPACE_WIDTH - 20;
     background.height = WORKSPACE_HEIGHT - 20;
     background.style.left = WORKSPACE_LEFT + 10 + 'px';
     background.style.top = WORKSPACE_TOP + 10 + 'px';
 
-    ctxBackground = background.getContext('2d');
     ctxBackground.rect(0, 0, background.width, background.height);
     ctxBackground.stroke();
 
