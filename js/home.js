@@ -3,7 +3,7 @@ let originalCoordinates;
 
 window.addEventListener('load', init);
 
-function init(event) {
+function init() {
     background = document.getElementById('backgroundImg');
     resize();
 
@@ -14,11 +14,11 @@ function init(event) {
 
 function resize() {
     if (background.width / background.height < innerWidth / innerHeight) {
-        background.height = background.height / background.width * innerWidth;
-        background.width = innerWidth;
+        background.height = background.height / background.width * (innerWidth + innerWidth / 40);
+        background.width = innerWidth + innerWidth / 40;
     } else if (background.width / background.height > innerWidth / innerHeight) {
-        background.width = background.width / background.height * innerHeight;
-        background.height = innerHeight;
+        background.width = background.width / background.height * (innerHeight + innerHeight / 40);
+        background.height = innerHeight + innerHeight / 40;
     } else {
         background.width = innerWidth;
         background.height = innerHeight;
@@ -31,7 +31,7 @@ function resize() {
 function mousemove(event) {
     if (originalCoordinates !== undefined) {
         background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - originalCoordinates.x) / 80 + 'px';
-        background.style.marginLeft = parseFloat(background.style.marginTop) + (event.clientY - originalCoordinates.y) / 80 + 'px';
+        background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - originalCoordinates.y) / 80 + 'px';
     }
     
     originalCoordinates = {x: event.clientX, y: event.clientY};
