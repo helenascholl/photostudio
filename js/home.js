@@ -4,19 +4,19 @@ window.addEventListener('load', () => {
 });
 
 function resize() {
-    let background = document.getElementById('background');
-    let backgroundImage = document.getElementById('backgroundImage');
+    let background = document.getElementById('backgroundImg');
 
-    if (backgroundImage.width < innerWidth) {
-        background.style.backgroundSize = `${innerWidth}px ${innerHeight / backgroundImage.width * backgroundImage.height}px`;
-        //background.style.backgroundSize = `${innerWidth}px auto`;
-    } else if (backgroundImage.height < innerHeight) {
-        background.style.backgroundSize = `${innerWidth / backgroundImage.height * backgroundImage.width}px ${innerHeight}px`;
-        //background.style.backgroundSize = `auto ${innerHeight}px`;
+    if (background.width / background.height < innerWidth / innerHeight) {
+        background.height = background.height / background.width * innerWidth;
+        background.width = innerWidth;
+    } else if (background.width / background.height > innerWidth / innerHeight) {
+        background.width = background.width / background.height * innerHeight;
+        background.height = innerHeight;
     } else {
-        background.style.backgroundSize = `${innerWidth}px ${innerHeight}px`;
+        background.width = innerWidth;
+        background.height = innerHeight;
     }
-    
-    background.style.backgroundPositionX = (backgroundImage.width - innerWidth) / -2 + 'px';
-    background.style.backgroundPositionY = (backgroundImage.height - innerHeight) / -2 + 'px';
+
+    background.style.marginLeft = (background.width - innerWidth) / -2 + 'px';
+    background.style.marginTop = (background.height - innerHeight) / -2 + 'px';
 }

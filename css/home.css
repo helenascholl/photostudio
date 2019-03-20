@@ -2,12 +2,8 @@ body {
     margin: 0;
 }
 
-#backgroundImage {
-    display: none;
-}
-
 #background {
     width: 100vw;
     height: 100vh;
-    background: url("../img/bg_main.jpg") no-repeat;
+    overflow: hidden;
 }
