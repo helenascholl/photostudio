@@ -12,3 +12,16 @@ function removeLoad() {
 
     window.removeEventListener('load', removeLoad);
 }
+
+/*
+html:
+<div id="load">
+    <div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+*/

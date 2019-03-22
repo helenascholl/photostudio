@@ -6,8 +6,21 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    z-index: 1;
 }
-a {
+
+button {
     position: absolute;
     bottom: 5vh;
+    z-index: 2;
+}
+
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    transition: opacity 500ms;
 }

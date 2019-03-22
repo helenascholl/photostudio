@@ -7,6 +7,7 @@ function init() {
     background = document.getElementById('backgroundImg');
     resize();
 
+    document.getElementById('edit').addEventListener('click', edit);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
     window.removeEventListener('load', init);
@@ -35,4 +36,15 @@ function mousemove(event) {
     }
     
     originalCoordinates = {x: event.clientX, y: event.clientY};
+}
+
+function edit() {
+    let load = document.getElementById('load');
+
+    load.style.zIndex = 3;
+    load.style.opacity = 1;
+
+    setTimeout(() => {
+        window.open('./editor/index.html', '_self');
+    }, 500);
 }

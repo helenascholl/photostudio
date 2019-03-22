@@ -16,6 +16,7 @@ window.addEventListener('load', init);
 function init() {
     let background = document.getElementById('background');
     let ctxBackground = background.getContext('2d');
+    let load = document.getElementById('load');
 
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
@@ -58,6 +59,12 @@ function init() {
             tool = element.id;
         });
     }
+
+    load.style.opacity = 0;
+
+    setTimeout(() => {
+        document.getElementById('body').removeChild(load);
+    }, 500);
 
     window.removeEventListener('load', init);
 }
