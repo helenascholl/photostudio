@@ -45,6 +45,6 @@ function edit() {
     load.style.opacity = 1;
 
     setTimeout(() => {
-        window.open('./editor/index.html', '_self');
+        window.open('./editor/', '_self');
     }, 500);
 }
