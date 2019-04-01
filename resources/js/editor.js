@@ -1,3 +1,5 @@
+'use strict';
+
 const WORKSPACE_WIDTH = innerWidth / 100 * 80;
 const WORKSPACE_HEIGHT = innerHeight / 100 * 80;
 const WORKSPACE_LEFT = innerWidth / 100 * 5;

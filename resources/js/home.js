@@ -1,3 +1,5 @@
+'use strict';
+
 let background;
 let originalCoordinates;
 
@@ -7,6 +9,7 @@ function init() {
     background = document.getElementById('backgroundImg');
     resize();
 
+    document.getElementById('scroll').addEventListener('click', scroll);
     document.getElementById('edit').addEventListener('click', edit);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
@@ -47,4 +50,16 @@ function edit() {
     setTimeout(() => {
         window.open('./editor/', '_self');
     }, 500);
+}
+
+function scroll() {
+    // doesn't work
+    let content = document.getElementById('content');
+    let scroll = document.getElementById('scroll');
+    let interval = setInterval(() => {
+        scroll.scrollTop += 10;
+        if (content.scrollTop < scroll.scrollTop) {
+            clearInterval(interval);
+        }
+    }, 10);
 }
