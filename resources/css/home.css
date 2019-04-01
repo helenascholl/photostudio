@@ -1,3 +1,6 @@
+html {
+    scroll-behavior: smooth;
+}
 body {
     margin: 0;
 }
@@ -9,7 +12,7 @@ body {
     z-index: 1;
 }
 
-button {
+button, a {
     position: absolute;
     bottom: 5vh;
     z-index: 2;
@@ -23,4 +26,20 @@ button {
     left: 0;
     background-color: black;
     transition: opacity 500ms;
+}
+
+#down {
+    width: 5vw;
+    height: 5vw;
+    bottom: 2vh;
+    left: 47.5vw;
+}
+
+#content {
+    height: 100vh;
+    width: 100vw;
+}
+a img {
+    width: 5vw;
+    height: 5vw;
 }
