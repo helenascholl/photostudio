@@ -1,7 +1,7 @@
 'use strict';
 
 let background;
-let originalCoordinates;
+let lastCoordinates;
 
 window.addEventListener('load', init);
 
@@ -9,7 +9,11 @@ function init() {
     background = document.getElementById('backgroundImg');
     resize();
 
-    document.getElementById('scroll').addEventListener('click', scroll);
+    document.getElementById('scroll').addEventListener('click', () => {
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('#content').offset().top
+        }, 750);
+    });
     document.getElementById('edit').addEventListener('click', edit);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
@@ -33,12 +37,12 @@ function resize() {
 }
 
 function mousemove(event) {
-    if (originalCoordinates !== undefined) {
-        background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - originalCoordinates.x) / 80 + 'px';
-        background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - originalCoordinates.y) / 80 + 'px';
+    if (lastCoordinates !== undefined) {
+        background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - lastCoordinates.x) / 80 + 'px';
+        background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - lastCoordinates.y) / 80 + 'px';
     }
     
-    originalCoordinates = {x: event.clientX, y: event.clientY};
+    lastCoordinates = {x: event.clientX, y: event.clientY};
 }
 
 function edit() {
@@ -50,16 +54,4 @@ function edit() {
     setTimeout(() => {
         window.open('./editor/', '_self');
     }, 500);
-}
-
-function scroll() {
-    // doesn't work
-    let content = document.getElementById('content');
-    let scroll = document.getElementById('scroll');
-    let interval = setInterval(() => {
-        scroll.scrollTop += 10;
-        if (content.scrollTop < scroll.scrollTop) {
-            clearInterval(interval);
-        }
-    }, 10);
 }

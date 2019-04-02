@@ -5,16 +5,35 @@
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./resources/css/home.css">
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./resources/js/home.js"></script>
 </head>
-<body>
+<body id="body">
     <div id="background">
         <img id="backgroundImg" src="./resources/img/bg_main.jpg">
         <button id="edit">Start editing</button>
         <img id="scroll" src="./resources/img/arrow_down.png">
     </div>
 
-    <div id="content"></div>
+    <div id="content">
+        <div>
+            <img src="./resources/img/placeholder.png">
+            <div>
+                <h1>Tutorial</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor nostrum temporibus ratione consequatur, vitae adipisci modi animi dolores voluptatibus quisquam quaerat numquam illo aliquam at. Odit, voluptatibus? Ad, eligendi. Earum.</p>
+                <button id="tutorial">Tutorial</button>
+            </div>
+        </div>
+        <div>
+            <img src="./resources/img/placeholder.png">
+            <div>
+                <h1>Your Photos</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor nostrum temporibus ratione consequatur, vitae adipisci modi animi dolores voluptatibus quisquam quaerat numquam illo aliquam at. Odit, voluptatibus? Ad, eligendi. Earum.</p>
+                <button id="yourPhotos">Your Photos</button>
+            </div>
+        </div>
+    </div>
 
     <div id="load" style="opacity: 0; z-index: 0;"></div>
 </body>
