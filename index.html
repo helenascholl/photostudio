@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./resources/css/home.css">
     <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
     <script src="./resources/js/home.js"></script>
 </head>
 <body id="body">
@@ -14,9 +16,9 @@
         <img id="backgroundImg" src="./resources/img/bg_main.jpg">
         <button id="edit">Start editing</button>
         <img id="scroll" src="./resources/img/arrow_down.png">
-        <button id="signIn">Sign in</button>
-        <button id="logIn">Log in</button>
     </div>
+
+    <button id="logIn">Log in</button>
 
     <div id="content">
         <div>
@@ -38,5 +40,62 @@
     </div>
 
     <div id="load" style="opacity: 0; z-index: 0;"></div>
+
+    <div id="popup">
+        <div id="logInPopup" style="left: 0;">
+            <form>
+                <h2>Log in</h2>
+
+                <div class="text" id="logInEmailText">Email</div>
+                <input id="logInEmail" type="text">
+                <div id="logInEmailBorder" class="inputBorder"></div>
+
+                <div class="text" id="logInPasswordText">Password</div>
+                <input class="password" id="logInPassword" type="password">
+                <i id="logInPasswordVisibility" class="material-icons passwordVisibility" style="font-size: 2.5vmin;">visibility</i>
+                <div id="logInPasswordBorder" class="inputBorder"></div>
+            </form>
+
+            <button id="">Log in</button>
+
+            <span class="switchTo" id="switchToCreateAccount">Already have an account?</span>
+        </div>
+
+        <div id="createAccountPopup" style="left: 50vw; top: -60vh;">
+            <form>
+                <h2>Create account</h2>
+    
+                <span class="error" id="createAccountUsernameError"></span>
+                <div class="text" id="createAccountUsernameText">Username</div>
+                <input id="createAccountUsername" type="text">
+                <div id="createAccountUsernameBorder" class="inputBorder"></div>
+
+                <span class="error" id="createAccountEmailError"></span>
+                <div class="text" id="createAccountEmailText">Email</div>
+                <input id="createAccountEmail" type="text">
+                <div id="createAccountEmailBorder" class="inputBorder"></div>
+
+                <span class="error" id="createAccountPasswordError"></span>
+                <div class="text" id="createAccountPasswordText">Password</div>
+                <input class="password" id="createAccountPassword" type="password">
+                <i id="createAccountPasswordVisibility" class="material-icons passwordVisibility" style="font-size: 2.5vmin;">visibility</i>
+                <div id="createAccountPasswordBorder" class="inputBorder"></div>
+
+                <span class="error" id="createAccountConfirmError"></span>
+                <div class="text" id="createAccountConfirmText">Confirm</div>
+                <input class="password" id="createAccountConfirm" type="password">
+                <i id="createAccountConfirmVisibility" class="material-icons passwordVisibility" style="font-size: 2.5vmin;">visibility</i>
+                <div id="createAccountConfirmBorder" class="inputBorder"></div>
+            </form>
+
+            <button id="createAccount">Create</button>
+
+            <span class="switchTo" id="switchToLogIn">Create account</span>
+        </div>
+
+        <div id="close">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
 </body>
 </html>

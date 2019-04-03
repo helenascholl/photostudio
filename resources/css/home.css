@@ -40,6 +40,7 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+    pointer-events: none;
     background-color: black;
     transition: opacity 500ms;
 }
@@ -94,4 +95,113 @@ h1 {
 
 #content div div:first-child {
     background-color: white;
+}
+
+#popup {
+    height: 60vh;
+    width: 50vw;
+    position: fixed;
+    left: 25vw;
+    border-radius: 2%;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    background-color: white;
+    transition: top 100ms;
+}
+
+#logIn {
+    z-index: 10;
+    position: absolute;
+    left: 50vw;
+    top: 50vh;
+}
+
+#logInPopup, #createAccountPopup {
+    height: 60vh;
+    width: 50vw;
+    position: relative;
+    padding: 2vw;
+    box-sizing: border-box;
+    background-color: white;
+    border: inherit;
+    border-radius: inherit;
+    display: inline-block;
+    transition: left 200ms;
+}
+
+.switchTo {
+    color: rgb(0, 0, 255);
+}
+
+.switchTo:hover {
+    cursor: pointer;
+}
+
+input {
+    width: 20vw;
+    display: block;
+    height: 3vmin;
+    outline: none;
+    border: none;
+    font-size: 2vmin;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+.password {
+    display: inline-block;
+}
+
+.inputBorder {
+    width: 20vw;
+    height: 1px;
+    margin-bottom: 3vh;
+    transition: background-color 500ms;
+}
+
+.error {
+    color: red;
+    transition: opacity 200ms;
+}
+
+.text {
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 1.5vmin;
+    box-sizing: border-box;
+    pointer-events: none;
+    transition: font-size 200ms, padding-top 200ms;
+}
+
+#close {
+    background-color: white;
+}
+
+#close:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+#close i {
+    font-size: 2.5vmin;
+    margin-right: 1vmax;
+    margin-top: 1vmax;
+    position: relative;
+    top: -120vh;
+    left: 0;
+    float: right;
+}
+
+.passwordVisibility {
+    position: relative;
+    left: 0;
+    top: 0.8vmin;
+}
+
+.passwordVisibility:hover {
+    cursor: pointer;
+}
+
+i {
+    user-select: none;
 }
