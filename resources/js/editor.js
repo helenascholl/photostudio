@@ -406,3 +406,5 @@ function createNewLayer(width, height) {
 
     return layer;
 }
+
+// draggable.js
