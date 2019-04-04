@@ -10,7 +10,7 @@ function init() {
     let logInPopup = document.getElementById('logInPopup');
     let createAccountPopup = document.getElementById('createAccountPopup');
 
-    firebase.initalizeApp({
+    firebase.initializeApp({
         apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
         authDomain: "webprojekt-bf181.firebaseapp.com",
         databaseURL: "https://webprojekt-bf181.firebaseio.com",

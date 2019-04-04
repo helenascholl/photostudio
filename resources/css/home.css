@@ -62,7 +62,7 @@ h1 {
     margin-top: 0;
 }
 
-#content .button {
+#content button {
     display: inline-block;
 }
 
@@ -102,7 +102,7 @@ h1 {
     width: 30vw;
     position: fixed;
     left: 35vw;
-    border-radius: 2%;
+    border-radius: 2vmin;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     background-color: white;
@@ -120,13 +120,11 @@ h1 {
     height: 60vh;
     width: 30vw;
     position: relative;
-    padding: 2vw;
+    padding: 0 5vw;
     box-sizing: border-box;
     background-color: white;
     border: inherit;
-    border-radius: inherit;
     display: inline-block;
-    padding: 0 5vw;
     transition: left 200ms;
 }
 
@@ -135,16 +133,23 @@ h1 {
     height: 3vmin;
     font-size: 2vmin;
     text-align: center;
-    border-radius: 0.7vmin;
     color: white;
+    border-radius: 0.7vmin;
     background-color: rgb(81, 81, 255);
     display: inline-block;
     margin-top: 2vh;
     margin-right: 0.5vw;
+    transition: background-color 400ms;
+}
+
+#logInPopup .button:hover, #createAccountPopup .button:hover {
+    background-color: rgb(52, 52, 255);
 }
 
 .switchTo {
     color: rgb(0, 0, 255);
+    font-size: 1.9vmin;
+
 }
 
 .switchTo:hover {
@@ -220,12 +225,12 @@ i {
     user-select: none;
 }
 
-.button:hover {
-    cursor: pointer;
-}
-
 h2 {
-    margin-top: 3.5vh;
     text-align: center;
     font-size: 4vmin;
+    margin-top: 3.5vh;
+}
+
+.button:hover {
+    cursor: pointer;
 }
