@@ -10,14 +10,14 @@ function init() {
     let logInPopup = document.getElementById('logInPopup');
     let createAccountPopup = document.getElementById('createAccountPopup');
 
-    /*firebase.initalizeApp({
+    firebase.initalizeApp({
         apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
         authDomain: "webprojekt-bf181.firebaseapp.com",
         databaseURL: "https://webprojekt-bf181.firebaseio.com",
         projectId: "webprojekt-bf181",
         storageBucket: "webprojekt-bf181.appspot.com",
         messagingSenderId: "403269192570"
-    });*/
+    });
 
     initInputs();
 
@@ -34,10 +34,10 @@ function init() {
     });
     document.getElementById('switchToLogIn').addEventListener('click', () => {
         logInPopup.style.left = '0';
-        createAccountPopup.style.left = '50vw';
+        createAccountPopup.style.left = '30vw';
     });
     document.getElementById('switchToCreateAccount').addEventListener('click', () => {
-        logInPopup.style.left = '-50vw';
+        logInPopup.style.left = '-30vw';
         createAccountPopup.style.left = '0';
     });
     document.getElementById('scroll').addEventListener('click', () => {

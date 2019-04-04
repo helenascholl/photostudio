@@ -62,7 +62,7 @@ h1 {
     margin-top: 0;
 }
 
-#content button {
+#content .button {
     display: inline-block;
 }
 
@@ -99,9 +99,9 @@ h1 {
 
 #popup {
     height: 60vh;
-    width: 50vw;
+    width: 30vw;
     position: fixed;
-    left: 25vw;
+    left: 35vw;
     border-radius: 2%;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     overflow: hidden;
@@ -110,15 +110,15 @@ h1 {
 }
 
 #logIn {
-    z-index: 10;
     position: absolute;
     left: 50vw;
     top: 50vh;
+    background-color: white;
 }
 
 #logInPopup, #createAccountPopup {
     height: 60vh;
-    width: 50vw;
+    width: 30vw;
     position: relative;
     padding: 2vw;
     box-sizing: border-box;
@@ -126,7 +126,21 @@ h1 {
     border: inherit;
     border-radius: inherit;
     display: inline-block;
+    padding: 0 5vw;
     transition: left 200ms;
+}
+
+#logInPopup .button, #createAccountPopup .button {
+    width: 7vmin;
+    height: 3vmin;
+    font-size: 2vmin;
+    text-align: center;
+    border-radius: 0.7vmin;
+    color: white;
+    background-color: rgb(81, 81, 255);
+    display: inline-block;
+    margin-top: 2vh;
+    margin-right: 0.5vw;
 }
 
 .switchTo {
@@ -204,4 +218,14 @@ input {
 
 i {
     user-select: none;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 3.5vh;
+    text-align: center;
+    font-size: 4vmin;
 }
