@@ -55,16 +55,8 @@ function init() {
 }
 
 function resize() {
-    // if (background.width / background.height < innerWidth / innerHeight) {
-    //     background.height = background.height / background.width * (innerWidth + innerWidth / 40);
-    //     background.width = innerWidth + innerWidth / 40;
-    // } else if (background.width / background.height > innerWidth / innerHeight) {
-    //     background.width = background.width / background.height * (innerHeight + innerHeight / 40);
-    //     background.height = innerHeight + innerHeight / 40;
-    // } else {
-        background.style.width = innerWidth + innerWidth / 75 + 'px';
-        background.style.height = innerHeight + innerHeight / 75 + 'px';
-    // }
+    background.style.width = innerWidth + innerWidth / 75 + 'px';
+    background.style.height = innerHeight + innerHeight / 75 + 'px';
 
     background.style.marginLeft = (parseFloat(background.style.width) - innerWidth) / -2 + 'px';
     background.style.marginTop = (parseFloat(background.style.height) - innerHeight) / -2 + 'px';

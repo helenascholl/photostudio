@@ -130,13 +130,15 @@ h1 {
 #logInPopup .button, #createAccountPopup .button {
     width: 7vmin;
     height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 51vh;
     font-size: 2vmin;
     text-align: center;
     color: white;
     border-radius: 0.7vmin;
     background-color: rgb(81, 81, 255);
     display: inline-block;
-    margin-top: 2vh;
     margin-right: 0.5vw;
     transition: background-color 400ms;
 }
@@ -148,7 +150,9 @@ h1 {
 .switchTo {
     color: rgb(0, 0, 255);
     font-size: 1.9vmin;
-
+    position: relative;
+    left: 0;
+    top: 51vh;
 }
 
 .switchTo:hover {
@@ -227,7 +231,7 @@ i {
 h2 {
     text-align: center;
     font-size: 4vmin;
-    margin-top: 3.5vh;
+    margin-top: 1vh;
 }
 
 .button:hover {
