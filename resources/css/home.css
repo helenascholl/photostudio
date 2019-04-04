@@ -176,13 +176,7 @@ input {
 .inputBorder {
     width: 20vw;
     height: 1px;
-    margin-bottom: 3vh;
-    transition: background-color 500ms;
-}
-
-.error {
-    color: red;
-    transition: opacity 200ms;
+    transition: background-color 200ms;
 }
 
 .text {
@@ -192,7 +186,8 @@ input {
     top: 1.5vmin;
     box-sizing: border-box;
     pointer-events: none;
-    transition: font-size 200ms, padding-top 200ms;
+    user-select: none;
+    transition: font-size 200ms, padding-top 200ms, color 200ms;
 }
 
 #close {
@@ -231,7 +226,7 @@ i {
 h2 {
     text-align: center;
     font-size: 4vmin;
-    margin-top: 1vh;
+    margin: 1vh 0;
 }
 
 .button:hover {
@@ -240,4 +235,14 @@ h2 {
 
 #particles-js {
     background-color: rgb(3, 0, 19);
+}
+
+#error {
+    color: red;
+    font-size: 2vmin;
+    transition: opacity 200ms;
+}
+
+form {
+    margin-bottom: 2vh;
 }

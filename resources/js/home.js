@@ -48,7 +48,7 @@ function init() {
         }, 750);
     });
     document.getElementById('edit').addEventListener('click', edit);
-    document.getElementById('createAccount', createAccount);
+    document.getElementById('createAccount').addEventListener('click', createAccount);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
     window.removeEventListener('load', init);
@@ -84,7 +84,65 @@ function edit() {
 }
 
 function createAccount() {
-    
+    let isValid = true;
+    let username = document.getElementById('createAccountUsername');
+    let email = document.getElementById('createAccountEmail');
+    let password = document.getElementById('createAccountPassword');
+    let confirm = document.getElementById('createAccountConfirm');
+
+    if (confirm.value !== password.value) {
+        isValid = inputError(confirm.id, 'Please enter the same password again.');
+    }
+    if (!/[^a-zA-Z0-9]/.test(password.value)) {
+        isValid = inputError(password.id, 'Your password must contain at least one special character.');
+    }
+    if (!/[0-9]/.test(password.value)) {
+        isValid = inputError(password.id, 'Your password must contain at least one number.');
+    }
+    if (!/[A-Z]/.test(password.value)) {
+        isValid = inputError(password.id, 'Your password must contain at least one uppercase letter.');
+    }
+    if (!/[a-z]/.test(password.value)) {
+        isValid = inputError(password.id, 'Your password must contain at least one lowercase letter.');
+    }
+    if (password.value.length < 8) {
+        isValid = inputError(password.id, 'Your password must contain at least eight characters.');
+    }
+    if (email.value === '') {
+        isValid = inputError(email.id, 'You must enter an email to create an account.');    
+    }
+    if (/[^a-z0-9._]/i.test(username.value)) {
+        isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
+    }
+    if (username.value === '') {
+        isValid = inputError(username.id, 'You must enter a username to create an account.');
+    }
+
+    if (isValid) {
+        firebase.auth().createUserWithEmailAndPassword(email.value, password.value).catch(() => {
+            console.error('at create account:');
+            console.error(error.code);
+            console.error(error.message);
+        });
+
+        firebase.auth().signInWithEmailAndPassword(email.value, email.password).catch(() => {
+            console.error('at login:');
+            console.error(error.code);
+            console.error(error.message);
+        });
+    }
+}
+
+function inputError(id, message) {
+    let error = document.getElementById(`error`);
+
+    error.style.opacity = 1;
+    error.textContent = message;
+
+    document.getElementById(`${id}Border`).style.backgroundColor = 'red';
+    document.getElementById(`${id}Text`).style.color = 'red';
+
+    return false;
 }
 
 function logIn() {
@@ -94,6 +152,10 @@ function logIn() {
 function initInputs() {
     for (let border of document.getElementsByClassName('inputBorder')) {
         border.style.backgroundColor = 'lightgray';
+    }
+
+    for (let element of document.getElementsByClassName('passwordVisibility')) {
+        element.style.fontSize = '2.5vmin';
     }
 
     for (let icon of document.getElementsByClassName('passwordVisibility')) {
@@ -113,13 +175,16 @@ function initInputs() {
     for (let input of document.getElementsByTagName('input')) {
         let text = document.getElementById(`${input.id}Text`).style;
 
+        text.color = 'black';
         text.fontSize = '2vmin';
         text.paddingTop = '1.9vmin';
 
         input.addEventListener('focus', () => {
             text.fontSize = '1.1vmin';
             text.paddingTop = '0';
+            text.color = 'black';
 
+            document.getElementById('error').style.opacity = 0;
             document.getElementById(`${input.id}Border`).style.backgroundColor = 'rgb(0, 191, 255)';
         });
 
