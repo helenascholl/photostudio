@@ -114,22 +114,33 @@ function createAccount() {
     if (/[^a-z0-9._]/i.test(username.value)) {
         isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
     }
-    if (username.value === '') {
-        isValid = inputError(username.id, 'You must enter a username to create an account.');
+    if (username.value.length < 4) {
+        isValid = inputError(username.id, 'Your username must contain at least four characters.');
     }
 
     if (isValid) {
-        firebase.auth().createUserWithEmailAndPassword(email.value, password.value).catch(() => {
-            console.error('at create account:');
-            console.error(error.code);
-            console.error(error.message);
+        // TODO: handle errors
+
+        let createUser = firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+
+        createUser.catch((error) => {
+            if (error.code === 'auth/email-already-in-use') {
+                inputError('createAccountEmail', error.message);
+            }
         });
 
-        firebase.auth().signInWithEmailAndPassword(email.value, email.password).catch(() => {
-            console.error('at login:');
-            console.error(error.code);
-            console.error(error.message);
-        });
+        createUser.then(() => {
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+                    .then(() => {
+                        firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+                            .then(() => {
+                                firebase.auth().currentUser.updateProfile({displayName: username.value});
+                            });
+                    });
+
+            });
+
+        
     }
 }
 
@@ -146,7 +157,7 @@ function inputError(id, message) {
 }
 
 function logIn() {
-
+    // TODO: implement signing in
 }
 
 function initInputs() {
