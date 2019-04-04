@@ -19,11 +19,13 @@ function init() {
         messagingSenderId: "403269192570"
     });
 
+    particlesJS.load('particles-js', 'resources/js/particles.json');
+
     initInputs();
 
     popup.style.top = '-60vh';
 
-    background = document.getElementById('backgroundImg');
+    background = document.getElementById('particles-js');
     resize();
 
     document.getElementById('close').addEventListener('click', () => {
@@ -53,27 +55,27 @@ function init() {
 }
 
 function resize() {
-    if (background.width / background.height < innerWidth / innerHeight) {
-        background.height = background.height / background.width * (innerWidth + innerWidth / 40);
-        background.width = innerWidth + innerWidth / 40;
-    } else if (background.width / background.height > innerWidth / innerHeight) {
-        background.width = background.width / background.height * (innerHeight + innerHeight / 40);
-        background.height = innerHeight + innerHeight / 40;
-    } else {
-        background.width = innerWidth;
-        background.height = innerHeight;
-    }
+    // if (background.width / background.height < innerWidth / innerHeight) {
+    //     background.height = background.height / background.width * (innerWidth + innerWidth / 40);
+    //     background.width = innerWidth + innerWidth / 40;
+    // } else if (background.width / background.height > innerWidth / innerHeight) {
+    //     background.width = background.width / background.height * (innerHeight + innerHeight / 40);
+    //     background.height = innerHeight + innerHeight / 40;
+    // } else {
+        background.style.width = innerWidth + innerWidth / 75 + 'px';
+        background.style.height = innerHeight + innerHeight / 75 + 'px';
+    // }
 
-    background.style.marginLeft = (background.width - innerWidth) / -2 + 'px';
-    background.style.marginTop = (background.height - innerHeight) / -2 + 'px';
+    background.style.marginLeft = (parseFloat(background.style.width) - innerWidth) / -2 + 'px';
+    background.style.marginTop = (parseFloat(background.style.height) - innerHeight) / -2 + 'px';
 
     resizeInputPassword();
 }
 
 function mousemove(event) {
     if (lastCoordinates !== undefined) {
-        background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - lastCoordinates.x) / 80 + 'px';
-        background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - lastCoordinates.y) / 80 + 'px';
+        background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - lastCoordinates.x) / 150 + 'px';
+        background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - lastCoordinates.y) / 150 + 'px';
     }
     
     lastCoordinates = {x: event.clientX, y: event.clientY};
@@ -82,7 +84,6 @@ function mousemove(event) {
 function edit() {
     let load = document.getElementById('load');
 
-    load.style.zIndex = 3;
     load.style.opacity = 1;
 
     setTimeout(() => {

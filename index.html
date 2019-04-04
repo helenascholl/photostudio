@@ -10,10 +10,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
     <script src="./resources/js/home.js"></script>
+    <script src="./resources/js/particles.min.js"></script>
 </head>
 <body id="body">
     <div id="background">
-        <img id="backgroundImg" src="./resources/img/bg_main.jpg">
+        <div id="particles-js"></div>
+        <!--<img id="backgroundImg" src="./resources/img/bg_main.jpg">-->
         <div class="button" id="edit">Start editing</div>
         <img id="scroll" src="./resources/img/arrow_down.png">
     </div>
@@ -38,8 +40,6 @@
             </div>
         </div>
     </div>
-
-    <div id="load" style="opacity: 0; z-index: 0;"></div>
 
     <div id="popup">
         <div id="logInPopup" style="left: 0;">
@@ -97,5 +97,7 @@
             <i class="material-icons">close</i>
         </div>
     </div>
+
+    <div id="load" style="opacity: 0;"></div>
 </body>
 </html>
