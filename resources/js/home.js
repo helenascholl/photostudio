@@ -9,6 +9,7 @@ function init() {
     let popup = document.getElementById('popup');
     let logInPopup = document.getElementById('logInPopup');
     let createAccountPopup = document.getElementById('createAccountPopup');
+    let rememberMe = document.getElementById('rememberMe');
 
     firebase.initializeApp({
         apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
@@ -17,6 +18,14 @@ function init() {
         projectId: "webprojekt-bf181",
         storageBucket: "webprojekt-bf181.appspot.com",
         messagingSenderId: "403269192570"
+    });
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            document.getElementById('openAccountPopup').style.display = 'block';
+        } else {
+            document.getElementById('openLogInPopup').style.display = 'block';
+        }
     });
 
     particlesJS.load('particles-js', 'resources/js/particles.json');
@@ -28,11 +37,35 @@ function init() {
     background = document.getElementById('particles-js');
     resize();
 
+    rememberMe.checked = false;
+
+    rememberMe.addEventListener('click', () => {
+        if (rememberMe.textContent === 'check_box') {
+            rememberMe.textContent = 'check_box_outline_blank';
+            rememberMe.checked = false;
+        } else {
+            rememberMe.textContent = 'check_box';
+            rememberMe.checked = true;
+        }
+    });
     document.getElementById('close').addEventListener('click', () => {
         popup.style.top = '-60vh';
     });
-    document.getElementById('logIn').addEventListener('click', () => {
+    document.getElementById('openLogInPopup').addEventListener('click', () => {
         popup.style.top = '20vh';
+    });
+    document.getElementById('openAccountPopup').addEventListener('click', () => {
+        let openAccountPopup = document.getElementById('openAccountPopup');
+        let accountPopup = document.getElementById('accountPopup');
+
+        // TODO: make box responsive
+        if (innerWidth > innerHeight) {
+            openAccountPopup.style.width = parseFloat(openAccountPopup.style.width) + (100 / innerWidth) * accountPopup.clientWidth + 'vmax';
+            openAccountPopup.style.height = parseFloat(openAccountPopup.style.height) + (100 / innerWidth) * accountPopup.clientHeight + 'vmax';
+        } else {
+            openAccountPopup.style.width = parseFloat(openAccountPopup.style.width) + (100 / innerHeight) * accountPopup.clientWidth + 'vmax';
+            openAccountPopup.style.height = parseFloat(openAccountPopup.style.height) + (100 / innerHeight) * accountPopup.clientHeight + 'vmax';
+        }
     });
     document.getElementById('switchToLogIn').addEventListener('click', () => {
         logInPopup.style.left = '0';
@@ -42,6 +75,10 @@ function init() {
         logInPopup.style.left = '-30vw';
         createAccountPopup.style.left = '0';
     });
+    document.getElementById('upload').addEventListener('click', () => {
+        // TODO: user can upload files
+        // https://stackoverflow.com/questions/41214447/firebase-user-uploads-and-profile-pictures
+    });
     document.getElementById('scroll').addEventListener('click', () => {
         $([document.documentElement, document.body]).animate({
             scrollTop: $('#content').offset().top
@@ -49,6 +86,7 @@ function init() {
     });
     document.getElementById('edit').addEventListener('click', edit);
     document.getElementById('createAccount').addEventListener('click', createAccount);
+    document.getElementById('logIn').addEventListener('click', logIn);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
     window.removeEventListener('load', init);
@@ -109,7 +147,7 @@ function createAccount() {
         isValid = inputError(password.id, 'Your password must contain at least eight characters.');
     }
     if (email.value === '') {
-        isValid = inputError(email.id, 'You must enter an email to create an account.');    
+        isValid = inputError(email.id, 'You must enter an email address to create an account.');    
     }
     if (/[^a-z0-9._]/i.test(username.value)) {
         isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
@@ -119,15 +157,21 @@ function createAccount() {
     }
 
     if (isValid) {
-        // TODO: handle errors
+        let createUser = firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
+            .catch((error) => {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        inputError('createAccountEmail', error.message);
+                        break;
 
-        let createUser = firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
+                    case 'auth/invalid-email':
+                        inputError('createAccountEmail', 'Please enter a valid email address.');
+                        break;
 
-        createUser.catch((error) => {
-            if (error.code === 'auth/email-already-in-use') {
-                inputError('createAccountEmail', error.message);
-            }
-        });
+                    default:
+                        inputError('createAccountPassword', 'An error occured while creating an account.');
+                }
+            });
 
         createUser.then(() => {
                 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
@@ -137,15 +181,18 @@ function createAccount() {
                                 firebase.auth().currentUser.updateProfile({displayName: username.value});
                             });
                     });
-
             });
-
-        
     }
 }
 
 function inputError(id, message) {
-    let error = document.getElementById(`error`);
+    let error;
+
+    if (id.startsWith('logIn')) {
+        error = document.getElementById(`logInError`);
+    } else {
+        error = document.getElementById('createAccountError');
+    }
 
     error.style.opacity = 1;
     error.textContent = message;
@@ -157,7 +204,32 @@ function inputError(id, message) {
 }
 
 function logIn() {
-    // TODO: implement signing in
+    let email = document.getElementById('logInEmail');
+    let password = document.getElementById('logInPassword');
+    let persistence;
+    let isValid = true;
+
+    if (password.value === '') {
+        isValid = inputError(password.id, 'Please enter a password.');
+    }
+    if (email.value === '') {
+        isValid = inputError(email.id, 'Please enter an email address.');
+    }
+
+    if (isValid) {
+        if (document.getElementById('rememberMe').checked) {
+            persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        } else {
+            persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+        }
+    
+        persistence.then(() => {
+            firebase.auth().signInWithEmailAndPassword(email.value, password.value)
+                .catch(() => {
+                    inputError(password.id, 'Invalid email adress or password.');
+                });
+        });
+    }
 }
 
 function initInputs() {
@@ -195,7 +267,12 @@ function initInputs() {
             text.paddingTop = '0';
             text.color = 'black';
 
-            document.getElementById('error').style.opacity = 0;
+            if (input.id.startsWith('logIn')) {
+                document.getElementById('logInError').style.opacity = 0;
+            } else {
+                document.getElementById('createAccountError').style.opacity = 0;
+            }
+
             document.getElementById(`${input.id}Border`).style.backgroundColor = 'rgb(0, 191, 255)';
         });
 

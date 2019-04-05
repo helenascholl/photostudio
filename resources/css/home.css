@@ -108,11 +108,22 @@ h1 {
     transition: top 100ms;
 }
 
-#logIn {
-    position: absolute;
-    left: 50vw;
-    top: 50vh;
+#openLogInPopup, #openAccountPopup {
+    height: 4vmax;
+    width: 8vmax;
     background-color: white;
+}
+
+#openAccountPopup {
+    position: absolute;
+    right: 4vmax;
+    top: 4vmax;
+    transition: width 500ms, height 500ms;
+}
+
+#text {
+    height: 4vmax;
+    width: 8vmax;
 }
 
 #logInPopup, #createAccountPopup {
@@ -229,6 +240,10 @@ h2 {
     margin: 1vh 0;
 }
 
+.button {
+    user-select: none;
+}
+
 .button:hover {
     cursor: pointer;
 }
@@ -237,7 +252,7 @@ h2 {
     background-color: rgb(3, 0, 19);
 }
 
-#error {
+#createAccountError, #logInError {
     color: red;
     font-size: 2vmin;
     transition: opacity 200ms;
@@ -245,4 +260,36 @@ h2 {
 
 form {
     margin-bottom: 2vh;
+}
+
+#checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 2.5vh;
+}
+
+#checkbox div {
+    width: 2vmin;
+    height: 2vmin;
+    border: rgb(143, 143, 143) solid 1px;
+    border-radius: 15%;
+}
+
+#checkbox i {
+    margin-right: 1vmin;
+}
+
+#checkbox i:hover {
+    cursor: pointer;
+}
+
+#checkbox span, #checkbox i {
+    font-size: 2vmin;
+}
+
+#upload {
+    background-color: white;
+    position: absolute;
+    top: 60vh;
+    left: 50vw;
 }

@@ -10,17 +10,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-storage.js"></script>
     <script src="./resources/js/home.js"></script>
     <script src="./resources/js/particles.min.js"></script>
 </head>
-<body id="body">
+<body>
     <div id="background">
         <div id="particles-js"></div>
         <div class="button" id="edit">Start editing</div>
         <img id="scroll" src="./resources/img/arrow_down.png">
     </div>
 
-    <div class="button" id="logIn">Log in</div>
+    <div class="button" id="openLogInPopup" style="display: none;">Log in</div>
+    <div class="button" id="openAccountPopup" style="display: none; width: 8vmax; height: 4vmax;">
+        <div id="text">Account</div>
+
+        <div id="accountPopup">
+            <h3 id="username"></h3>
+            <span>delete acc</span>
+            <span>log out</span>
+        </div>
+    </div>
+    <div class="button" id="upload">Upload</div>
 
     <div id="content">
         <div>
@@ -43,7 +54,7 @@
 
     <div id="popup">
         <div id="logInPopup" style="left: 0;">
-            <div class="button" id="">Log in</div>
+            <div class="button" id="logIn">Log in</div>
             <span class="switchTo" id="switchToCreateAccount">Create account</span>
 
             <form>
@@ -57,7 +68,14 @@
                 <input class="password" id="logInPassword" type="password">
                 <i id="logInPasswordVisibility" class="material-icons passwordVisibility">visibility</i>
                 <div id="logInPasswordBorder" class="inputBorder"></div>
+
+                <div id="checkbox">
+                    <i id="rememberMe" class="material-icons">check_box_outline_blank</i>
+                    <span>Remember me</span>
+                </div>
             </form>
+
+            <span id="logInError"></span>
         </div>
 
         <div id="createAccountPopup" style="left: 50vw; top: -60vh;">
@@ -86,7 +104,7 @@
                 <div id="createAccountConfirmBorder" class="inputBorder"></div>
             </form>
 
-            <span id="error"></span>
+            <span id="createAccountError"></span>
         </div>
 
         <div id="close">
