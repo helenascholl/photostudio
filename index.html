@@ -2,11 +2,12 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Photo editor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./resources/css/home.css">
     <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
@@ -14,41 +15,55 @@
     <script src="./resources/js/home.js"></script>
     <script src="./resources/js/particles.min.js"></script>
 </head>
-<body>
+<body id="body">
     <div id="background">
         <div id="particles-js"></div>
-        <div class="button" id="edit">Start editing</div>
-        <img id="scroll" src="./resources/img/arrow_down.png">
+        <h1>Photo editor</h1>
+        <h2>Edit your photos with the best online Photo editor.</h2>
+        <div class="button editor" id="edit">
+            <span>Start editing</span>
+        </div>
+        <i id="scroll" class="fa fa-angle-double-down"></i>
     </div>
 
-    <div class="button" id="openLogInPopup" style="display: none;">Log in</div>
-    <div class="button" id="openAccountPopup" style="display: none; width: 8vmax; height: 4vmax;">
-        <div id="text">Account</div>
+    <div class="button" id="placeholder">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+    <div class="button" id="openLogInPopup" style="display: none;">
+        <span>Log in</span>
+    </div>
+    <div class="button" id="openAccountPopup" style="display: none; width: 7vmax; height: 3.5vmax;">
+        <div id="text" style="width: 7vmax;">Account</div>
 
         <div id="accountPopup">
-            <h3 id="username"></h3>
-            <span>delete acc</span>
-            <span>log out</span>
+            <h5 id="username"></h5>
+            <span>Delete account</span>
+            <span id="logOut">Log out</span>
         </div>
     </div>
-    <div class="button" id="upload">Upload</div>
 
-    <div id="content">
+    <div id="links">
         <div>
             <img src="./resources/img/placeholder.png">
-            <div>
-                <h1>Tutorial</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor nostrum temporibus ratione consequatur, vitae adipisci modi animi dolores voluptatibus quisquam quaerat numquam illo aliquam at. Odit, voluptatibus? Ad, eligendi. Earum.</p>
-                <div class="button" id="tutorial">Tutorial</div>
+            <div class="margin"></div>
+            <div class="content">
+                <h3>Editor</h3>
+                <p>Description</p>
+                <div class="button editor">
+                    <span>Editor <i class="fa fa-angle-double-right"></i></span>
+                </div>
             </div>
         </div>
         <div>
-            <img src="./resources/img/placeholder.png">
-            <div>
-                <h1>Your Photos</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor nostrum temporibus ratione consequatur, vitae adipisci modi animi dolores voluptatibus quisquam quaerat numquam illo aliquam at. Odit, voluptatibus? Ad, eligendi. Earum.</p>
-                <div class="button" id="yourPhotos">Your Photos</div>
+            <div class="content">
+                <h3>Your Photos</h3>
+                <p>Description</p>
+                <div class="button" id="yourPhotos">
+                    <span>Your Photos <i class="fa fa-angle-double-right"></i></span>
+                </div>
             </div>
+            <div class="margin"></div>
+            <img src="./resources/img/placeholder.png">
         </div>
     </div>
 
@@ -58,7 +73,7 @@
             <span class="switchTo" id="switchToCreateAccount">Create account</span>
 
             <form>
-                <h2>Log in</h2>
+                <h4>Log in</h4>
 
                 <div class="text" id="logInEmailText">Email</div>
                 <input id="logInEmail" type="email">
@@ -70,8 +85,7 @@
                 <div id="logInPasswordBorder" class="inputBorder"></div>
 
                 <div id="checkbox">
-                    <i id="rememberMe" class="material-icons">check_box_outline_blank</i>
-                    <span>Remember me</span>
+                    <span><i id="rememberMe" class="material-icons">check_box_outline_blank</i>Remember me</span>
                 </div>
             </form>
 
@@ -83,7 +97,7 @@
             <span class="switchTo" id="switchToLogIn">Already have an account?</span>
 
             <form>
-                <h2>Create account</h2>
+                <h4>Create account</h4>
     
                 <div class="text" id="createAccountUsernameText">Username</div>
                 <input id="createAccountUsername" type="text">
@@ -112,6 +126,6 @@
         </div>
     </div>
 
-    <div id="load" style="opacity: 0;"></div>
+    <div id="load" style="opacity: 1;"></div>
 </body>
 </html>

@@ -11,26 +11,51 @@ body {
     z-index: 1;
 }
 
-#backgroundImg {
-    filter: brightness(20%);
+h1, h2 {
+    width: 100vw;
+    position: absolute;
+    color: white;
+    text-align: center;
+    left: 0;
+    user-select: none;
+}
+
+h1 {
+    top: 5vh;
+    font-size: 9vmax;
+}
+
+h2 {
+    top: 40vh;
+    font-size: 3vmax;
 }
 
 #edit {
+    width: 15vmax;
+    height: 9vmin;
     position: absolute;
-    bottom: 5vh;
-    z-index: 2;
+    left: 42.35vmax;
+    top: 65vmin;
+    display: flex;
+    border: 0.15vmax solid white;
+    border-radius: 2.5vmax;
+    justify-content: center;
+    align-items: center;
+}
+
+#edit span {
+    font-size: 2vmax;
+    font-weight: bold;
+    color: white;
 }
 
 #scroll {
-    width: 5vw;
-    height: 5vw;
+    font-size: 5vmax;
     position: absolute;
-    left: 47.5vw;
+    left: 0;
     bottom: 1vh;
-}
-
-#scroll:hover {
     cursor: pointer;
+    color: white;
 }
 
 #load {
@@ -51,48 +76,74 @@ body {
     left: 47.5vw;
 }
 
-#content {
+#links {
     height: 100vh;
     width: 100vw;
 }
 
-h1 {
+h3 {
+    font-size: 2.5vmin;
     text-transform: uppercase;
     margin-top: 0;
 }
 
-#content button {
+#links .button {
+    width: 13vmin;
+    height: 4vmin;
+    border-radius: 4vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #565656;
+    margin-top: 3vh;
+    transition: background-color 500ms;
+}
+
+#links .button:hover {
+    background-color: #3d3d3d;
+}
+
+#links .button span {
+    font-size: 1.7vmin;
+    color: white;
+    vertical-align: middle;
+}
+
+#links img {
+    height: 30vh;
     display: inline-block;
 }
 
-#content img {
-    width: 30vw;
-    display: inline-block;
-}
-
-#content div div {
+.content {
     width: 20vw;
-    height: 20vw;
-    margin-left: 9vw;
     display: inline-block;
 }
 
-#content div div p {
+.content p {
+    font-size: 1.7vmin;
     text-align: justify;
 }
 
-#content > div {
-    width: 100vw;
+.margin {
+    width: 5vw;
     height: 50vh;
-    box-sizing: border-box;
-    padding: 10vh 20vw;
+    display: inline-block;
 }
 
-#content div:first-child {
+#links > div {
+    width: 100vw;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+#links div:first-child {
     background-color: gray;
 }
 
-#content div div:first-child {
+#links div div:first-child {
     background-color: white;
 }
 
@@ -108,22 +159,50 @@ h1 {
     transition: top 100ms;
 }
 
-#openLogInPopup, #openAccountPopup {
-    height: 4vmax;
-    width: 8vmax;
-    background-color: white;
+#openLogInPopup, #openAccountPopup, #placeholder {
+    position: fixed;
+    right: 2vmax;
+    top: 2vmax;
+    border: 2px solid white;
+    border-radius: 2vmax;
+    color: white;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+#placeholder, #openLogInPopup {
+    width: 7vmax;
+    height: 3.5vmax;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#placeholder {
+    font-size: 2vmax;
+}
+
+#openLogInPopup {
+    font-size: 1.5vmax;
 }
 
 #openAccountPopup {
-    position: absolute;
-    right: 4vmax;
-    top: 4vmax;
     transition: width 500ms, height 500ms;
+    cursor: auto;
 }
 
 #text {
-    height: 4vmax;
-    width: 8vmax;
+    height: 3.5vmax;
+    position: relative;
+    left: -2px;
+    top: -2px;
+    font-size: 1.5vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 500ms;
+    border-bottom: 2px solid white;
+    cursor: pointer;
 }
 
 #logInPopup, #createAccountPopup {
@@ -156,6 +235,25 @@ h1 {
 
 #logInPopup .button:hover, #createAccountPopup .button:hover {
     background-color: rgb(52, 52, 255);
+}
+
+#accountPopup {
+    padding: 0 1.5vmax 1.5vmax 1.5vmax;
+    margin-top: 2vmin;
+}
+
+#accountPopup span {
+    display: block;
+    font-size: 1.3vmax;
+}
+
+#accountPopup span:hover {
+    cursor: pointer;
+}
+
+#accountPopup h5 {
+    font-size: 1.5vmax;
+    margin-top: 0;
 }
 
 .switchTo {
@@ -234,7 +332,7 @@ i {
     user-select: none;
 }
 
-h2 {
+h4 {
     text-align: center;
     font-size: 4vmin;
     margin: 1vh 0;
@@ -255,7 +353,7 @@ h2 {
 #createAccountError, #logInError {
     color: red;
     font-size: 2vmin;
-    transition: opacity 200ms;
+    transition: opacity 500ms;
 }
 
 form {
@@ -263,33 +361,18 @@ form {
 }
 
 #checkbox {
-    display: flex;
-    align-items: center;
     margin-top: 2.5vh;
 }
 
-#checkbox div {
-    width: 2vmin;
-    height: 2vmin;
-    border: rgb(143, 143, 143) solid 1px;
-    border-radius: 15%;
+#checkbox:hover {
+    cursor: pointer;
 }
 
 #checkbox i {
     margin-right: 1vmin;
 }
 
-#checkbox i:hover {
-    cursor: pointer;
-}
-
 #checkbox span, #checkbox i {
     font-size: 2vmin;
-}
-
-#upload {
-    background-color: white;
-    position: absolute;
-    top: 60vh;
-    left: 50vw;
+    vertical-align: middle;
 }

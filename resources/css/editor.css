@@ -1,38 +1,106 @@
 body {
     margin: 0;
 }
+
 canvas {
     position: absolute;
 }
+
 #tools {
-    position: absolute;
-    top: 5vh;
     width: 3vw;
     height: 95vh;
-    background-color: rgb(18, 18, 18);
+    position: absolute;
+    top: 5vh;
+    background-color: rgb(41, 41, 41);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
 }
+
+#top {
+    width: 100vw;
+    height: 5vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(41, 41, 41);
+    z-index: 2;
+}
+
+#right {
+    width: 15vw;
+    height: 95vh;
+    position: absolute;
+    top: 5vh;
+    right: 0;
+    background-color: rgb(41, 41, 41);
+}
+
 #background {
     z-index: 0;
 }
-#selection {
-    border: 1px solid black;
-}
+
 .tool {
-    margin-left: 0.5vw;
-    margin-top: 0.5vw;
     width: 2vw;
     height: 2vw;
     box-sizing: border-box;
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 0.3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.tool:hover {
+    cursor: pointer;
+}
+
+.tool i {
+    color: white;
+    font-size: 1vw;
+}
+
 #load {
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 1000;
     background-color: black;
+    pointer-events: none;
     transition: opacity 500ms;
+}
+
+form {
+    margin-left: 7vw;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    display: inline-block;
+}
+
+#filename {
+    margin-left: 1vw;
+}
+
+#back {
+    margin: 0;
+    height: 5vh;
+    width: 3vw;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#back:hover {
+    cursor: pointer;
+}
+
+#back i {
+    font-size: 3vmin;
+    color: white;
 }

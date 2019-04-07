@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2vmax;
+    display: inline;
+}
+
+#heading {
+    height: 10vh;
+    align-items: center;
+    display: flex;
+}
+
+#back i {
+    font-size: 2vmax;
+}
+
+#back {
+    width: 3vw;
+    height: 10vh;
+    display: flex;
+    border-right: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1vw;
+}
+
+#back:hover {
+    cursor: pointer;
+}
+
+#logIn {
+    width: 7vmax;
+    height: 3.5vmax;
+    border: 2px solid black;
+    border-radius: 2vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2vmax;
+}
+
+#logIn span {
+    font-size: 1.5vmax;
+}
+
+#logIn:hover {
+    cursor: pointer;
+}
+
+header {
+    width: 100vw;
+    height: 10vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main {
+    width: 100vw;
+    position: absolute;
+    top: 10vh;
+    left: 0;
+}
+
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    background-color: black;
+    pointer-events: none;
+    transition: opacity 500ms;
+}
+
+.photo {
+    width: 8vmax;
+    margin: 2vmax;
+    display: inline-block;
+}
+
+.file {
+    width: 8vmax;
+    height: 8vmax;
+    border-radius: 0.4vmax;
+    background-color: rgb(192, 192, 192);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vmin;
+}
+
+.filename {
+    width: 7vmax;
+    font-size: 2vmin;
+    margin-top: 0.5vmin;
+    margin-left: 0.5vmax;
+    word-wrap: break-word;
+}

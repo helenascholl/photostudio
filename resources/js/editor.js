@@ -1,9 +1,9 @@
 'use strict';
 
-const WORKSPACE_WIDTH = innerWidth / 100 * 80;
-const WORKSPACE_HEIGHT = innerHeight / 100 * 80;
-const WORKSPACE_LEFT = innerWidth / 100 * 5;
-const WORKSPACE_TOP = innerHeight / 100 * 10;
+const WORKSPACE_WIDTH = innerWidth / 100 * 82;
+const WORKSPACE_HEIGHT = innerHeight / 100 * 95;
+const WORKSPACE_LEFT = innerWidth / 100 * 3;
+const WORKSPACE_TOP = innerHeight / 100 * 5;
 const SUPPORTED_FILE_EXTENSIONS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png'];
 let selectedArea = [];
 let selection;
@@ -18,7 +18,6 @@ window.addEventListener('load', init);
 function init() {
     let background = document.getElementById('background');
     let ctxBackground = background.getContext('2d');
-    let load = document.getElementById('load');
 
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
@@ -62,13 +61,17 @@ function init() {
         });
     }
 
-    load.style.opacity = 0;
+    document.getElementById('back').addEventListener('click', () => {
+        document.getElementById('load').style.opacity = 1;
 
-    setTimeout(() => {
-        document.getElementById('body').removeChild(load);
-    }, 500);
+        setTimeout(() => {
+            window.open('../', '_self');
+        }, 500);
+    });
 
     window.removeEventListener('load', init);
+
+    document.getElementById('load').style.opacity = 0;
 }
 
 function mouseDown(event) {

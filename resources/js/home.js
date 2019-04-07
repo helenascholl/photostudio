@@ -10,7 +10,84 @@ function init() {
     let logInPopup = document.getElementById('logInPopup');
     let createAccountPopup = document.getElementById('createAccountPopup');
     let rememberMe = document.getElementById('rememberMe');
+    let scroll = document.getElementById('scroll');
 
+    particlesJS.load('particles-js', 'resources/js/particles.json');
+
+    initFirebase();
+    initInputs();
+
+    if (sessionStorage.getItem('scrollY') != null) {
+        scrollTo(0, parseFloat(sessionStorage.getItem('scrollY')));
+    }
+
+    popup.style.top = '-61vh';
+
+    background = document.getElementById('particles-js');
+    resize();
+
+    document.getElementById('openAccountPopup').isOpen = false;
+
+    scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
+
+    rememberMe.checked = false;
+
+    for (let button of document.getElementsByClassName('editor')) {
+        button.addEventListener('click', () => {
+            navigateTo('./editor');
+        });
+    }
+
+    document.getElementById('checkbox').addEventListener('click', () => {
+        if (rememberMe.textContent === 'check_box') {
+            rememberMe.textContent = 'check_box_outline_blank';
+            rememberMe.checked = false;
+        } else {
+            rememberMe.textContent = 'check_box';
+            rememberMe.checked = true;
+        }
+    });
+    document.getElementById('close').addEventListener('click', () => {
+        popup.style.top = '-61vh';
+    });
+    document.getElementById('openLogInPopup').addEventListener('click', () => {
+        popup.style.top = '20vh';
+    });
+    document.getElementById('openAccountPopup').addEventListener('click', openAccountPopup);
+    document.getElementById('switchToLogIn').addEventListener('click', () => {
+        logInPopup.style.left = '0';
+        createAccountPopup.style.left = '30vw';
+    });
+    document.getElementById('switchToCreateAccount').addEventListener('click', () => {
+        logInPopup.style.left = '-30vw';
+        createAccountPopup.style.left = '0';
+    });
+    /*document.getElementById('upload').addEventListener('click', () => {
+        // TODO: user can upload files
+        // https://stackoverflow.com/questions/41214447/firebase-user-uploads-and-profile-pictures
+    });*/
+    scroll.addEventListener('click', () => {
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('#links').offset().top
+        }, 750);
+    });
+    document.getElementById('logOut').addEventListener('click', () => {
+        firebase.auth().signOut();
+    });
+    document.getElementById('yourPhotos').addEventListener('click', () => {
+        navigateTo('./yourphotos');
+    });
+    document.getElementById('createAccount').addEventListener('click', createAccount);
+    document.getElementById('logIn').addEventListener('click', logIn);
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', mousemove);
+
+    window.removeEventListener('load', init);
+    
+    document.getElementById('load').style.opacity = 0;
+}
+
+function initFirebase() {
     firebase.initializeApp({
         apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
         authDomain: "webprojekt-bf181.firebaseapp.com",
@@ -21,75 +98,49 @@ function init() {
     });
 
     firebase.auth().onAuthStateChanged((user) => {
+        let placeholder = document.getElementById('placeholder');
+
         if (user) {
+            document.getElementById('openLogInPopup').style.display = 'none';
             document.getElementById('openAccountPopup').style.display = 'block';
+            document.getElementById('username').textContent = user.displayName;
         } else {
-            document.getElementById('openLogInPopup').style.display = 'block';
+            document.getElementById('openAccountPopup').style.display = 'none';
+            document.getElementById('openLogInPopup').style.display = 'flex';
+        }
+
+        if (placeholder != null) {
+            document.getElementById('body').removeChild(placeholder);
         }
     });
+}
 
-    particlesJS.load('particles-js', 'resources/js/particles.json');
+function openAccountPopup() {
+    let openAccountPopup = document.getElementById('openAccountPopup');
+    let accountPopup = document.getElementById('accountPopup');
+    let width;
+    let height;
 
-    initInputs();
+    if (openAccountPopup.isOpen) {
+        width = '7vmax';
+        height = '3.5vmax';
 
-    popup.style.top = '-60vh';
-
-    background = document.getElementById('particles-js');
-    resize();
-
-    rememberMe.checked = false;
-
-    rememberMe.addEventListener('click', () => {
-        if (rememberMe.textContent === 'check_box') {
-            rememberMe.textContent = 'check_box_outline_blank';
-            rememberMe.checked = false;
-        } else {
-            rememberMe.textContent = 'check_box';
-            rememberMe.checked = true;
-        }
-    });
-    document.getElementById('close').addEventListener('click', () => {
-        popup.style.top = '-60vh';
-    });
-    document.getElementById('openLogInPopup').addEventListener('click', () => {
-        popup.style.top = '20vh';
-    });
-    document.getElementById('openAccountPopup').addEventListener('click', () => {
-        let openAccountPopup = document.getElementById('openAccountPopup');
-        let accountPopup = document.getElementById('accountPopup');
-
-        // TODO: make box responsive
+        openAccountPopup.isOpen = false;
+    } else {
         if (innerWidth > innerHeight) {
-            openAccountPopup.style.width = parseFloat(openAccountPopup.style.width) + (100 / innerWidth) * accountPopup.clientWidth + 'vmax';
-            openAccountPopup.style.height = parseFloat(openAccountPopup.style.height) + (100 / innerWidth) * accountPopup.clientHeight + 'vmax';
+            width = parseFloat(openAccountPopup.style.width) + (100 / innerWidth) * accountPopup.clientWidth + 'vmax';
+            height = parseFloat(openAccountPopup.style.height) + (100 / innerWidth) * accountPopup.clientHeight + 'vmax';
         } else {
-            openAccountPopup.style.width = parseFloat(openAccountPopup.style.width) + (100 / innerHeight) * accountPopup.clientWidth + 'vmax';
-            openAccountPopup.style.height = parseFloat(openAccountPopup.style.height) + (100 / innerHeight) * accountPopup.clientHeight + 'vmax';
+            width = parseFloat(openAccountPopup.style.width) + (100 / innerHeight) * accountPopup.clientWidth + 'vmax';
+            height = parseFloat(openAccountPopup.style.height) + (100 / innerHeight) * accountPopup.clientHeight + 'vmax';
         }
-    });
-    document.getElementById('switchToLogIn').addEventListener('click', () => {
-        logInPopup.style.left = '0';
-        createAccountPopup.style.left = '30vw';
-    });
-    document.getElementById('switchToCreateAccount').addEventListener('click', () => {
-        logInPopup.style.left = '-30vw';
-        createAccountPopup.style.left = '0';
-    });
-    document.getElementById('upload').addEventListener('click', () => {
-        // TODO: user can upload files
-        // https://stackoverflow.com/questions/41214447/firebase-user-uploads-and-profile-pictures
-    });
-    document.getElementById('scroll').addEventListener('click', () => {
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $('#content').offset().top
-        }, 750);
-    });
-    document.getElementById('edit').addEventListener('click', edit);
-    document.getElementById('createAccount').addEventListener('click', createAccount);
-    document.getElementById('logIn').addEventListener('click', logIn);
-    window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', mousemove);
-    window.removeEventListener('load', init);
+
+        openAccountPopup.isOpen = true;
+    }
+
+    document.getElementById('text').style.width = width;
+    openAccountPopup.style.width = width;
+    openAccountPopup.style.height = height;
 }
 
 function resize() {
@@ -111,13 +162,12 @@ function mousemove(event) {
     lastCoordinates = {x: event.clientX, y: event.clientY};
 }
 
-function edit() {
-    let load = document.getElementById('load');
-
-    load.style.opacity = 1;
+function navigateTo(path) {
+    document.getElementById('load').style.opacity = 1;
 
     setTimeout(() => {
-        window.open('./editor/', '_self');
+        sessionStorage.setItem('scrollY', scrollY);
+        window.open(path, '_self');
     }, 500);
 }
 
@@ -171,17 +221,30 @@ function createAccount() {
                     default:
                         inputError('createAccountPassword', 'An error occured while creating an account.');
                 }
-            });
+        });
 
         createUser.then(() => {
                 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
                     .then(() => {
+                        document.getElementById('openLogInPopup').style.display = 'none';
+                        document.getElementById('popup').style.top = '-61vh';
+
                         firebase.auth().signInWithEmailAndPassword(email.value, password.value)
                             .then(() => {
-                                firebase.auth().currentUser.updateProfile({displayName: username.value});
+                                firebase.auth().currentUser.updateProfile({displayName: username.value})
+                                    .then(() => {
+                                        username.value = '';
+                                        email.value = '';
+                                        password.value = '';
+                                        confirm.value = '';
+
+                                        document.getElementById('username').textContent = firebase.auth().currentUser.displayName;
+                                        document.getElementById('logInPopup').style.left = '0';
+                                        document.getElementById('createAccountPopup').style.left = '30vw';
+                                    });
                             });
                     });
-            });
+        });
     }
 }
 
@@ -224,10 +287,19 @@ function logIn() {
         }
     
         persistence.then(() => {
-            firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-                .catch(() => {
-                    inputError(password.id, 'Invalid email adress or password.');
-                });
+            let signIn = firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+            
+            signIn.catch(() => {
+                inputError(password.id, 'Invalid email adress or password.');
+            });
+
+            signIn.then(() => {
+                password.value = '';
+
+                document.getElementById('openLogInPopup').style.display = 'none';
+                document.getElementById('popup').style.top = '-61vh';
+                document.getElementById('username').textContent = firebase.auth().currentUser.displayName;
+            });
         });
     }
 }
