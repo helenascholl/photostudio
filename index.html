@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="./resources/css/home.css">
     <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-storage.js"></script>
     <script src="./resources/js/home.js"></script>
     <script src="./resources/js/particles.min.js"></script>
 </head>
@@ -29,17 +27,8 @@
     <div class="button" id="placeholder">
         <i class="fa fa-spinner fa-spin"></i>
     </div>
-    <div class="button" id="openLogInPopup" style="display: none;">
-        <span>Log in</span>
-    </div>
-    <div class="button" id="openAccountPopup" style="display: none; width: 7vmax; height: 3.5vmax;">
-        <div id="text" style="width: 7vmax;">Account</div>
-
-        <div id="accountPopup">
-            <h5 id="username"></h5>
-            <span>Delete account</span>
-            <span id="logOut">Log out</span>
-        </div>
+    <div class="button" id="account" style="display: none;">
+        <span id="text"></span>
     </div>
 
     <div id="links">
@@ -66,66 +55,7 @@
             <img src="./resources/img/placeholder.png">
         </div>
     </div>
-
-    <div id="popup">
-        <div id="logInPopup" style="left: 0;">
-            <div class="button" id="logIn">Log in</div>
-            <span class="switchTo" id="switchToCreateAccount">Create account</span>
-
-            <form>
-                <h4>Log in</h4>
-
-                <div class="text" id="logInEmailText">Email</div>
-                <input id="logInEmail" type="email">
-                <div id="logInEmailBorder" class="inputBorder"></div>
-
-                <div class="text" id="logInPasswordText">Password</div>
-                <input class="password" id="logInPassword" type="password">
-                <i id="logInPasswordVisibility" class="material-icons passwordVisibility">visibility</i>
-                <div id="logInPasswordBorder" class="inputBorder"></div>
-
-                <div id="checkbox">
-                    <span><i id="rememberMe" class="material-icons">check_box_outline_blank</i>Remember me</span>
-                </div>
-            </form>
-
-            <span id="logInError"></span>
-        </div>
-
-        <div id="createAccountPopup" style="left: 50vw; top: -60vh;">
-            <div class="button" id="createAccount">Create</div>
-            <span class="switchTo" id="switchToLogIn">Already have an account?</span>
-
-            <form>
-                <h4>Create account</h4>
     
-                <div class="text" id="createAccountUsernameText">Username</div>
-                <input id="createAccountUsername" type="text">
-                <div id="createAccountUsernameBorder" class="inputBorder"></div>
-
-                <div class="text" id="createAccountEmailText">Email</div>
-                <input id="createAccountEmail" type="email">
-                <div id="createAccountEmailBorder" class="inputBorder"></div>
-
-                <div class="text" id="createAccountPasswordText">Password</div>
-                <input class="password" id="createAccountPassword" type="password">
-                <i id="createAccountPasswordVisibility" class="material-icons passwordVisibility">visibility</i>
-                <div id="createAccountPasswordBorder" class="inputBorder"></div>
-
-                <div class="text" id="createAccountConfirmText">Confirm</div>
-                <input class="password" id="createAccountConfirm" type="password">
-                <i id="createAccountConfirmVisibility" class="material-icons passwordVisibility">visibility</i>
-                <div id="createAccountConfirmBorder" class="inputBorder"></div>
-            </form>
-
-            <span id="createAccountError"></span>
-        </div>
-
-        <div id="close">
-            <i class="material-icons">close</i>
-        </div>
-    </div>
-
     <div id="load" style="opacity: 1;"></div>
 </body>
 </html>

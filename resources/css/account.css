@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    user-select: none;
+}
+
+#wrapper {
+    height: 60vh;
+    width: 30vw;
+    position: fixed;
+    top: 20vh;
+    left: 35vw;
+    border-radius: 2vmin;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    user-select: none;
+    background-color: white;
+    transition: top 100ms;
+}
+
+#text {
+    height: 3.5vmax;
+    position: relative;
+    left: -2px;
+    top: -2px;
+    font-size: 1.5vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 500ms;
+    border-bottom: 2px solid white;
+    cursor: pointer;
+}
+
+#logInForm, #createAccountForm {
+    height: 60vh;
+    width: 30vw;
+    position: relative;
+    padding: 0 5vw;
+    box-sizing: border-box;
+    background-color: white;
+    border: inherit;
+    display: inline-block;
+    transition: left 200ms;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+#logInForm .button, #createAccountForm .button {
+    width: 7vmin;
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 51vh;
+    font-size: 2vmin;
+    text-align: center;
+    color: white;
+    border-radius: 0.7vmin;
+    background-color: rgb(81, 81, 255);
+    display: inline-block;
+    margin-right: 0.5vw;
+    transition: background-color 400ms;
+}
+
+#logInForm .button:hover, #createAccountForm .button:hover {
+    background-color: rgb(52, 52, 255);
+}
+
+.switchTo {
+    color: rgb(0, 0, 255);
+    font-size: 1.9vmin;
+    position: relative;
+    left: 0;
+    top: 51vh;
+}
+
+.switchTo:hover {
+    cursor: pointer;
+}
+
+input {
+    width: 20vw;
+    display: block;
+    height: 3vmin;
+    outline: none;
+    border: none;
+    font-size: 2vmin;
+}
+
+.password {
+    display: inline-block;
+}
+
+.inputBorder {
+    width: 20vw;
+    height: 1px;
+    transition: background-color 200ms;
+}
+
+.text {
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 1.5vmin;
+    box-sizing: border-box;
+    pointer-events: none;
+    user-select: none;
+    transition: font-size 200ms, padding-top 200ms, color 200ms;
+}
+
+.passwordVisibility {
+    position: relative;
+    left: 0;
+    top: 0.8vmin;
+}
+
+.passwordVisibility:hover {
+    cursor: pointer;
+}
+
+#createAccountError, #logInError {
+    color: red;
+    font-size: 2vmin;
+    transition: opacity 500ms;
+}
+
+form {
+    margin-bottom: 2vh;
+}
+
+#checkbox {
+    margin-top: 2.5vh;
+}
+
+#checkbox:hover {
+    cursor: pointer;
+}
+
+#checkbox i {
+    margin-right: 1vmin;
+}
+
+#checkbox span, #checkbox i {
+    font-size: 2vmin;
+    vertical-align: middle;
+}
+
+h4 {
+    text-align: center;
+    font-size: 4vmin;
+    margin: 1vh 0;
+}
+
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-color: black;
+    transition: opacity 500ms;
+}

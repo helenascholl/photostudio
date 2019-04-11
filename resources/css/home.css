@@ -147,196 +147,30 @@ h3 {
     background-color: white;
 }
 
-#popup {
-    height: 60vh;
-    width: 30vw;
-    position: fixed;
-    left: 35vw;
-    border-radius: 2vmin;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    user-select: none;
-    background-color: white;
-    transition: top 100ms;
-}
-
-#openLogInPopup, #openAccountPopup, #placeholder {
+#account, #placeholder {
+    width: 7vmax;
+    height: 3.5vmax;
     position: fixed;
     right: 2vmax;
     top: 2vmax;
     border: 2px solid white;
     border-radius: 2vmax;
-    color: white;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-#placeholder, #openLogInPopup {
-    width: 7vmax;
-    height: 3.5vmax;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
 #placeholder {
     font-size: 2vmax;
 }
 
-#openLogInPopup {
+#account {
     font-size: 1.5vmax;
-}
-
-#openAccountPopup {
-    transition: width 500ms, height 500ms;
-    cursor: auto;
-}
-
-#text {
-    height: 3.5vmax;
-    position: relative;
-    left: -2px;
-    top: -2px;
-    font-size: 1.5vmax;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: width 500ms;
-    border-bottom: 2px solid white;
-    cursor: pointer;
-}
-
-#logInPopup, #createAccountPopup {
-    height: 60vh;
-    width: 30vw;
-    position: relative;
-    padding: 0 5vw;
-    box-sizing: border-box;
-    background-color: white;
-    border: inherit;
-    display: inline-block;
-    transition: left 200ms;
-}
-
-#logInPopup .button, #createAccountPopup .button {
-    width: 7vmin;
-    height: 3vmin;
-    position: relative;
-    left: 0;
-    top: 51vh;
-    font-size: 2vmin;
-    text-align: center;
-    color: white;
-    border-radius: 0.7vmin;
-    background-color: rgb(81, 81, 255);
-    display: inline-block;
-    margin-right: 0.5vw;
-    transition: background-color 400ms;
-}
-
-#logInPopup .button:hover, #createAccountPopup .button:hover {
-    background-color: rgb(52, 52, 255);
-}
-
-#accountPopup {
-    padding: 0 1.5vmax 1.5vmax 1.5vmax;
-    margin-top: 2vmin;
-}
-
-#accountPopup span {
-    display: block;
-    font-size: 1.3vmax;
-}
-
-#accountPopup span:hover {
-    cursor: pointer;
-}
-
-#accountPopup h5 {
-    font-size: 1.5vmax;
-    margin-top: 0;
-}
-
-.switchTo {
-    color: rgb(0, 0, 255);
-    font-size: 1.9vmin;
-    position: relative;
-    left: 0;
-    top: 51vh;
-}
-
-.switchTo:hover {
-    cursor: pointer;
-}
-
-input {
-    width: 20vw;
-    display: block;
-    height: 3vmin;
-    outline: none;
-    border: none;
-    font-size: 2vmin;
-    font-family: 'Barlow Semi Condensed', sans-serif;
-}
-
-.password {
-    display: inline-block;
-}
-
-.inputBorder {
-    width: 20vw;
-    height: 1px;
-    transition: background-color 200ms;
-}
-
-.text {
-    height: 3vmin;
-    position: relative;
-    left: 0;
-    top: 1.5vmin;
-    box-sizing: border-box;
-    pointer-events: none;
-    user-select: none;
-    transition: font-size 200ms, padding-top 200ms, color 200ms;
-}
-
-#close {
-    background-color: white;
-}
-
-#close:hover {
-    cursor: pointer;
-    background-color: lightgray;
-}
-
-#close i {
-    font-size: 2.5vmin;
-    margin-right: 1vmax;
-    margin-top: 1vmax;
-    position: relative;
-    top: -120vh;
-    left: 0;
-    float: right;
-}
-
-.passwordVisibility {
-    position: relative;
-    left: 0;
-    top: 0.8vmin;
-}
-
-.passwordVisibility:hover {
-    cursor: pointer;
 }
 
 i {
     user-select: none;
-}
-
-h4 {
-    text-align: center;
-    font-size: 4vmin;
-    margin: 1vh 0;
 }
 
 .button {
@@ -349,31 +183,4 @@ h4 {
 
 #particles-js {
     background-color: rgb(3, 0, 19);
-}
-
-#createAccountError, #logInError {
-    color: red;
-    font-size: 2vmin;
-    transition: opacity 500ms;
-}
-
-form {
-    margin-bottom: 2vh;
-}
-
-#checkbox {
-    margin-top: 2.5vh;
-}
-
-#checkbox:hover {
-    cursor: pointer;
-}
-
-#checkbox i {
-    margin-right: 1vmin;
-}
-
-#checkbox span, #checkbox i {
-    font-size: 2vmin;
-    vertical-align: middle;
 }
