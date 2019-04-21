@@ -20,16 +20,14 @@ function init() {
     initFirebase();
 
     firebase.auth().onAuthStateChanged((user) => {
-        let text = document.getElementById('text');
-
         if (user) {
             document.getElementById('account').style.display = 'flex';
         } else {
             document.getElementById('logIn').style.display = 'flex';
         }
 
+        sessionStorage.setItem('link', '../');
         document.getElementById('placeholder').style.display = 'none';
-        document.getElementById('account').style.display = 'flex';
     });
 
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';

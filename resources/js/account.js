@@ -122,7 +122,11 @@ function createAccount() {
                                         document.getElementById('load').style.opacity = 1;
 
                                         setTimeout(() => {
-                                            window.open('../', '_self');
+                                            if (sessionStorage.getItem('link') !== null) {
+                                                window.open(sessionStorage.getItem('link'), '_self');
+                                            } else {
+                                                window.open('../', '_self');
+                                            }
                                         }, 500);
                                     });
                             });
@@ -189,7 +193,11 @@ function logIn() {
                 document.getElementById('load').style.opacity = 1;
 
                 setTimeout(() => {
-                    window.open('../', '_self');
+                    if (sessionStorage.getItem('link') !== null) {
+                        window.open(sessionStorage.getItem('link'), '_self');
+                    } else {
+                        window.open('../', '_self');
+                    }
                 }, 500);
             });
         });
