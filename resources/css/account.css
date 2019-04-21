@@ -20,21 +20,6 @@ body {
     overflow: hidden;
     user-select: none;
     background-color: white;
-    transition: top 100ms;
-}
-
-#text {
-    height: 3.5vmax;
-    position: relative;
-    left: -2px;
-    top: -2px;
-    font-size: 1.5vmax;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: width 500ms;
-    border-bottom: 2px solid white;
-    cursor: pointer;
 }
 
 #logInForm, #createAccountForm {
@@ -54,8 +39,8 @@ body {
 }
 
 #logInForm .button, #createAccountForm .button {
-    width: 7vmin;
-    height: 3vmin;
+    width: 8vmin;
+    height: 4vmin;
     position: relative;
     left: 0;
     top: 51vh;
