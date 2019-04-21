@@ -34,16 +34,28 @@ function init() {
 
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
 
+    if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+        scroll.addEventListener('click', () => {
+            let interval = setInterval(() => {
+                scrollTo(0, scrollY + 15);
+
+                if (scrollY >= innerHeight) {
+                    scrollTo(0, innerHeight);
+                    clearInterval(interval);
+                }
+            }, 10);
+        });
+    } else {
+        scroll.addEventListener('click', () => {
+            document.getElementById('html').style.scrollBehavior = 'smooth';
+        });
+    }
+    
     for (let button of document.getElementsByClassName('editor')) {
         button.addEventListener('click', () => {
             navigateTo('./editor');
         });
     }
-    scroll.addEventListener('click', () => {
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $('#links').offset().top
-        }, 750);
-    });
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });

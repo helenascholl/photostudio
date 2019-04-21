@@ -50,6 +50,7 @@ h2 {
 }
 
 #scroll {
+    text-decoration: none;
     font-size: 5vmax;
     position: absolute;
     left: 0;
