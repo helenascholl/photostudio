@@ -14,7 +14,10 @@
 <body>
     <div id="wrapper">
         <div id="logInForm" style="left: 0;">
-            <div class="button" id="logIn">Log in</div>
+            <div class="button" id="logIn">
+                <span id="logInText">Log in</span>
+                <div class="spinner" id="logInSpinner" style="display: none;"></div>
+            </div>
             <span class="switchTo" id="switchToCreateAccount">Create account</span>
 
             <form>
@@ -38,7 +41,10 @@
         </div>
 
         <div id="createAccountForm" style="left: 50vw; top: -60vh;">
-            <div class="button" id="createAccount">Create</div>
+            <div class="button" id="createAccount">
+                <span id="createAccountText">Create</span>
+                <div class="spinner" id="createAccountSpinner" style="display: none;"></div>
+            </div>
             <span class="switchTo" id="switchToLogIn">Already have an account?</span>
 
             <form>

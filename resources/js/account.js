@@ -87,6 +87,12 @@ function createAccount() {
     }
 
     if (isValid) {
+        let spinner = document.getElementById('createAccountSpinner').style;
+        let text = document.getElementById('createAccountText').style;
+
+        spinner.display = 'block';
+        text.display = 'none';
+
         let createUser = firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
             .catch((error) => {
                 switch (error.code) {
@@ -101,6 +107,9 @@ function createAccount() {
                     default:
                         inputError('createAccountPassword', 'An error occured while creating an account.');
                 }
+                
+                spinner.display = 'none';
+                text.display = 'block';
         });
 
         createUser.then(() => {
@@ -154,6 +163,12 @@ function logIn() {
     }
 
     if (isValid) {
+        let spinner = document.getElementById('logInSpinner').style;
+        let text = document.getElementById('logInText').style;
+
+        spinner.display = 'block';
+        text.display = 'none';
+
         if (document.getElementById('rememberMe').checked) {
             persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         } else {
@@ -164,6 +179,9 @@ function logIn() {
             let signIn = firebase.auth().signInWithEmailAndPassword(email.value, password.value);
             
             signIn.catch(() => {
+                spinner.display = 'none';
+                text.display = 'block';
+
                 inputError(password.id, 'Invalid email adress or password.');
             });
 
