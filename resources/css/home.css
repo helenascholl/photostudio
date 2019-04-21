@@ -153,7 +153,7 @@ h3 {
     background-color: white;
 }
 
-#account, #placeholder {
+#logIn, #account, #placeholder {
     width: 7vmax;
     height: 3.5vmax;
     position: fixed;
@@ -171,7 +171,7 @@ h3 {
     font-size: 2vmax;
 }
 
-#account {
+#logIn, #account {
     font-size: 1.5vmax;
 }
 

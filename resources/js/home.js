@@ -23,9 +23,9 @@ function init() {
         let text = document.getElementById('text');
 
         if (user) {
-            text.textContent = 'Account';
+            document.getElementById('account').style.display = 'flex';
         } else {
-            text.textContent = 'Log in';
+            document.getElementById('logIn').style.display = 'flex';
         }
 
         document.getElementById('placeholder').style.display = 'none';
@@ -60,6 +60,9 @@ function init() {
         navigateTo('./yourphotos');
     });
     document.getElementById('account').addEventListener('click', () => {
+        navigateTo('./settings');
+    });
+    document.getElementById('logIn').addEventListener('click', () => {
         navigateTo('./account');
     });
     window.addEventListener('resize', resize);
