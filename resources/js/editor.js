@@ -4,7 +4,15 @@ const WORKSPACE_WIDTH = innerWidth / 100 * 82;
 const WORKSPACE_HEIGHT = innerHeight / 100 * 95;
 const WORKSPACE_LEFT = innerWidth / 100 * 3;
 const WORKSPACE_TOP = innerHeight / 100 * 5;
-const SUPPORTED_FILE_EXTENSIONS = ['jpg', 'jpeg', 'jpe', 'jif', 'jfif', 'jfi', 'png'];
+const SUPPORTED_FILE_EXTENSIONS = [
+    'jpg',
+    'jpeg',
+    'jpe',
+    'jif',
+    'jfif',
+    'jfi',
+    'png'
+];
 let selectedArea = [];
 let selection;
 let ctxSelection;
@@ -53,7 +61,12 @@ function init() {
 
     ctxSelection = selection.getContext('2d');
 
-    selectedArea = [WORKSPACE_LEFT, WORKSPACE_TOP, background.width + WORKSPACE_TOP, background.height + WORKSPACE_LEFT];
+    selectedArea = [
+        WORKSPACE_LEFT,
+        WORKSPACE_TOP,
+        background.width + WORKSPACE_TOP,
+        background.height + WORKSPACE_LEFT
+    ];
 
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
@@ -142,7 +155,10 @@ function freeSelect(event) {
         window.removeEventListener('mouseup', removeMouseMove);
     }
 
-    selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}];
+    selectedArea = [{
+            x: event.clientX - WORKSPACE_LEFT,
+            y: event.clientY - WORKSPACE_TOP
+        }];
 
     ctxSelection.beginPath();
     ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
@@ -195,18 +211,33 @@ function selectLayer(event) {
             let layerLeft = parseFloat(layer.style.left) - WORKSPACE_LEFT;
             let layerTop = parseFloat(layer.style.top) - WORKSPACE_TOP;
 
-            selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + layer.width, y: layerTop}, {x: layerLeft + layer.width, y: layerTop + layer.height}, {x: layerLeft, y: layerTop + layer.height}];
+            selectedArea = [
+                {
+                    x: layerLeft,
+                    y: layerTop
+                }, {
+                    x: layerLeft + layer.width,
+                    y: layerTop
+                }, {
+                    x: layerLeft + layer.width,
+                    y: layerTop + layer.height
+                }, {
+                    x: layerLeft,
+                    y: layerTop + layer.height
+                }
+            ];
             drawSelectedArea();
 
             selectedLayer = layer;
-        } else {
-
         }
     }
 }
 
 function move(event) {
-    let originalPosition = {x: event.clientX, y: event.clientY};
+    let originalPosition = {
+        x: event.clientX,
+        y: event.clientY
+    };
 
     let moveLayer = (event) => {
         let newLeft = parseFloat(selectedLayer.style.left) + event.clientX - originalPosition.x;
@@ -235,7 +266,21 @@ function move(event) {
         layerLeft = parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT;
         layerTop = parseFloat(selectedLayer.style.top) - WORKSPACE_TOP;
 
-        selectedArea = [{x: layerLeft, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop}, {x: layerLeft + selectedLayer.width, y: layerTop + selectedLayer.height}, {x: layerLeft, y: layerTop + selectedLayer.height}];
+        selectedArea = [
+            {
+                x: layerLeft,
+                y: layerTop
+            }, {
+                x: layerLeft + selectedLayer.width,
+                y: layerTop
+            }, {
+                x: layerLeft + selectedLayer.width,
+                y: layerTop + selectedLayer.height
+            }, {
+                x: layerLeft,
+                y: layerTop + selectedLayer.height
+            }
+        ];
         drawSelectedArea();
     };
 
@@ -271,7 +316,21 @@ function selectRectangle(event) {
             y = eventMouseMove.clientY - WORKSPACE_TOP;
         }
 
-        selectedArea = [{x: event.clientX - WORKSPACE_LEFT, y: event.clientY - WORKSPACE_TOP}, {x, y: event.clientY - WORKSPACE_TOP}, {x, y}, {x: event.clientX - WORKSPACE_LEFT, y}];
+        selectedArea = [
+            {
+                x: event.clientX - WORKSPACE_LEFT,
+                y: event.clientY - WORKSPACE_TOP
+            }, {
+                x,
+                y: event.clientY - WORKSPACE_TOP
+            }, {
+                x,
+                y
+            }, {
+                x: event.clientX - WORKSPACE_LEFT,
+                y
+            }
+        ];
         drawSelectedArea();
     };
 
@@ -388,16 +447,13 @@ function createNewLayer(width, height) {
         {
             x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
             y: parseFloat(layer.style.top) - WORKSPACE_TOP
-        },
-        {
+        }, {
             x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
             y: parseFloat(layer.style.top) - WORKSPACE_TOP
-        },
-        {
+        }, {
             x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
             y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
-        },
-        {
+        }, {
             x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
             y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
         }

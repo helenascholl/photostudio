@@ -48,7 +48,7 @@ function init() {
             document.getElementById('html').style.scrollBehavior = 'smooth';
         });
     }
-    
+
     for (let button of document.getElementsByClassName('editor')) {
         button.addEventListener('click', () => {
             navigateTo('./editor');
@@ -67,7 +67,7 @@ function init() {
     window.addEventListener('mousemove', mousemove);
 
     window.removeEventListener('load', init);
-    
+
     document.getElementById('load').style.opacity = 0;
 }
 
@@ -84,8 +84,11 @@ function mousemove(event) {
         background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - lastCoordinates.x) / 150 + 'px';
         background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - lastCoordinates.y) / 150 + 'px';
     }
-    
-    lastCoordinates = {x: event.clientX, y: event.clientY};
+
+    lastCoordinates = {
+        x: event.clientX,
+        y: event.clientY
+    };
 }
 
 function navigateTo(path) {

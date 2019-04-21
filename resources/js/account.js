@@ -113,12 +113,9 @@ function createAccount() {
         });
 
         createUser.then(() => {
-                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-                    .then(() => {
-                        firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-                            .then(() => {
-                                firebase.auth().currentUser.updateProfile({displayName: username.value})
-                                    .then(() => {
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+                    firebase.auth().currentUser.updateProfile({displayName: username.value}).then(() => {
                                         document.getElementById('load').style.opacity = 1;
 
                                         setTimeout(() => {

@@ -1,70 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="utf-8">
-    <title>Editor</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../resources/css/editor.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="../resources/js/editor.js"></script>
-</head>
-<body id="body">
-    <div id="load" style="opacity: 1;"></div>
+<html dir="ltr" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Editor</title>
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <link href="../resources/css/editor.css" rel="stylesheet" type="text/css">
+        <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet">
+        <script src="../resources/js/editor.js"></script>
+    </head>
+    <body id="body">
+        <div id="load" style="opacity: 1;"></div>
 
-    <section id="top">
-        <div id="back">
-            <i class="fa fa-angle-left"></i>
-        </div>
-        <form>
-            <input id="url" type="text" placeholder="URL to image">
-            <input id="submitUrl" type="button" value="Get image">
-            <input id="filename" type="file">
-        </form>
-    </section>
+        <section id="top">
+            <div id="back">
+                <i class="fa fa-angle-left"></i>
+            </div>
+            <form>
+                <input id="url" placeholder="URL to image" type="text">
+                <input id="submitUrl" type="button" value="Get image">
+                <input id="filename" type="file">
+            </form>
+        </section>
 
-    <section id="tools">
-        <div class="tool" id="select_layer">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool" id="select_rectangle">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool" id="free_select">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool" id="move">
-            <i class="fas fa-arrows-alt"></i>
-        </div>
-        <div class="tool" id="fill">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool" id="crop">
-            <i class="fas fa-crop-alt"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-        <div class="tool">
-            <i class="fas fa-hand-paper"></i>
-        </div>
-    </section>
+        <section id="tools">
+            <div class="tool" id="select_layer">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool" id="select_rectangle">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool" id="free_select">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool" id="move">
+                <i class="fas fa-arrows-alt"></i>
+            </div>
+            <div class="tool" id="fill">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool" id="crop">
+                <i class="fas fa-crop-alt"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+            <div class="tool">
+                <i class="fas fa-hand-paper"></i>
+            </div>
+        </section>
 
-    <section id="right"></section>
+        <section id="right"></section>
 
-    <canvas id="background"></canvas>
-    <div id="layers"></div>
-    <canvas id="selection"></canvas>
-</body>
+        <canvas id="background"></canvas>
+        <div id="layers"></div>
+        <canvas id="selection"></canvas>
+    </body>
 </html>
