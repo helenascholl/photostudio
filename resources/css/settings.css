@@ -1,0 +1,22 @@
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-color: black;
+    transition: opacity 500ms;
+}
+
+/*::-webkit-scrollbar {
+    width: 1vmax;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(56, 56, 56, 0.8);
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(56, 56, 56);
+  }*/
