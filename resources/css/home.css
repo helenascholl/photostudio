@@ -46,12 +46,22 @@ h2 {
     border-radius: 2.5vmax;
     justify-content: center;
     align-items: center;
+    transition: background-color 500ms;
+}
+
+#edit:hover {
+    background-color: white;
 }
 
 #edit span {
     font-size: 2vmax;
     font-weight: bold;
     color: white;
+    transition: color 500ms;
+}
+
+#edit:hover span {
+    color: black;
 }
 
 #scroll {
