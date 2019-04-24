@@ -33,6 +33,8 @@ function init() {
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
 
     if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+        scroll.href = '#noid';
+        
         scroll.addEventListener('click', () => {
             let interval = setInterval(() => {
                 scrollTo(0, scrollY + 15);
