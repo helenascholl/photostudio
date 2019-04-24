@@ -21,12 +21,13 @@ function init() {
 
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            document.getElementById('account').style.display = 'flex';
+            document.getElementById('accountInfo').style.display = 'block';
+            document.getElementById('username').textContent = user.displayName;
         } else {
             document.getElementById('logIn').style.display = 'flex';
+            sessionStorage.setItem('link', '../');
         }
 
-        sessionStorage.setItem('link', '../');
         document.getElementById('placeholder').style.display = 'none';
     });
 
@@ -56,12 +57,18 @@ function init() {
             navigateTo('./editor');
         });
     }
+    document.getElementById('openInfo').addEventListener('click', () => {
+        let accountInfo = document.getElementById('accountInfo');
+
+        accountInfo.style.width = '10vw';
+        accountInfo.style.height = '10vw';
+    });
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });
-    document.getElementById('account').addEventListener('click', () => {
-        navigateTo('./settings');
-    });
+    // document.getElementById('account').addEventListener('click', () => {
+    //     navigateTo('./settings');
+    // });
     document.getElementById('logIn').addEventListener('click', () => {
         navigateTo('./account');
     });

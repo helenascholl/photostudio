@@ -163,7 +163,7 @@ h3 {
     background-color: white;
 }
 
-#logIn, #account, #placeholder {
+#logIn, #placeholder {
     width: 7vmax;
     height: 3.5vmax;
     position: fixed;
@@ -177,12 +177,28 @@ h3 {
     color: white;
 }
 
-#placeholder {
-    font-size: 2vmax;
+#logIn, #openInfo {
+    font-size: 1.5vmax;
 }
 
-#logIn, #account {
-    font-size: 1.5vmax;
+#openInfo {
+    height: 3.5vmax;
+    border-bottom: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+#accountInfo {
+    position: fixed;
+    right: 2vmax;
+    top: 2vmax;
+    border: 2px solid white;
+    border-radius: 2vmax;
+    overflow: hidden;
+    color: white;
+    transition: width 500ms, height 500ms;
 }
 
 i {
