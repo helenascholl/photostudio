@@ -211,7 +211,7 @@ i {
 }
 
 ::-webkit-scrollbar {
-    width: 1vmax;
+    width: 10px;
   }
    
   ::-webkit-scrollbar-thumb {
