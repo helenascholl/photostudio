@@ -12,11 +12,11 @@ body {
 #wrapper {
     height: 60vh;
     width: 30vw;
-    position: fixed;
+    position: absolute;
     top: 20vh;
     left: 35vw;
     border-radius: 2vmin;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid #d8d8d8;
     overflow: hidden;
     user-select: none;
     background-color: white;
@@ -29,16 +29,12 @@ body {
     padding: 0 5vw;
     box-sizing: border-box;
     background-color: white;
-    border: inherit;
+    border-radius: 2vmin;
     display: inline-block;
     transition: left 200ms;
 }
 
-.button:hover {
-    cursor: pointer;
-}
-
-#logInForm .button, #createAccountForm .button {
+.button {
     width: 8vmin;
     height: 4vmin;
     position: relative;
@@ -56,8 +52,14 @@ body {
     transition: background-color 400ms;
 }
 
-#logInForm .button:hover, #createAccountForm .button:hover {
+.button:hover {
     background-color: rgb(52, 52, 255);
+    cursor: pointer;
+}
+
+.button:focus {
+    background-color: rgb(52, 52, 255);
+    outline: none;
 }
 
 .switchTo {
@@ -66,6 +68,15 @@ body {
     position: relative;
     left: 0;
     top: 51vh;
+}
+
+.switchTo:hover {
+    text-decoration: underline;
+}
+
+.switchTo:focus {
+    text-decoration: underline;
+    outline: none;
 }
 
 .switchTo:hover {
@@ -132,11 +143,20 @@ form {
 
 #checkbox i {
     margin-right: 1vmin;
+    transition: color 200ms;
+}
+
+#checkbox i:focus {
+    outline: none;
 }
 
 #checkbox span, #checkbox i {
     font-size: 2vmin;
-    vertical-align: middle;
+}
+
+#checkbox span {
+    display: flex;
+    align-items: center;
 }
 
 h4 {
@@ -163,4 +183,16 @@ h4 {
     border: 4px solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
     animation: spin 1.5s linear infinite;
+}
+
+#close {
+    position: absolute;
+    top: 1vmax;
+    right: 1vmax;
+    color: black;
+    z-index: 2;
+}
+
+#close:hover {
+    cursor: pointer;
 }

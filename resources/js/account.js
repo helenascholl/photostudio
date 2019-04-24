@@ -3,9 +3,41 @@
 window.addEventListener('load', init);
 
 function init() {
-    let logInForm = document.getElementById('logInForm');
-    let createAccountForm = document.getElementById('createAccountForm');
     let rememberMe = document.getElementById('rememberMe');
+    let checkbox = document.getElementById('checkbox');
+    let switchToLogInElement = document.getElementById('switchToLogIn');
+    let switchToCreateAccountElement = document.getElementById('switchToCreateAccount');
+    let logInElement = document.getElementById('logIn');
+    let createAccountElement = document.getElementById('createAccount');
+    let rememberMeKeydown = (event) => {
+        if (event.key === 'Enter') {
+            checkRememberMe();
+        }
+    };
+    let switchToLogInKeydown = (event) => {
+        event.preventDefault();
+
+        if (event.key === 'Enter') {
+            switchToLogIn();
+        }
+    };
+    let switchToCreateAccountKeydown = (event) => {
+        event.preventDefault();
+
+        if (event.key === 'Enter') {
+            switchToCreateAccount();
+        }
+    };
+    let logInKeydown = (event) => {
+        if (event.key === 'Enter') {
+            logIn();
+        }
+    };
+    let createAccountKeydown = (event) => {
+        if (event.key === 'Enter') {
+            createAccount();
+        }
+    };
 
     rememberMe.checked = false;
 
@@ -13,31 +45,69 @@ function init() {
     initFirebase();
     resizeInputPassword();
 
+    document.getElementById('close').addEventListener('click', () => {
+        document.getElementById('load').style.opacity = 1;
 
-    document.getElementById('checkbox').addEventListener('click', () => {
-        if (rememberMe.textContent === 'check_box') {
-            rememberMe.textContent = 'check_box_outline_blank';
-            rememberMe.checked = false;
-        } else {
-            rememberMe.textContent = 'check_box';
-            rememberMe.checked = true;
-        }
+        setTimeout(() => {
+            window.open('../');
+        }, 500);
     });
-    document.getElementById('switchToLogIn').addEventListener('click', () => {
-        logInForm.style.left = '0';
-        createAccountForm.style.left = '30vw';
+    logInElement.addEventListener('focus', () => {
+        window.addEventListener('keydown', logInKeydown);
     });
-    document.getElementById('switchToCreateAccount').addEventListener('click', () => {
-        logInForm.style.left = '-30vw';
-        createAccountForm.style.left = '0';
+    logInElement.addEventListener('blur', () => {
+        window.removeEventListener('keydown', logInKeydown);
     });
-    document.getElementById('createAccount').addEventListener('click', createAccount);
-    document.getElementById('logIn').addEventListener('click', logIn);
+    createAccountElement.addEventListener('focus', () => {
+        window.addEventListener('keydown', createAccountKeydown);
+    });
+    createAccountElement.addEventListener('blur', () => {
+        window.removeEventListener('keydown', createAccountKeydown);
+    });
+    switchToCreateAccountElement.addEventListener('focus', () => {
+        window.addEventListener('keydown', switchToCreateAccountKeydown);
+    });
+    switchToCreateAccountElement.addEventListener('blur', () => {
+        window.removeEventListener('keydown', switchToCreateAccountKeydown);
+    });
+    switchToLogInElement.addEventListener('focus', () => {
+        window.addEventListener('keydown', switchToLogInKeydown);
+    });
+    switchToLogInElement.addEventListener('blur', () => {
+        window.removeEventListener('keydown', switchToLogInKeydown);
+    });
+    rememberMe.addEventListener('focus', () => {
+        rememberMe.style.color = '#7f7f7f';
+
+        window.addEventListener('keydown', rememberMeKeydown);
+    });
+    rememberMe.addEventListener('blur', () => {
+        rememberMe.style.color = 'black';
+
+        window.removeEventListener('keydown', rememberMeKeydown);
+    });
+    checkbox.addEventListener('click', checkRememberMe);
+    switchToLogInElement.addEventListener('click', switchToLogIn);
+    switchToCreateAccountElement.addEventListener('click', switchToCreateAccount);
+    createAccountElement.addEventListener('click', createAccount);
+    logInElement.addEventListener('click', logIn);
     window.addEventListener('resize', resizeInputPassword);
 
     window.removeEventListener('load', init);
 
-    document.getElementById('load').style.opacity = 0;
+    setTimeout(() => {
+        document.getElementById('load').style.opacity = 0;
+    }, 200);
+}
+
+function switchToLogIn() {
+    logInForm.style.left = '0';
+    createAccountForm.style.left = '30vw';
+}
+
+function switchToCreateAccount() {
+    logInForm.style.left = '-30vw';
+    createAccountForm.style.left = '0';
 }
 
 function initFirebase() {
@@ -49,6 +119,18 @@ function initFirebase() {
         storageBucket: "webprojekt-bf181.appspot.com",
         messagingSenderId: "403269192570"
     });
+}
+
+function checkRememberMe() {
+    let rememberMe = document.getElementById('rememberMe');
+
+    if (rememberMe.textContent === 'check_box') {
+        rememberMe.textContent = 'check_box_outline_blank';
+        rememberMe.checked = false;
+    } else {
+        rememberMe.textContent = 'check_box';
+        rememberMe.checked = true;
+    }
 }
 
 function createAccount() {
