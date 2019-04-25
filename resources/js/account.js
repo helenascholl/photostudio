@@ -1,33 +1,12 @@
 'use strict';
 
+let lastKey;
+
 window.addEventListener('load', init);
 
 function init() {
     let rememberMe = document.getElementById('rememberMe');
-    let checkbox = document.getElementById('checkbox');
-    let switchToLogInElement = document.getElementById('switchToLogIn');
-    let switchToCreateAccountElement = document.getElementById('switchToCreateAccount');
-    let logInElement = document.getElementById('logIn');
-    let createAccountElement = document.getElementById('createAccount');
-    let rememberMeKeydown = (event) => {
-        if (event.key === 'Enter') {
-            checkRememberMe();
-        }
-    };
-    let switchToLogInKeydown = (event) => {
-        event.preventDefault();
 
-        if (event.key === 'Enter') {
-            switchToLogIn();
-        }
-    };
-    let switchToCreateAccountKeydown = (event) => {
-        event.preventDefault();
-
-        if (event.key === 'Enter') {
-            switchToCreateAccount();
-        }
-    };
     let logInKeydown = (event) => {
         if (event.key === 'Enter') {
             logIn();
@@ -37,6 +16,13 @@ function init() {
         if (event.key === 'Enter') {
             createAccount();
         }
+    };
+    let preventTabBack = (event) => {
+        if (lastKey === 'Shift' && event.key === 'Tab') {
+            event.preventDefault();
+        }
+
+        lastKey = event.key;
     };
 
     rememberMe.checked = false;
@@ -49,65 +35,90 @@ function init() {
         document.getElementById('load').style.opacity = 1;
 
         setTimeout(() => {
-            window.open('../');
+            if (sessionStorage.getItem('link') !== null) {
+                window.open(sessionStorage.getItem('link'), '_self');
+            } else {
+                window.open('../', '_self');
+            }
         }, 500);
     });
-    logInElement.addEventListener('focus', () => {
-        window.addEventListener('keydown', logInKeydown);
+
+    addKeydownEventListener('logInPassword', logInKeydown);
+    addKeydownEventListener('createAccountConfirm', createAccountKeydown);
+    addKeydownEventListener('logIn', logInKeydown);
+    addKeydownEventListener('createAccount', createAccountKeydown);
+    addKeydownEventListener('logInEmail', preventTabBack);
+    addKeydownEventListener('createAccountUsername', preventTabBack);
+    addKeydownEventListener('switchToCreateAccount', (event) => {
+        if (event.key === 'Enter') {
+            switchToCreateAccount();
+        } else if (lastKey !== 'Shift') {
+            event.preventDefault();
+        }
+
+        lastKey = event.key;
     });
-    logInElement.addEventListener('blur', () => {
-        window.removeEventListener('keydown', logInKeydown);
+    addKeydownEventListener('switchToLogIn', (event) => {
+        if (event.key === 'Enter') {
+            switchToLogIn();
+        } else if (lastKey !== 'Shift') {
+            event.preventDefault();
+        }
+
+        lastKey = event.key;
     });
-    createAccountElement.addEventListener('focus', () => {
-        window.addEventListener('keydown', createAccountKeydown);
+    addKeydownEventListener('rememberMe', (event) => {
+        if (event.key === 'Enter') {
+            checkRememberMe();
+        }
     });
-    createAccountElement.addEventListener('blur', () => {
-        window.removeEventListener('keydown', createAccountKeydown);
-    });
-    switchToCreateAccountElement.addEventListener('focus', () => {
-        window.addEventListener('keydown', switchToCreateAccountKeydown);
-    });
-    switchToCreateAccountElement.addEventListener('blur', () => {
-        window.removeEventListener('keydown', switchToCreateAccountKeydown);
-    });
-    switchToLogInElement.addEventListener('focus', () => {
-        window.addEventListener('keydown', switchToLogInKeydown);
-    });
-    switchToLogInElement.addEventListener('blur', () => {
-        window.removeEventListener('keydown', switchToLogInKeydown);
-    });
+    
     rememberMe.addEventListener('focus', () => {
         rememberMe.style.color = '#7f7f7f';
-
-        window.addEventListener('keydown', rememberMeKeydown);
     });
     rememberMe.addEventListener('blur', () => {
         rememberMe.style.color = 'black';
-
-        window.removeEventListener('keydown', rememberMeKeydown);
     });
-    checkbox.addEventListener('click', checkRememberMe);
-    switchToLogInElement.addEventListener('click', switchToLogIn);
-    switchToCreateAccountElement.addEventListener('click', switchToCreateAccount);
-    createAccountElement.addEventListener('click', createAccount);
-    logInElement.addEventListener('click', logIn);
+    document.getElementById('checkbox').addEventListener('click', checkRememberMe);
+    document.getElementById('switchToLogIn').addEventListener('click', switchToLogIn);
+    document.getElementById('switchToCreateAccount').addEventListener('click', switchToCreateAccount);
+    document.getElementById('createAccount').addEventListener('click', createAccount);
+    document.getElementById('logIn').addEventListener('click', logIn);
     window.addEventListener('resize', resizeInputPassword);
 
     window.removeEventListener('load', init);
 
     setTimeout(() => {
         document.getElementById('load').style.opacity = 0;
+        document.getElementById('logInEmail').focus();
     }, 200);
 }
 
+function addKeydownEventListener(id, callback) {
+    document.getElementById(id).addEventListener('focus', () => {
+        window.addEventListener('keydown', callback);
+    });
+    document.getElementById(id).addEventListener('blur', () => {
+        window.removeEventListener('keydown', callback);
+    });
+}
+
 function switchToLogIn() {
-    logInForm.style.left = '0';
-    createAccountForm.style.left = '30vw';
+    document.getElementById('logInForm').style.left = '0';
+    document.getElementById('createAccountForm').style.left = '30vw';
+
+    setTimeout(() => {
+        document.getElementById('logInEmail').focus();
+    }, 200);
 }
 
 function switchToCreateAccount() {
-    logInForm.style.left = '-30vw';
-    createAccountForm.style.left = '0';
+    document.getElementById('logInForm').style.left = '-30vw';
+    document.getElementById('createAccountForm').style.left = '0';
+    
+    setTimeout(() => {
+        document.getElementById('createAccountUsername').focus();
+    }, 200);
 }
 
 function initFirebase() {
@@ -192,24 +203,24 @@ function createAccount() {
                 });
             });
         }).catch((error) => {
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        inputError('createAccountEmail', error.message);
-                        break;
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    inputError('createAccountEmail', error.message);
+                    break;
 
-                    case 'auth/invalid-email':
-                        inputError('createAccountEmail', 'Please enter a valid email address.');
-                        break;
+                case 'auth/invalid-email':
+                    inputError('createAccountEmail', 'Please enter a valid email address.');
+                    break;
 
-                    default:
-                        inputError('createAccountPassword', 'An error occured while creating an account.');
-                }
-                
-                spinner.display = 'none';
-                text.display = 'block';
+                default:
+                    inputError('createAccountPassword', 'An error occured while creating an account.');
+            }
+            
+            spinner.display = 'none';
+            text.display = 'block';
         });
 
-
+        
     }
 }
 
