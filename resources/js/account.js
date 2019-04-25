@@ -175,8 +175,23 @@ function createAccount() {
         spinner.display = 'block';
         text.display = 'none';
 
-        let createUser = firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
-            .catch((error) => {
+        firebase.auth().createUserWithEmailAndPassword(email.value, password.value).then(() => {
+            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+                    firebase.auth().currentUser.updateProfile({displayName: username.value}).then(() => {
+                        document.getElementById('load').style.opacity = 1;
+
+                        setTimeout(() => {
+                            if (sessionStorage.getItem('link') !== null) {
+                                window.open(sessionStorage.getItem('link'), '_self');
+                            } else {
+                                window.open('../', '_self');
+                            }
+                        }, 500);
+                    });
+                });
+            });
+        }).catch((error) => {
                 switch (error.code) {
                     case 'auth/email-already-in-use':
                         inputError('createAccountEmail', error.message);
@@ -194,23 +209,7 @@ function createAccount() {
                 text.display = 'block';
         });
 
-        createUser.then(() => {
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
-                firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
-                    firebase.auth().currentUser.updateProfile({displayName: username.value}).then(() => {
-                                        document.getElementById('load').style.opacity = 1;
 
-                                        setTimeout(() => {
-                                            if (sessionStorage.getItem('link') !== null) {
-                                                window.open(sessionStorage.getItem('link'), '_self');
-                                            } else {
-                                                window.open('../', '_self');
-                                            }
-                                        }, 500);
-                                    });
-                            });
-                    });
-        });
     }
 }
 
@@ -259,16 +258,7 @@ function logIn() {
         }
     
         persistence.then(() => {
-            let signIn = firebase.auth().signInWithEmailAndPassword(email.value, password.value);
-            
-            signIn.catch(() => {
-                spinner.display = 'none';
-                text.display = 'block';
-
-                inputError(password.id, 'Invalid email adress or password.');
-            });
-
-            signIn.then(() => {
+            firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
                 document.getElementById('load').style.opacity = 1;
 
                 setTimeout(() => {
@@ -278,6 +268,11 @@ function logIn() {
                         window.open('../', '_self');
                     }
                 }, 500);
+            }).catch(() => {
+                spinner.display = 'none';
+                text.display = 'block';
+
+                inputError(password.id, 'Invalid email adress or password.');
             });
         });
     }
