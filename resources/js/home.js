@@ -20,15 +20,45 @@ function init() {
     initFirebase();
 
     firebase.auth().onAuthStateChanged((user) => {
+        let accountInfo = document.getElementById('accountInfo');
+        let logIn = document.getElementById('logIn');
+
         if (user) {
-            document.getElementById('accountInfo').style.display = 'block';
+            document.getElementById('spinner').style.opacity = 0;
+            document.getElementById('logInText').style.opacity = 0;
+            accountInfo.style.display = 'block';
+
+            setTimeout(() => {
+                logIn.style.display = 'none';
+                document.getElementById('placeholder').style.display = 'none';
+                document.getElementById('openInfoText').style.opacity = 1;
+            }, 200);
+
             document.getElementById('username').textContent = user.displayName;
         } else {
-            document.getElementById('logIn').style.display = 'flex';
+            let appear = () => {
+                document.getElementById('openInfoText').style.opacity = 0;
+                document.getElementById('spinner').style.opacity = 0;
+                logIn.style.display = 'flex';
+
+                setTimeout(() => {
+                    accountInfo.style.display = 'none';
+                    document.getElementById('placeholder').style.display = 'none';
+                    document.getElementById('logInText').style.opacity = 1;
+                }, 200);
+            }
+
+            if (accountInfo.style.display === 'block') {
+                accountInfo.style.width = '7vmax';
+                accountInfo.style.height = '3.5vmax';
+
+                setTimeout(appear, 500);
+            } else {
+                appear();
+            }
+
             sessionStorage.setItem('link', '../');
         }
-
-        document.getElementById('placeholder').style.display = 'none';
     });
 
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
@@ -60,15 +90,18 @@ function init() {
     document.getElementById('openInfo').addEventListener('click', () => {
         let accountInfo = document.getElementById('accountInfo');
 
-        accountInfo.style.width = '10vw';
-        accountInfo.style.height = '10vw';
+        accountInfo.style.width = '12vmax';
+        accountInfo.style.height = '12.3vmax';
     });
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });
-    // document.getElementById('account').addEventListener('click', () => {
-    //     navigateTo('./settings');
-    // });
+    document.getElementById('settings').addEventListener('click', () => {
+        navigateTo('./settings');
+    });
+    document.getElementById('logOut').addEventListener('click', () => {
+        firebase.auth().signOut();
+    });
     document.getElementById('logIn').addEventListener('click', () => {
         navigateTo('./account');
     });

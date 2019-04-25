@@ -177,6 +177,10 @@ h3 {
     color: white;
 }
 
+#logInText, #openInfoText, #spinner {
+    transition: opacity 200ms;
+}
+
 #logIn, #openInfo {
     font-size: 1.5vmax;
 }
@@ -199,6 +203,26 @@ h3 {
     overflow: hidden;
     color: white;
     transition: width 500ms, height 500ms;
+}
+
+#info {
+    padding: 0.8vmax;
+    height: 8.8vmax;
+    width: 12vmax;
+}
+
+h4 {
+    font-size: 1.8vmax;
+    margin: 0 0 1.5vmin 0;
+}
+
+#info span {
+    display: block;
+    font-size: 1.25vmax;
+}
+
+#info span:hover {
+    cursor: pointer;
 }
 
 i {
