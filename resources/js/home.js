@@ -88,17 +88,20 @@ function init() {
         });
     }
     document.getElementById('openInfo').addEventListener('click', () => {
-        let accountInfo = document.getElementById('accountInfo');
+        let accountInfo = document.getElementById('accountInfo').style;
 
-        accountInfo.style.width = '12vmax';
-        accountInfo.style.height = '12.3vmax';
+        if (accountInfo.width !== '12vmax') {
+            accountInfo.width = '12vmax';
+            accountInfo.height = '15.3vmax';
+        } else {
+            accountInfo.width = '7vmax';
+            accountInfo.height = '3.5vmax';
+        }
     });
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });
-    document.getElementById('settings').addEventListener('click', () => {
-        navigateTo('./settings');
-    });
+    document.getElementById('changePassword').addEventListener('click', changePassword)
     document.getElementById('logOut').addEventListener('click', () => {
         firebase.auth().signOut();
     });
@@ -111,6 +114,20 @@ function init() {
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
+}
+
+function changePassword() {
+    let oldPassword = document.getElementById('oldPassword');
+    let newPassword = document.getElementById('newPassword');
+    let confirm = document.getElementById('confirm');
+
+    if (newPassword.value === confirm.value) {
+        firebase.auth().currentUser.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(firebase.auth().currentUser.email, oldPassword.value)).then(() => {
+            firebase.auth().currentUser.updatePassword(newPassword.value);
+        });
+    }
+
+    // TODO: finish
 }
 
 function resize() {
