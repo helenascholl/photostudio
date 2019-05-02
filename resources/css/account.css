@@ -72,15 +72,12 @@ body {
 
 .switchTo:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .switchTo:focus {
     text-decoration: underline;
     outline: none;
-}
-
-.switchTo:hover {
-    cursor: pointer;
 }
 
 input {
@@ -177,10 +174,10 @@ h4 {
 }
 
 .spinner {
-    height: 2vmin;
-    width: 2vmin;
+    height: 1.6vmin;
+    width: 1.6vmin;
     border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
     animation: spin 1.5s linear infinite;
 }
