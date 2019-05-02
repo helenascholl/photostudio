@@ -250,6 +250,18 @@ i {
     animation: spin 1.5s linear infinite;
 }
 
+.popup {
+    width: 30vw;
+    position: static;
+    top: 20vh;
+    left: 35vw;
+    border-radius: 2vmin;
+    border: 1px solid #d8d8d8;
+    overflow: hidden;
+    user-select: none;
+    background-color: white;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
   }
