@@ -87,21 +87,11 @@ function init() {
             navigateTo('./editor');
         });
     }
-    document.getElementById('openInfo').addEventListener('click', () => {
-        let accountInfo = document.getElementById('accountInfo').style;
-
-        if (accountInfo.width !== '12vmax') {
-            accountInfo.width = '12vmax';
-            accountInfo.height = '15.3vmax';
-        } else {
-            accountInfo.width = '7vmax';
-            accountInfo.height = '3.5vmax';
-        }
-    });
+    window.addEventListener('click', openInfo);
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });
-    document.getElementById('changePassword').addEventListener('click', changePassword)
+    document.getElementById('changePassword').addEventListener('click', changePassword);
     document.getElementById('logOut').addEventListener('click', () => {
         firebase.auth().signOut();
     });
@@ -114,6 +104,23 @@ function init() {
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
+}
+
+function openInfo() {
+    let accountInfo = document.getElementById('accountInfo');
+
+    if (!accountInfo.contains(event.target)) {
+        accountInfo.style.width = '7vmax';
+        accountInfo.style.height = '3.5vmax';
+    } else if (event.target === document.getElementById('openInfo') || event.target === document.getElementById('openInfoText')) {
+        if (accountInfo.style.width !== '12vmax') {
+            accountInfo.style.width = '12vmax';
+            accountInfo.style.height = '15.3vmax';
+        } else {
+            accountInfo.style.width = '7vmax';
+            accountInfo.style.height = '3.5vmax';
+        }
+    }
 }
 
 function changePassword() {
