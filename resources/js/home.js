@@ -19,49 +19,7 @@ function init() {
 
     initFirebase();
 
-    firebase.auth().onAuthStateChanged((user) => {
-        let accountInfo = document.getElementById('accountInfo');
-        let logIn = document.getElementById('logIn');
-
-        if (user) {
-            document.getElementById('spinner').style.opacity = 0;
-            document.getElementById('logInText').style.opacity = 0;
-            accountInfo.style.display = 'block';
-
-            setTimeout(() => {
-                logIn.style.display = 'none';
-                document.getElementById('placeholder').style.display = 'none';
-                document.getElementById('openInfoText').style.opacity = 1;
-            }, 200);
-
-            document.getElementById('name').textContent = user.displayName;
-        } else {
-            let appear = () => {
-                document.getElementById('openInfoText').style.opacity = 0;
-                document.getElementById('spinner').style.opacity = 0;
-                logIn.style.display = 'flex';
-
-                setTimeout(() => {
-                    accountInfo.style.display = 'none';
-                    document.getElementById('placeholder').style.display = 'none';
-                    document.getElementById('logInText').style.opacity = 1;
-                }, 200);
-            }
-
-            if (accountInfo.style.display === 'block') {
-                accountInfo.style.width = '7vmax';
-                accountInfo.style.height = '3.5vmax';
-
-                setTimeout(appear, 500);
-            } else {
-                appear();
-            }
-
-            sessionStorage.setItem('link', '../');
-        }
-
-        // confirm email
-    });
+    firebase.auth().onAuthStateChanged(authStateChanged);
 
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
 
@@ -129,6 +87,50 @@ function init() {
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
+}
+
+function authStateChanged(user) {
+    let accountInfo = document.getElementById('accountInfo');
+    let logIn = document.getElementById('logIn');
+
+    if (user) {
+        document.getElementById('spinner').style.opacity = 0;
+        document.getElementById('logInText').style.opacity = 0;
+        accountInfo.style.display = 'block';
+
+        setTimeout(() => {
+            logIn.style.display = 'none';
+            document.getElementById('placeholder').style.display = 'none';
+            document.getElementById('openInfoText').style.opacity = 1;
+        }, 200);
+
+        document.getElementById('name').textContent = user.displayName;
+    } else {
+        let appear = () => {
+            document.getElementById('openInfoText').style.opacity = 0;
+            document.getElementById('spinner').style.opacity = 0;
+            logIn.style.display = 'flex';
+
+            setTimeout(() => {
+                accountInfo.style.display = 'none';
+                document.getElementById('placeholder').style.display = 'none';
+                document.getElementById('logInText').style.opacity = 1;
+            }, 200);
+        }
+
+        if (accountInfo.style.display === 'block') {
+            accountInfo.style.width = '7vmax';
+            accountInfo.style.height = '3.5vmax';
+
+            setTimeout(appear, 500);
+        } else {
+            appear();
+        }
+
+        sessionStorage.setItem('link', '../');
+    }
+
+    // confirm email
 }
 
 function openPopup(id) {

@@ -1,3 +1,8 @@
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 body {
     margin: 0;
     font-family: 'Barlow Semi Condensed', sans-serif;
@@ -30,25 +35,6 @@ h1 {
 }
 
 #back:hover {
-    cursor: pointer;
-}
-
-#logIn {
-    width: 7vmax;
-    height: 3.5vmax;
-    border: 2px solid black;
-    border-radius: 2vmax;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 2vmax;
-}
-
-#logIn span {
-    font-size: 1.5vmax;
-}
-
-#logIn:hover {
     cursor: pointer;
 }
 
@@ -108,3 +94,82 @@ main {
     margin-left: 0.5vmax;
     word-wrap: break-word;
 }
+
+.button {
+    user-select: none;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+#popup {
+    width: 60vw;
+    height: 16vw;
+    position: fixed;
+    top: 35vh;
+    left: 20vw;
+    border-radius: 2vmin;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    user-select: none;
+    background-color: white;
+}
+
+#logIn {
+    width: 7vw;
+    height: 3.5vw;
+    position: relative;
+    left: 26.5vw;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.7vmax;
+    color: white;
+    background-color: rgb(81, 81, 255);
+    font-size: 2vw;
+    transition: background-color 400ms;
+}
+
+#logIn:hover {
+    background-color: rgb(52, 52, 255);
+}
+
+h2 {
+    font-size: 3vw;
+    text-align: center;
+}
+
+/*#spinner {
+    height: 2vmax;
+    width: 2vmax;
+    border-radius: 50%;
+    border: 4px solid rgba(0, 0, 0, 0.5);
+    border-top-color: rgb(0, 0, 0);
+    animation: spin 1.5s linear infinite;
+}
+
+#logIn, #account, #placeholder {
+    width: 7vmax;
+    height: 3.5vmax;
+    position: fixed;
+    right: 2vmax;
+    top: 2vmax;
+    border: 2px solid black;
+    border-radius: 2vmax;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logInText, #accountText, #spinner {
+    transition: opacity 200ms;
+}
+
+#logIn, #account {
+    font-size: 1.5vmax;
+}
+
+#account {
+    user-select: none;
+}*/
