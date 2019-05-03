@@ -7,6 +7,7 @@
         <link href="./resources/css/home.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
         <script src="./resources/js/home.js"></script>
@@ -34,10 +35,10 @@
                 <span id="openInfoText" style="opacity: 0;">Account</span>
             </div>
             <div id="info">
-                <h4 id="username"></h4>
+                <h4 id="name"></h4>
                 <span id="openChangePassword">Change password</span>
-                <span id="changeEmail">Change email</span>
-                <span id="deleteAccount">Delete account</span>
+                <span id="openChangeUsername">Change username</span>
+                <span id="openDeleteAccount">Delete account</span>
                 <span id="logOut">Log out</span>
             </div>
         </div>
@@ -72,6 +73,10 @@
         </div>
 
         <div class="popup" id="changePasswordPopup">
+            <i id="closeChangePassword" class="material-icons">close</i>
+
+            <h5>Change password</h5>
+
             <input type="password" id="oldPassword">
             <input type="password" id="newPassword">
             <input type="password" id="confirm">
@@ -79,17 +84,24 @@
             <div id="changePassword" class="button">Change password</div>
         </div>
 
-        <div class="popup" id="changeEmailPopup">
-            <input type="email" id="email">
-            <input type="password" id="emailPassword">
+        <div class="popup" id="changeUsernamePopup">
+            <i id="closeChangeUsername" class="material-icons">close</i>
 
-            <div id="changePassword1" class="button">Change email</div>
+            <h5>Change username</h5>
+
+            <input type="text" id="username">
+            <input type="password" id="usernamePassword">
+
+            <div id="changeUsername" class="button">Change username</div>
         </div>
 
         <div class="popup" id="deleteAccountPopup">
+            <i id="closeDeleteAccount" class="material-icons">close</i>
+
+            <h5>Delete account</h5>
             <input type="password" id="deletePassword">
 
-            <div id="changePassword1" class="button">Delete account</div>
+            <div id="deleteAccount" class="button">Delete account</div>
         </div>
 
         <div id="load" style="opacity: 1;"></div>
