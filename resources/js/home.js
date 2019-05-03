@@ -59,6 +59,8 @@ function init() {
 
             sessionStorage.setItem('link', '../');
         }
+
+        // confirm email
     });
 
     scroll.style.left = (100 / innerWidth) * (innerWidth - scroll.clientWidth) / 2 + 'vw';
@@ -92,6 +94,8 @@ function init() {
         navigateTo('./yourphotos');
     });
     document.getElementById('changePassword').addEventListener('click', changePassword);
+    document.getElementById('changeEmail').addEventListener('click', changeEmail);
+    document.getElementById('deleteAccount').addEventListener('click', deleteAccount);
     document.getElementById('logOut').addEventListener('click', () => {
         firebase.auth().signOut();
     });
@@ -127,14 +131,30 @@ function changePassword() {
     let oldPassword = document.getElementById('oldPassword');
     let newPassword = document.getElementById('newPassword');
     let confirm = document.getElementById('confirm');
+    let user = firebase.auth().currentUser;
 
     if (newPassword.value === confirm.value) {
-        firebase.auth().currentUser.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(firebase.auth().currentUser.email, oldPassword.value)).then(() => {
-            firebase.auth().currentUser.updatePassword(newPassword.value);
+        user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, oldPassword.value)).then(() => {
+            user.updatePassword(newPassword.value);
         });
+    } else {
+        // error
     }
+}
 
-    // TODO: finish
+function changeEmail() {
+    let email = document.getElementById('email');
+    let password = document.getElementById('emailPassword');
+    let user = firebase.auth().currentUser;
+
+    user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
+        user.updateEmail(email.value);
+        // confirm email
+    });
+}
+
+function deleteAccount() {
+    // delete account
 }
 
 function resize() {
