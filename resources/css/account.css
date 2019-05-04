@@ -41,7 +41,6 @@ body {
     left: 0;
     top: 51vh;
     font-size: 2vmin;
-    text-align: center;
     color: white;
     border-radius: 0.7vmin;
     background-color: rgb(81, 81, 255);
@@ -113,7 +112,7 @@ input {
 .passwordVisibility {
     position: relative;
     left: 0;
-    top: 0.8vmin;
+    top: 0.5vmin;
 }
 
 .passwordVisibility:hover {
@@ -123,6 +122,7 @@ input {
 #createAccountError, #logInError {
     color: red;
     font-size: 2vmin;
+    user-select: text;
     transition: opacity 500ms;
 }
 

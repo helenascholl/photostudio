@@ -1,0 +1,203 @@
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+body {
+    margin: 0;
+    padding-top: 10vh;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2vmax;
+    display: inline;
+}
+
+#heading {
+    height: 10vh;
+    align-items: center;
+    display: flex;
+}
+
+#back i {
+    font-size: 2vmax;
+}
+
+#back {
+    width: 3vw;
+    height: 10vh;
+    display: flex;
+    border-right: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1vw;
+}
+
+#back:hover {
+    cursor: pointer;
+}
+
+header {
+    width: 100vw;
+    height: 10vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    z-index: 1;
+    user-select: none;
+}
+
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-color: black;
+    transition: opacity 500ms;
+    z-index: 2;
+}
+
+h2 {
+    text-align: center;
+    font-size: 3vmin;
+}
+
+form {
+    width: 70vw;
+    border-radius: 2vmin;
+    border: 1px solid #d8d8d8;
+    user-select: none;
+    margin: 5vmin auto;
+}
+
+form::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.inputs {
+    width: 40vw;
+    margin: auto;
+}
+
+input {
+    width: 40vw;
+    display: block;
+    height: 3vmin;
+    outline: none;
+    border: none;
+    font-size: 2vmin;
+}
+
+.inputBorder {
+    width: 40vw;
+    height: 1px;
+    transition: background-color 200ms;
+}
+
+.text {
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 1.5vmin;
+    box-sizing: border-box;
+    pointer-events: none;
+    user-select: none;
+    transition: font-size 200ms, padding-top 200ms, color 200ms;
+}
+
+.passwordVisibility {
+    position: relative;
+    left: 0;
+    top: 0.5vmin;
+    float: right;
+}
+
+.passwordVisibility:hover {
+    cursor: pointer;
+}
+
+.password {
+    display: inline-block;
+}
+
+.button {
+    width: 8vmin;
+    height: 3.5vmin;
+    float: right;
+    margin-bottom: 3vmin;
+    font-size: 2vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(81, 81, 255);
+    color: white;
+    border-radius: 0.7vmin;
+    transition: background-color 400ms;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgb(52, 52, 255);
+}
+
+.button:focus {
+    background-color: rgb(52, 52, 255);
+    outline: none;
+}
+
+#changePasswordError, #changeUsernameError, #deleteAccountError {
+    margin-top: 2vmin;
+    width: 40vw;
+    height: 5vmin;
+    color: red;
+    font-size: 2vmin;
+    user-select: text;
+    transition: opacity 500ms;
+}
+
+#popup {
+    width: 25vw;
+    height: 7vh;
+    position: fixed;
+    left: 37.5vw;
+    background-color: #9b9b9b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3vw;
+    user-select: none;
+    transition: bottom 200ms;
+}
+
+.spinner {
+    height: 1.6vmin;
+    width: 1.6vmin;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-top-color: rgba(255, 255, 255, 1);
+    animation: spin 1.5s linear infinite;
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(56, 56, 56, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(56, 56, 56);
+}

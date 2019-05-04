@@ -54,32 +54,15 @@ function init() {
     document.getElementById('yourPhotos').addEventListener('click', () => {
         navigateTo('./yourphotos');
     });
-    document.getElementById('openChangePassword').addEventListener('click', () => {
-        openPopup('changePasswordPopup');
-    });
-    document.getElementById('openChangeUsername').addEventListener('click', () => {
-        openPopup('changeUsernamePopup');
-    });
-    document.getElementById('openDeleteAccount').addEventListener('click', () => {
-        openPopup('deleteAccountPopup');
-    });
-    document.getElementById('closeChangePassword').addEventListener('click', () => {
-        document.getElementById('changePasswordPopup').style.transform = 'scale(0, 0)';
-    });
-    document.getElementById('closeChangeUsername').addEventListener('click', () => {
-        document.getElementById('changeUsernamePopup').style.transform = 'scale(0, 0)';
-    });
-    document.getElementById('closeDeleteAccount').addEventListener('click', () => {
-        document.getElementById('deleteAccountPopup').style.transform = 'scale(0, 0)';
-    });
-    document.getElementById('changePassword').addEventListener('click', changePassword);
-    document.getElementById('changeUsername').addEventListener('click', changeUsername);
-    document.getElementById('deleteAccount').addEventListener('click', deleteAccount);
-    document.getElementById('logOut').addEventListener('click', () => {
-        firebase.auth().signOut();
+    document.getElementById('settings').addEventListener('click', () => {
+        navigateTo('./settings');
     });
     document.getElementById('logIn').addEventListener('click', () => {
+        sessionStorage.setItem('link', '../');
         navigateTo('./account');
+    });
+    document.getElementById('logOut').addEventListener('click', () => {
+        firebase.auth().signOut();
     });
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', mousemove);
@@ -104,7 +87,7 @@ function authStateChanged(user) {
             document.getElementById('openInfoText').style.opacity = 1;
         }, 200);
 
-        document.getElementById('name').textContent = user.displayName;
+        document.getElementById('username').textContent = user.displayName;
     } else {
         let appear = () => {
             document.getElementById('openInfoText').style.opacity = 0;
@@ -126,26 +109,9 @@ function authStateChanged(user) {
         } else {
             appear();
         }
-
-        sessionStorage.setItem('link', '../');
     }
 
     // confirm email
-}
-
-function openPopup(id) {
-    let accountInfo = document.getElementById('accountInfo');
-
-    for (let popup of document.getElementsByClassName('popup')) {
-        if (popup.id === id) {
-            popup.style.transform = 'none';
-        } else {
-            popup.style.transform = 'scale(0, 0)';
-        }
-    }
-
-    accountInfo.style.width = '7vmax';
-    accountInfo.style.height = '3.5vmax';
 }
 
 function openInfo() {
@@ -157,63 +123,12 @@ function openInfo() {
     } else if (event.target === document.getElementById('openInfo') || event.target === document.getElementById('openInfoText')) {
         if (accountInfo.style.width !== '12vmax') {
             accountInfo.style.width = '12vmax';
-            accountInfo.style.height = '15.3vmax';
+            accountInfo.style.height = '12.5vmax';
         } else {
             accountInfo.style.width = '7vmax';
             accountInfo.style.height = '3.5vmax';
         }
     }
-}
-
-function changePassword() {
-    let oldPassword = document.getElementById('oldPassword');
-    let newPassword = document.getElementById('newPassword');
-    let confirm = document.getElementById('confirm');
-    let user = firebase.auth().currentUser;
-
-    if (newPassword.value === confirm.value) {
-        user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, oldPassword.value)).then(() => {
-            user.updatePassword(newPassword.value);
-
-            oldPassword.value = '';
-            newPassword.value = '';
-            confirm.value = '';
-        }).error(() => {
-            // error
-        });
-    } else {
-        // error
-    }
-}
-
-function changeUsername() {
-    let username = document.getElementById('username');
-    let password = document.getElementById('usernamePassword');
-    let user = firebase.auth().currentUser;
-
-    user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
-        user.updateProfile({displayName: username.value}).then(() => {
-            document.getElementById('name').innerText = user.displayName;
-
-            username.value = '';
-            password.value = '';
-        });
-    }).error(() => {
-        // error
-    });
-}
-
-function deleteAccount() {
-    let password = document.getElementById('deletePassword');
-    let user = firebase.auth().currentUser;
-
-    user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
-        user.delete();
-
-        password.value = '';
-    }).error(() => {
-        // error
-    });
 }
 
 function resize() {

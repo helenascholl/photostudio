@@ -224,6 +224,7 @@ h4 {
 
 #info span:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
 i {
@@ -251,28 +252,14 @@ i {
     animation: spin 1.5s linear infinite;
 }
 
-.popup {
-    width: 30vw;
-    height: 50vh;
-    position: fixed;
-    top: 20vh;
-    left: 35vw;
-    border-radius: 2vmin;
-    border: 1px solid #d8d8d8;
-    overflow: hidden;
-    user-select: none;
-    background-color: white;
-    transition: transform 100ms;
-}
-
 ::-webkit-scrollbar {
     width: 7px;
-  }
-   
-  ::-webkit-scrollbar-thumb {
+}
+
+::-webkit-scrollbar-thumb {
     background-color: rgba(56, 56, 56, 0.8);
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
+}
+
+::-webkit-scrollbar-thumb:hover {
     background-color: rgb(56, 56, 56);
-  }
+}

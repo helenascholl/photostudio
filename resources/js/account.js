@@ -233,8 +233,8 @@ function inputError(id, message) {
         error = document.getElementById('createAccountError');
     }
 
-    error.style.opacity = 1;
     error.textContent = message;
+    error.style.opacity = 1;
 
     document.getElementById(`${id}Border`).style.backgroundColor = 'red';
     document.getElementById(`${id}Text`).style.color = 'red';
@@ -283,7 +283,7 @@ function logIn() {
                 spinner.display = 'none';
                 text.display = 'block';
 
-                inputError(password.id, 'Invalid email adress or password.');
+                inputError(password.id, 'Incorrect email address or password.');
             });
         });
     }
