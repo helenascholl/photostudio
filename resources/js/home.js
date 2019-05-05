@@ -102,31 +102,29 @@ function authStateChanged(user) {
         }
 
         if (accountInfo.style.display === 'block') {
-            accountInfo.style.width = '7vmax';
-            accountInfo.style.height = '3.5vmax';
+            accountInfo.style.width = '10vmin';
+            accountInfo.style.height = '4.8vmin';
 
             setTimeout(appear, 500);
         } else {
             appear();
         }
     }
-
-    // confirm email
 }
 
 function openInfo() {
     let accountInfo = document.getElementById('accountInfo');
 
     if (!accountInfo.contains(event.target)) {
-        accountInfo.style.width = '7vmax';
-        accountInfo.style.height = '3.5vmax';
+        accountInfo.style.width = '10vmin';
+        accountInfo.style.height = '4.8vmin';
     } else if (event.target === document.getElementById('openInfo') || event.target === document.getElementById('openInfoText')) {
-        if (accountInfo.style.width !== '12vmax') {
-            accountInfo.style.width = '12vmax';
-            accountInfo.style.height = '12.5vmax';
+        if (accountInfo.style.width !== '15vmin') {
+            accountInfo.style.width = '15vmin';
+            accountInfo.style.height = '16vmin';
         } else {
-            accountInfo.style.width = '7vmax';
-            accountInfo.style.height = '3.5vmax';
+            accountInfo.style.width = '10vmin';
+            accountInfo.style.height = '4.8vmin';
         }
     }
 }
