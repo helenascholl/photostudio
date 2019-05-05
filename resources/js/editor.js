@@ -26,16 +26,18 @@ window.addEventListener('load', init);
 function init() {
     let background = document.getElementById('background');
     let ctxBackground = background.getContext('2d');
-
-    document.getElementById('filename').addEventListener('change', uploadImage);
-    document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
-
+    
+    selection = document.getElementById('selection');
     layers = document.getElementById('layers');
+    ctxSelection = selection.getContext('2d');
 
-    background.width = WORKSPACE_WIDTH - 20;
-    background.height = WORKSPACE_HEIGHT - 20;
-    background.style.left = WORKSPACE_LEFT + 10 + 'px';
-    background.style.top = WORKSPACE_TOP + 10 + 'px';
+    resize();
+
+    background.style.left = WORKSPACE_LEFT / (innerWidth / 100) + 'vw';
+    background.style.top = WORKSPACE_TOP / (innerHeight / 100) + 'vh';
+
+    selection.style.left = WORKSPACE_LEFT / (innerWidth / 100) + 'vw';
+    selection.style.top = WORKSPACE_TOP / (innerHeight / 100) + 'vh';
 
     ctxBackground.rect(0, 0, background.width, background.height);
     ctxBackground.stroke();
@@ -52,14 +54,7 @@ function init() {
         }
     }
 
-    selection = document.getElementById('selection');
-    selection.width = WORKSPACE_WIDTH;
-    selection.height = WORKSPACE_HEIGHT;
-    selection.style.left = WORKSPACE_LEFT + 'px';
-    selection.style.top = WORKSPACE_TOP + 'px';
-    selection.addEventListener('mousedown', mouseDown);
-
-    ctxSelection = selection.getContext('2d');
+    // resize
 
     selectedArea = [
         WORKSPACE_LEFT,
@@ -81,10 +76,24 @@ function init() {
             window.open('../', '_self');
         }, 500);
     });
+    document.getElementById('filename').addEventListener('change', uploadImage);
+    document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
+    selection.addEventListener('mousedown', mouseDown);
+    window.addEventListener('resize', resize);
 
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
+}
+
+function resize() {
+    let background = document.getElementById('background');
+
+    background.width = WORKSPACE_WIDTH;
+    background.height = WORKSPACE_HEIGHT;
+
+    selection.width = WORKSPACE_WIDTH;
+    selection.height = WORKSPACE_HEIGHT;
 }
 
 function mouseDown(event) {
