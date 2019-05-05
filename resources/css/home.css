@@ -5,8 +5,12 @@
 
 @keyframes move {
     0% { bottom: 1vh; }
-    50% { bottom: 3vh; }
+    50% { bottom: 4vh; }
     100% { bottom: 1vh; }
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {

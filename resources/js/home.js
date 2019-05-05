@@ -10,10 +10,6 @@ function init() {
 
     particlesJS.load('particles-js', 'resources/js/particles.json');
 
-    if (sessionStorage.getItem('scrollY') != null) {
-        scrollTo(0, parseFloat(sessionStorage.getItem('scrollY')));
-    }
-
     background = document.getElementById('particles-js');
     resize();
 
@@ -35,10 +31,6 @@ function init() {
                     clearInterval(interval);
                 }
             }, 10);
-        });
-    } else {
-        scroll.addEventListener('click', () => {
-            document.getElementById('html').style.scrollBehavior = 'smooth';
         });
     }
 
@@ -153,7 +145,6 @@ function navigateTo(path) {
     document.getElementById('load').style.opacity = 1;
 
     setTimeout(() => {
-        sessionStorage.setItem('scrollY', scrollY);
         window.open(path, '_self');
     }, 500);
 }

@@ -6,7 +6,10 @@ function init() {
     resizeInputPassword();
 
     firebase.auth().onAuthStateChanged((user) => {
-        // check if user
+        if (!user) {
+            document.getElementById('noAccount').style.display = 'flex';
+            document.getElementById('forms').style.display = 'none';
+        }
     });
 
     addKeydownEventListener('changePasswordConfirm', (event) => {
@@ -15,14 +18,12 @@ function init() {
             changePassword();
         }
     });
-
     addKeydownEventListener('changeUsernamePassword', (event) => {
         if (event.key === 'Enter') {
             document.getElementById('changeUsername').focus();
             changeUsername();
         }
     });
-
     addKeydownEventListener('deleteAccountPassword', (event) => {
         if (event.key === 'Enter') {
             document.getElementById('deleteAccount').focus();
@@ -30,6 +31,14 @@ function init() {
         }
     });
 
+    document.getElementById('logIn').addEventListener('click', () => {
+        sessionStorage.setItem('link', '../settings');
+        document.getElementById('load').style.opacity = 1;
+
+        setTimeout(() => {
+            window.open('../account', '_self');
+        }, 500);
+    });
     document.getElementById('changePassword').addEventListener('click', changePassword);
     document.getElementById('changeUsername').addEventListener('click', changeUsername);
     document.getElementById('deleteAccount').addEventListener('click', deleteAccount);

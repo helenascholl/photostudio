@@ -10,7 +10,7 @@ body {
 
 h1 {
     margin: 0;
-    font-size: 2vmax;
+    font-size: 3.5vmin;
     display: inline;
 }
 
@@ -21,7 +21,7 @@ h1 {
 }
 
 #back i {
-    font-size: 2vmax;
+    font-size: 3vmin;
 }
 
 #back {
@@ -31,7 +31,7 @@ h1 {
     border-right: 1px solid black;
     justify-content: center;
     align-items: center;
-    margin-right: 1vw;
+    margin-right: 2vmin;
 }
 
 #back:hover {
@@ -106,30 +106,27 @@ main {
 }
 
 #popup {
-    width: 60vw;
-    height: 16vw;
+    width: 100vw;
+    height: 90vh;
     position: fixed;
-    top: 35vh;
-    left: 20vw;
-    border-radius: 2vmin;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    top: 10vh;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     user-select: none;
-    background-color: white;
 }
 
 #logIn {
-    width: 7vw;
-    height: 3.5vw;
-    position: relative;
-    left: 26.5vw;
-    top: 0;
+    width: 10vmin;
+    height: 4.8vmin;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0.7vmax;
+    border-radius: 1vmin;
     color: white;
     background-color: rgb(81, 81, 255);
-    font-size: 2vw;
+    font-size: 2.5vmin;
     transition: background-color 400ms;
 }
 
@@ -138,6 +135,6 @@ main {
 }
 
 h2 {
-    font-size: 3vw;
-    text-align: center;
+    font-size: 6vmin;
+    margin-top: 0;
 }

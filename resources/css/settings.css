@@ -11,7 +11,7 @@ body {
 
 h1 {
     margin: 0;
-    font-size: 2vmax;
+    font-size: 3.5vmin;
     display: inline;
 }
 
@@ -22,7 +22,7 @@ h1 {
 }
 
 #back i {
-    font-size: 2vmax;
+    font-size: 3vmin;
 }
 
 #back {
@@ -32,7 +32,7 @@ h1 {
     border-right: 1px solid black;
     justify-content: center;
     align-items: center;
-    margin-right: 1vw;
+    margin-right: 2vmin;
 }
 
 #back:hover {
@@ -188,6 +188,42 @@ input {
     border: 3px solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
     animation: spin 1.5s linear infinite;
+}
+
+#noAccount {
+    width: 100vw;
+    height: 90vh;
+    position: fixed;
+    top: 10vh;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    user-select: none;
+}
+
+#logIn {
+    width: 10vmin;
+    height: 4.8vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vmin;
+    color: white;
+    background-color: rgb(81, 81, 255);
+    font-size: 2.5vmin;
+    user-select: none;
+    transition: background-color 400ms;
+}
+
+#logIn:hover {
+    background-color: rgb(52, 52, 255);
+    cursor: pointer;
+}
+
+h3 {
+    font-size: 6vmin;
+    margin-top: 0;
 }
 
 ::-webkit-scrollbar {

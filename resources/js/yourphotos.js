@@ -7,7 +7,8 @@ function init() {
 
     firebase.auth().onAuthStateChanged((user) => {
         if (!user) {
-            document.getElementById('popup').style.display = 'block';
+            document.getElementById('popup').style.display = 'flex';
+            document.getElementById('content').style.display = 'none';
         }
     });
 
