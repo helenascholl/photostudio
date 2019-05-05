@@ -23,6 +23,7 @@ h1 {
 
 #back i {
     font-size: 3vmin;
+    transition: color 500ms;
 }
 
 #back {
@@ -33,10 +34,16 @@ h1 {
     justify-content: center;
     align-items: center;
     margin-right: 2vmin;
+    transition: background-color 500ms;
+}
+
+#back:hover i {
+    color: white;
 }
 
 #back:hover {
     cursor: pointer;
+    background-color: black;
 }
 
 header {

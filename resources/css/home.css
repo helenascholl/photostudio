@@ -75,6 +75,10 @@ h2 {
     animation: move 1.5s ease infinite;
 }
 
+#scroll:focus {
+    outline: none;
+}
+
 #load {
     width: 100vw;
     height: 100vh;
@@ -86,51 +90,56 @@ h2 {
     transition: opacity 500ms;
 }
 
-#down {
-    width: 5vw;
-    height: 5vw;
-    bottom: 2vh;
-    left: 47.5vw;
-}
-
 #links {
     height: 100vh;
     width: 100vw;
     position: absolute;
     top: 100vh;
     left: 0;
+    user-select: none;
 }
 
 h3 {
     font-size: 2.5vmin;
     text-transform: uppercase;
     margin-top: 0;
+    margin-left: 0.5vmin;
 }
 
 #links .button {
-    width: 13vmin;
+    width: 14.5vmin;
     height: 4vmin;
     border-radius: 4vmin;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #565656;
+    background-color: #6d6d6d;
     margin-top: 3vh;
     transition: background-color 500ms;
 }
 
 #links .button:hover {
-    background-color: #3d3d3d;
+    background-color: #555555;
 }
 
 #links .button span {
     font-size: 1.7vmin;
     color: white;
-    vertical-align: middle;
+}
+
+#links .button span i {
+    position: relative;
+    left: 0.3vmin;
+    top: 0;
+    transition: left 500ms;
+}
+
+#links .button:hover span i {
+    left: 1vmin;
 }
 
 #links img {
-    height: 30vh;
+    width: 40vmin;
     display: inline-block;
 }
 
@@ -142,10 +151,12 @@ h3 {
 .content p {
     font-size: 1.7vmin;
     text-align: justify;
+    user-select: text;
+    margin-left: 1vmin
 }
 
 .margin {
-    width: 5vw;
+    width: 6vw;
     height: 50vh;
     display: inline-block;
 }
@@ -159,12 +170,12 @@ h3 {
     box-sizing: border-box;
 }
 
-#links div:first-child {
-    background-color: #dddddd;
+#first, #first div {
+    background-color: #dbdbdb;
 }
 
-#links div div:first-child {
-    background-color: white;
+#second, #second div {
+    background-color: #ffffff;
 }
 
 #logIn, #placeholder {

@@ -22,6 +22,7 @@ h1 {
 
 #back i {
     font-size: 3vmin;
+    transition: color 500ms;
 }
 
 #back {
@@ -32,6 +33,15 @@ h1 {
     justify-content: center;
     align-items: center;
     margin-right: 2vmin;
+    transition: background-color 500ms;
+}
+
+#back:hover {
+    background-color: black;
+}
+
+#back:hover i {
+    color: white;
 }
 
 #back:hover {
@@ -73,16 +83,16 @@ main {
 }
 
 .photo {
-    width: 8vmax;
-    margin: 2vmax;
+    width: 10vmin;
+    margin: 2vmin;
     display: inline-block;
 }
 
 .file {
-    width: 8vmax;
-    height: 8vmax;
-    border-radius: 0.4vmax;
-    background-color: rgb(192, 192, 192);
+    width: 10vmin;
+    height: 10vmin;
+    border-radius: 0.5vmin;
+    background-color: rgb(204, 204, 204);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,11 +100,12 @@ main {
 }
 
 .filename {
-    width: 7vmax;
+    width: 10vmin;
     font-size: 2vmin;
-    margin-top: 0.5vmin;
-    margin-left: 0.5vmax;
-    word-wrap: break-word;
+    padding: 0.5vmin;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .button {
@@ -137,4 +148,17 @@ main {
 h2 {
     font-size: 6vmin;
     margin-top: 0;
+}
+
+#filenamePopup {
+    padding: 1vmin;
+    font-size: 2vmin;
+    border: 1px solid black;
+    position: absolute;
+    background-color: #9b9b9b;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    pointer-events: none;
+    transition: opacity 200ms;
 }
