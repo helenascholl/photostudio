@@ -267,8 +267,8 @@ i {
 }
 
 #spinner {
-    height: 2.7vmin;
-    width: 2.7vmin;
+    height: 3vmin;
+    width: 3vmin;
     border-radius: 50%;
     border: 0.3vmin solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
