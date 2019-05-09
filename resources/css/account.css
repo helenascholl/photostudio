@@ -1,12 +1,20 @@
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
 }
 
 body {
     margin: 0;
     font-family: 'Barlow Semi Condensed', sans-serif;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 #wrapper {
@@ -18,7 +26,10 @@ body {
     border-radius: 2vmin;
     border: 1px solid #d8d8d8;
     overflow: hidden;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
     background-color: white;
 }
 
@@ -27,10 +38,13 @@ body {
     width: 30vw;
     position: relative;
     padding: 0 5vw;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     background-color: white;
     border-radius: 2vmin;
     display: inline-block;
+    -webkit-transition: left 200ms;
+    -o-transition: left 200ms;
     transition: left 200ms;
 }
 
@@ -44,10 +58,18 @@ body {
     color: white;
     border-radius: 0.7vmin;
     background-color: rgb(81, 81, 255);
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin-right: 0.5vw;
+    -webkit-transition: background-color 400ms;
+    -o-transition: background-color 400ms;
     transition: background-color 400ms;
 }
 
@@ -95,6 +117,8 @@ input {
 .inputBorder {
     width: 20vw;
     height: 1px;
+    -webkit-transition: background-color 200ms;
+    -o-transition: background-color 200ms;
     transition: background-color 200ms;
 }
 
@@ -103,9 +127,15 @@ input {
     position: relative;
     left: 0;
     top: 1.5vmin;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     pointer-events: none;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: font-size 200ms, padding-top 200ms, color 200ms;
+    -o-transition: font-size 200ms, padding-top 200ms, color 200ms;
     transition: font-size 200ms, padding-top 200ms, color 200ms;
 }
 
@@ -122,7 +152,12 @@ input {
 #createAccountError, #logInError {
     color: red;
     font-size: 2vmin;
-    user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
+    -webkit-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
     transition: opacity 500ms;
 }
 
@@ -140,6 +175,8 @@ form {
 
 #checkbox i {
     margin-right: 1vmin;
+    -webkit-transition: color 200ms;
+    -o-transition: color 200ms;
     transition: color 200ms;
 }
 
@@ -152,8 +189,12 @@ form {
 }
 
 #checkbox span {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 h1 {
@@ -170,6 +211,8 @@ h1 {
     left: 0;
     pointer-events: none;
     background-color: black;
+    -webkit-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
     transition: opacity 500ms;
 }
 
@@ -179,7 +222,8 @@ h1 {
     border-radius: 50%;
     border: 3px solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
-    animation: spin 1.5s linear infinite;
+    -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
 }
 
 #close {

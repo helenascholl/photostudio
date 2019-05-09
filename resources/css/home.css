@@ -1,6 +1,17 @@
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes move {
+    0% { bottom: 1vh; }
+    50% { bottom: 4vh; }
+    100% { bottom: 1vh; }
 }
 
 @keyframes move {
@@ -26,15 +37,27 @@ body {
     top: 0;
     left: 0;
     overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 h1, h2 {
     color: white;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 h1 {
@@ -50,14 +73,22 @@ h2 {
 #edit {
     width: 25vmin;
     height: 10vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     border: 0.22vmin solid white;
     border-radius: 8vmin;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     font-size: 3vmin;
     font-weight: bold;
     color: white;
+    -webkit-transition: color 700ms, background-color 700ms;
+    -o-transition: color 700ms, background-color 700ms;
     transition: color 700ms, background-color 700ms;
 }
 
@@ -72,7 +103,8 @@ h2 {
     position: absolute;
     cursor: pointer;
     color: white;
-    animation: move 1.5s ease infinite;
+    -webkit-animation: move 1.5s ease infinite;
+            animation: move 1.5s ease infinite;
 }
 
 #scroll:focus {
@@ -87,6 +119,8 @@ h2 {
     left: 0;
     pointer-events: none;
     background-color: black;
+    -webkit-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
     transition: opacity 500ms;
 }
 
@@ -96,7 +130,10 @@ h2 {
     position: absolute;
     top: 100vh;
     left: 0;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 h3 {
@@ -110,11 +147,19 @@ h3 {
     width: 14.5vmin;
     height: 4vmin;
     border-radius: 4vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     background-color: #6d6d6d;
     margin-top: 3vh;
+    -webkit-transition: background-color 500ms;
+    -o-transition: background-color 500ms;
     transition: background-color 500ms;
 }
 
@@ -131,6 +176,8 @@ h3 {
     position: relative;
     left: 0.3vmin;
     top: 0;
+    -webkit-transition: left 500ms;
+    -o-transition: left 500ms;
     transition: left 500ms;
 }
 
@@ -151,7 +198,10 @@ h3 {
 .content p {
     font-size: 1.7vmin;
     text-align: justify;
-    user-select: text;
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
     margin-left: 1vmin
 }
 
@@ -164,10 +214,17 @@ h3 {
 #links > div {
     width: 100vw;
     height: 50vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 #first, #first div {
@@ -186,18 +243,28 @@ h3 {
     top: 3vmin;
     border: 0.2vmin solid white;
     border-radius: 3vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     color: white;
 }
 
 #logInText, #openInfoText, #spinner {
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
 }
 
 #logIn, #openInfo {
     font-size: 2vmin;
+    -webkit-transition: background-color 500ms, color 500ms;
+    -o-transition: background-color 500ms, color 500ms;
     transition: background-color 500ms, color 500ms;
 }
 
@@ -209,9 +276,15 @@ h3 {
 #openInfo {
     height: 4.8vmin;
     border-bottom: 0.2vmin solid white;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     color: white;
 }
 
@@ -223,7 +296,12 @@ h3 {
     border-radius: 3vmin;
     overflow: hidden;
     color: white;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: width 500ms, height 500ms;
+    -o-transition: width 500ms, height 500ms;
     transition: width 500ms, height 500ms;
 }
 
@@ -231,7 +309,8 @@ h3 {
     padding: 1vmin 0 0 1.3vmin;
     height: 11.2vmin;
     width: 15vmin;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 h4 {
@@ -251,11 +330,17 @@ h4 {
 }
 
 i {
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .button {
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 .button:hover {
@@ -272,7 +357,8 @@ i {
     border-radius: 50%;
     border: 0.3vmin solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
-    animation: spin 1.5s linear infinite;
+    -webkit-animation: spin 1.5s linear infinite;
+            animation: spin 1.5s linear infinite;
 }
 
 ::-webkit-scrollbar {
