@@ -1,11 +1,23 @@
 @-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @-webkit-keyframes move {
@@ -306,11 +318,9 @@ h3 {
 }
 
 #info {
-    padding: 1vmin 0 0 1.3vmin;
-    height: 11.2vmin;
-    width: 15vmin;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    margin: 1vmin 1.3vmin;
+    height: 9.2vmin;
+    width: 12.4vmin;
 }
 
 h4 {
@@ -349,16 +359,24 @@ i {
 
 #particles-js {
     background-color: rgb(3, 0, 19);
+    overflow: hidden;
 }
 
 #spinner {
-    height: 2.7vmin;
-    width: 2.7vmin;
+    height: 2.3vmin;
+    width: 2.3vmin;
     border-radius: 50%;
     border: 0.3vmin solid rgba(255, 255, 255, 0.5);
     border-top-color: rgba(255, 255, 255, 1);
     -webkit-animation: spin 1.5s linear infinite;
             animation: spin 1.5s linear infinite;
+}
+
+#username {
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    width: 13vmin;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {

@@ -1,11 +1,23 @@
 @-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
 body {
@@ -208,24 +220,4 @@ main {
 h2 {
     font-size: 6vmin;
     margin-top: 0;
-}
-
-#filenamePopup {
-    padding: 1vmin;
-    font-size: 2vmin;
-    border: 1px solid black;
-    position: absolute;
-    background-color: #9b9b9b;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -ms-flex-line-pack: center;
-        align-content: center;
-    pointer-events: none;
-    -webkit-transition: opacity 200ms;
-    -o-transition: opacity 200ms;
-    transition: opacity 200ms;
 }
