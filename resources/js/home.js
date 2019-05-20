@@ -80,6 +80,7 @@ function authStateChanged(user) {
         }, 200);
 
         document.getElementById('username').textContent = user.displayName;
+        document.getElementById('username').title = user.displayName;
     } else {
         let appear = () => {
             document.getElementById('openInfoText').style.opacity = 0;

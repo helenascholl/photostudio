@@ -12,20 +12,6 @@ function init() {
         }
     });
 
-    for (let element of document.getElementsByClassName('filename')) {
-        element.addEventListener('mouseenter', (event) => {
-            let popup = document.getElementById('filenamePopup');
-
-            popup.textContent = element.textContent;
-            popup.style.opacity = 1;
-            popup.style.top = event.clientY + 'px';
-            popup.style.left = event.clientX + 'px';
-        });
-        element.addEventListener('mouseleave', () => {
-            document.getElementById('filenamePopup').style.opacity = 0;
-        });
-    }
-
     document.getElementById('back').addEventListener('click', () => {
         navigateTo('../');
     });
