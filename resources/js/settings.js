@@ -3,7 +3,6 @@ window.addEventListener('load', init);
 function init() {
     initFirebase();
     initInputs();
-    resizeInputPassword();
 
     firebase.auth().onAuthStateChanged((user) => {
         if (!user) {
@@ -49,7 +48,6 @@ function init() {
             window.open('../', '_self');
         }, 500);
     });
-    window.addEventListener('resize', resizeInputPassword);
 
     window.removeEventListener('click', init);
 
@@ -92,7 +90,7 @@ function changePassword() {
     let newPassword = document.getElementById('changePasswordNewPassword');
     let confirm = document.getElementById('changePasswordConfirm');
     let text = document.getElementById('changePasswordText').style;
-    let spinner = document.getElementById('changePasswordSpinner').style;
+    let loader = document.getElementById('changePasswordLoader').style;
     let user = firebase.auth().currentUser;
     let isValid = true;
     
@@ -117,7 +115,7 @@ function changePassword() {
 
     if (isValid) {
         text.display = 'none';
-        spinner.display = 'block';
+        loader.display = 'flex';
 
         user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, oldPassword.value)).then(() => {
             if (oldPassword.value !== newPassword.value) {
@@ -140,17 +138,17 @@ function changePassword() {
                     openPopup('Changed password.');
                     
                     text.display = 'block';
-                    spinner.display = 'none';
+                    loader.display = 'none';
                 });
             } else {
                 inputError(newPassword.id, 'Please choose a different password.');
                     
                 text.display = 'block';
-                spinner.display = 'none';
+                loader.display = 'none';
             }
         }).catch(() => {
             text.display = 'block';
-            spinner.display = 'none';
+            loader.display = 'none';
 
             inputError(oldPassword.id, 'Incorrect password.');
         });
@@ -161,7 +159,7 @@ function changeUsername() {
     let username = document.getElementById('changeUsernameUsername');
     let password = document.getElementById('changeUsernamePassword');
     let text = document.getElementById('changeUsernameText').style;
-    let spinner = document.getElementById('changeUsernameSpinner').style;
+    let loader = document.getElementById('changeUsernameLoader').style;
     let user = firebase.auth().currentUser;
     let isValid = true;
 
@@ -177,7 +175,7 @@ function changeUsername() {
 
     if (isValid) {
         text.display = 'none';
-        spinner.display = 'block';
+        loader.display = 'flex';
 
         user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
             user.updateProfile({displayName: username.value}).then(() => {
@@ -193,13 +191,13 @@ function changeUsername() {
                 usernamePasswordText.paddingTop = '1.9vmin';
 
                 text.display = 'block';
-                spinner.display = 'none';
+                loader.display = 'none';
 
                 openPopup(`Changed username to ${user.displayName}.`);
             });
         }).catch(() => {
             text.display = 'block';
-            spinner.display = 'none';
+            loader.display = 'none';
 
             inputError(password.id, 'Incorrect password.');
         });
@@ -209,16 +207,16 @@ function changeUsername() {
 function deleteAccount() {
     let password = document.getElementById('deleteAccountPassword');
     let text = document.getElementById('deleteAccountText').style;
-    let spinner = document.getElementById('deleteAccountSpinner').style;
+    let loader = document.getElementById('deleteAccountLoader').style;
     let user = firebase.auth().currentUser;
 
     text.display = 'none';
-    spinner.display = 'block';
+    loader.display = 'flex';
 
     user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
         user.delete().then(() => {
             text.display = 'block';
-            spinner.display = 'none';
+            loader.display = 'none';
 
             openPopup('Account deleted.');
 
@@ -232,7 +230,7 @@ function deleteAccount() {
         });
     }).catch(() => {
         text.display = 'block';
-        spinner.display = 'none';
+        loader.display = 'none';
 
         inputError(password.id, 'Incorrect password.');
     });
@@ -273,10 +271,10 @@ function initInputs() {
 
             if (icon.textContent === 'visibility') {
                 icon.textContent = 'visibility_off';
-                input.type = 'text';
+                input.type = 'password';
             } else {
                 icon.textContent = 'visibility';
-                input.type = 'password';
+                input.type = 'text';
             }
         });
     }
@@ -312,13 +310,5 @@ function initInputs() {
 
             document.getElementById(`${input.id}Border`).style.backgroundColor = 'lightgray';
         });
-    }
-}
-
-function resizeInputPassword() {
-    let width = ((40 * innerWidth) / 100 - document.getElementsByClassName('passwordVisibility')[0].clientWidth) * (100 / innerWidth) - 0.5 + 'vw';
-
-    for (let input of document.getElementsByClassName('password')) {
-        input.style.width = width;
     }
 }

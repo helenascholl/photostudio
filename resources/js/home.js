@@ -69,7 +69,7 @@ function authStateChanged(user) {
     let logIn = document.getElementById('logIn');
 
     if (user) {
-        document.getElementById('spinner').style.opacity = 0;
+        document.getElementsByClassName('loader')[0].style.opacity = 0;
         document.getElementById('logInText').style.opacity = 0;
         accountInfo.style.display = 'block';
 
@@ -84,7 +84,7 @@ function authStateChanged(user) {
     } else {
         let appear = () => {
             document.getElementById('openInfoText').style.opacity = 0;
-            document.getElementById('spinner').style.opacity = 0;
+            document.getElementsByClassName('loader')[0].style.opacity = 0;
             logIn.style.display = 'flex';
 
             setTimeout(() => {

@@ -1,0 +1,86 @@
+@-webkit-keyframes growShrink {
+    0% {
+        -webkit-transform: scale(0, 0);
+                transform: scale(0, 0);
+    }
+    50% {
+        -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+    }
+    100% {
+        -webkit-transform: scale(0, 0);
+                transform: scale(0, 0);
+    }
+}
+
+@keyframes growShrink {
+    0% {
+        -webkit-transform: scale(0, 0);
+                transform: scale(0, 0);
+    }
+    50% {
+        -webkit-transform: scale(1, 1);
+                transform: scale(1, 1);
+    }
+    100% {
+        -webkit-transform: scale(0, 0);
+                transform: scale(0, 0);
+    }
+}
+
+.loader {
+    width: 6vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
+    transition: opacity 200ms;
+}
+
+.loader div {
+    width: 0.8vmin;
+    height: 0.8vmin;
+    border-radius: 50%;
+    background-color: white;
+    -webkit-transform: scale(0, 0);
+        -ms-transform: scale(0, 0);
+            transform: scale(0, 0);
+    -webkit-animation: growShrink 1s ease-in-out infinite;
+            animation: growShrink 1s ease-in-out infinite;
+}
+
+.loader:before, .loader:after {
+    content: '';
+}
+
+.loader div:nth-child(1) {
+    -webkit-animation-delay: 0;
+            animation-delay: 0;
+}
+
+.loader div:nth-child(2) {
+    -webkit-animation-delay: 100ms;
+            animation-delay: 100ms;
+}
+
+.loader div:nth-child(3) {
+  -webkit-animation-delay: 200ms;
+          animation-delay: 200ms;
+}
+
+#load {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-color: black;
+    -webkit-transition: opacity 500ms;
+    -o-transition: opacity 500ms;
+    transition: opacity 500ms;
+}

@@ -5,6 +5,7 @@
         <title>Photo editor</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="../resources/css/settings.css" rel="stylesheet" type="text/css">
+        <link href="../resources/css/load.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -29,24 +30,28 @@
                 <div class="inputs">
                     <div class="text" id="changePasswordOldPasswordText">Current password</div>
                     <input class="password" type="password" id="changePasswordOldPassword" tabindex="1">
-                    <i class="material-icons passwordVisibility" id="changePasswordOldPasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="changePasswordOldPasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="changePasswordOldPasswordBorder"></div>
 
                     <div class="text" id="changePasswordNewPasswordText">New password</div>
                     <input class="password" type="password" id="changePasswordNewPassword" tabindex="2">
-                    <i class="material-icons passwordVisibility" id="changePasswordNewPasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="changePasswordNewPasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="changePasswordNewPasswordBorder"></div>
 
                     <div class="text" id="changePasswordConfirmText">Confirm</div>
                     <input class="password" type="password" id="changePasswordConfirm" tabindex="3">
-                    <i class="material-icons passwordVisibility" id="changePasswordConfirmVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="changePasswordConfirmVisibility">visibility_off</i>
                     <div class="inputBorder" id="changePasswordConfirmBorder"></div>
 
                     <div style="opacity: 0;" id="changePasswordError"></div>
 
                     <div id="changePassword" class="button" tabindex="4">
                         <span id="changePasswordText">Change</span>
-                        <div class="spinner" id="changePasswordSpinner" style="display: none;"></div>
+                        <div class="loader" id="changePasswordLoader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -61,14 +66,18 @@
 
                     <div class="text" id="changeUsernamePasswordText">Password</div>
                     <input class="password" type="password" id="changeUsernamePassword" tabindex="6">
-                    <i class="material-icons passwordVisibility" id="changeUsernamePasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="changeUsernamePasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="changeUsernamePasswordBorder"></div>
 
                     <div style="opacity: 0;" id="changeUsernameError"></div>
 
                     <div id="changeUsername" class="button" tabindex="7">
                         <span id="changeUsernameText">Change</span>
-                        <div class="spinner" id="changeUsernameSpinner" style="display: none;"></div>
+                        <div class="loader" id="changeUsernameLoader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -79,14 +88,18 @@
                 <div class="inputs">
                     <div class="text" id="deleteAccountPasswordText">Password</div>
                     <input class="password" type="password" id="deleteAccountPassword" tabindex="8">
-                    <i class="material-icons passwordVisibility" id="deleteAccountPasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="deleteAccountPasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="deleteAccountPasswordBorder"></div>
                     
                     <div style="opacity: 0;" id="deleteAccountError"></div>
 
                     <div id="deleteAccount" class="button" tabindex="9">
                         <span id="deleteAccountText">Delete</span>
-                        <div class="spinner" id="deleteAccountSpinner" style="display: none;"></div>
+                        <div class="loader" id="deleteAccountLoader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
                 </div>
             </form>

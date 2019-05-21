@@ -1,25 +1,3 @@
-@-webkit-keyframes spin {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
 body {
     margin: 0;
     padding-top: 10vh;
@@ -103,20 +81,6 @@ header {
             user-select: none;
 }
 
-#load {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    background-color: black;
-    -webkit-transition: opacity 500ms;
-    -o-transition: opacity 500ms;
-    transition: opacity 500ms;
-    z-index: 2;
-}
-
 h2 {
     text-align: center;
     font-size: 3vmin;
@@ -190,6 +154,7 @@ input {
 }
 
 .password {
+    width: 37.5vw;
     display: inline-block;
 }
 
@@ -266,16 +231,6 @@ input {
     transition: bottom 200ms;
 }
 
-.spinner {
-    height: 1.6vmin;
-    width: 1.6vmin;
-    border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.5);
-    border-top-color: rgba(255, 255, 255, 1);
-    -webkit-animation: spin 1.5s linear infinite;
-            animation: spin 1.5s linear infinite;
-}
-
 #noAccount {
     width: 100vw;
     height: 90vh;
@@ -331,6 +286,10 @@ input {
 h3 {
     font-size: 6vmin;
     margin-top: 0;
+}
+
+#load {
+    z-index: 1;
 }
 
 ::-webkit-scrollbar {

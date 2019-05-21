@@ -5,6 +5,7 @@
         <title>Photo editor</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="./resources/css/home.css" rel="stylesheet" type="text/css">
+        <link href="./resources/css/load.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,14 +19,16 @@
         <div id="headings">
             <h1>Photo editor</h1>
             <h2>Edit your photos with the best online Photo editor.</h2>
-            <div class="button editor" id="edit">
-                Start editing
-            </div>
+            <div class="button editor" id="edit">Start editing</div>
             <a class="fa fa-angle-double-down" href="#links" id="scroll"></a>
         </div>
 
         <div class="button" id="placeholder">
-            <div id="spinner"></div>
+            <div class="loader">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
         <div class="button" id="logIn" style="display: none;">
             <span id="logInText" style="opacity: 0;">Log in</span>

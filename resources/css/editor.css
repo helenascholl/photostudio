@@ -74,20 +74,6 @@ canvas {
     height: 1.5vw;
 }
 
-#load {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background-color: black;
-    pointer-events: none;
-    -webkit-transition: opacity 500ms;
-    -o-transition: opacity 500ms;
-    transition: opacity 500ms;
-}
-
 form {
     margin-left: 7vw;
     height: 5vh;
@@ -127,4 +113,8 @@ form {
 
 #back i {
     font-size: 3vmin;
+}
+
+#load {
+    z-index: 10000;
 }

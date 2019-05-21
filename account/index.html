@@ -5,6 +5,7 @@
         <title>Photo editor</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="../resources/css/account.css" rel="stylesheet" type="text/css">
+        <link href="../resources/css/load.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
@@ -15,12 +16,6 @@
         <div id="wrapper">
             <i id="close" class="material-icons">close</i>
             <div id="logInForm" style="left: 0;">
-                <div class="button" id="logIn" tabindex="4">
-                    <span id="logInText">Log in</span>
-                    <div class="spinner" id="logInSpinner" style="display: none;"></div>
-                </div>
-                <span class="switchTo" id="switchToCreateAccount" tabindex="5">Create account</span>
-
                 <form>
                     <h1>Log in</h4>
 
@@ -30,7 +25,7 @@
 
                     <div class="text" id="logInPasswordText">Password</div>
                     <input class="password" id="logInPassword" tabindex="2" type="password">
-                    <i class="material-icons passwordVisibility" id="logInPasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="logInPasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="logInPasswordBorder"></div>
 
                     <div id="checkbox">
@@ -41,15 +36,21 @@
                 </form>
 
                 <span style="opacity: 0;" id="logInError"></span>
+
+                <div class="bottom">
+                    <div class="button" id="logIn" tabindex="4">
+                        <span id="logInText">Log in</span>
+                        <div class="loader" id="logInLoader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <span class="switchTo" id="switchToCreateAccount" tabindex="5">Create account</span>
+                </div>
             </div>
 
             <div id="createAccountForm" style="left: 50vw; top: -60vh;">
-                <div class="button" id="createAccount" tabindex="9">
-                    <span id="createAccountText">Create</span>
-                    <div class="spinner" id="createAccountSpinner" style="display: none;"></div>
-                </div>
-                <span class="switchTo" id="switchToLogIn" tabindex="10">Already have an account?</span>
-
                 <form>
                     <h1>Create account</h4>
 
@@ -63,16 +64,28 @@
 
                     <div class="text" id="createAccountPasswordText">Password</div>
                     <input class="password" id="createAccountPassword" type="password" tabindex="7">
-                    <i class="material-icons passwordVisibility" id="createAccountPasswordVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="createAccountPasswordVisibility">visibility_off</i>
                     <div class="inputBorder" id="createAccountPasswordBorder"></div>
 
                     <div class="text" id="createAccountConfirmText">Confirm</div>
                     <input class="password" id="createAccountConfirm" type="password" tabindex="8">
-                    <i class="material-icons passwordVisibility" id="createAccountConfirmVisibility">visibility</i>
+                    <i class="material-icons passwordVisibility" id="createAccountConfirmVisibility">visibility_off</i>
                     <div class="inputBorder" id="createAccountConfirmBorder"></div>
                 </form>
 
                 <span style="opacity: 0;" id="createAccountError"></span>
+
+                <div class="bottom">
+                    <div class="button" id="createAccount" tabindex="9">
+                        <span id="createAccountText">Create</span>
+                        <div class="loader" id="createAccountLoader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <span class="switchTo" id="switchToLogIn" tabindex="10">Already have an account?</span>
+                </div>
             </div>
         </div>
 

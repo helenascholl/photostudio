@@ -29,7 +29,6 @@ function init() {
 
     initInputs();
     initFirebase();
-    resizeInputPassword();
 
     document.getElementById('close').addEventListener('click', () => {
         document.getElementById('load').style.opacity = 1;
@@ -84,7 +83,6 @@ function init() {
     document.getElementById('switchToCreateAccount').addEventListener('click', switchToCreateAccount);
     document.getElementById('createAccount').addEventListener('click', createAccount);
     document.getElementById('logIn').addEventListener('click', logIn);
-    window.addEventListener('resize', resizeInputPassword);
 
     window.removeEventListener('load', init);
 
@@ -180,10 +178,10 @@ function createAccount() {
     }
 
     if (isValid) {
-        let spinner = document.getElementById('createAccountSpinner').style;
+        let loader = document.getElementById('createAccountLoader').style;
         let text = document.getElementById('createAccountText').style;
 
-        spinner.display = 'block';
+        loader.display = 'flex';
         text.display = 'none';
 
         firebase.auth().createUserWithEmailAndPassword(email.value, password.value).then(() => {
@@ -216,7 +214,7 @@ function createAccount() {
                     inputError('createAccountPassword', 'An error occured while creating an account.');
             }
             
-            spinner.display = 'none';
+            loader.display = 'none';
             text.display = 'block';
         });
 
@@ -256,10 +254,10 @@ function logIn() {
     }
 
     if (isValid) {
-        let spinner = document.getElementById('logInSpinner').style;
+        let loader = document.getElementById('logInLoader').style;
         let text = document.getElementById('logInText').style;
 
-        spinner.display = 'block';
+        loader.display = 'flex';
         text.display = 'none';
 
         if (document.getElementById('rememberMe').checked) {
@@ -280,7 +278,7 @@ function logIn() {
                     }
                 }, 500);
             }).catch(() => {
-                spinner.display = 'none';
+                loader.display = 'none';
                 text.display = 'block';
 
                 inputError(password.id, 'Incorrect email address or password.');
@@ -304,10 +302,10 @@ function initInputs() {
 
             if (icon.textContent === 'visibility') {
                 icon.textContent = 'visibility_off';
-                input.type = 'text';
+                input.type = 'password';
             } else {
                 icon.textContent = 'visibility';
-                input.type = 'password';
+                input.type = 'text';
             }
         });
     }
@@ -341,13 +339,5 @@ function initInputs() {
 
             document.getElementById(`${input.id}Border`).style.backgroundColor = 'lightgray';
         });
-    }
-}
-
-function resizeInputPassword() {
-    let width = ((20 * innerWidth) / 100 - document.getElementsByClassName('passwordVisibility')[0].clientWidth) * (100 / innerWidth) - 0.5 + 'vw';
-
-    for (let input of document.getElementsByClassName('password')) {
-        input.style.width = width;
     }
 }

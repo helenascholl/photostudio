@@ -1,25 +1,3 @@
-@-webkit-keyframes spin {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes spin {
-    from {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    to {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-}
-
 @-webkit-keyframes move {
     0% { bottom: 1vh; }
     50% { bottom: 4vh; }
@@ -121,19 +99,6 @@ h2 {
 
 #scroll:focus {
     outline: none;
-}
-
-#load {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    background-color: black;
-    -webkit-transition: opacity 500ms;
-    -o-transition: opacity 500ms;
-    transition: opacity 500ms;
 }
 
 #links {
@@ -267,7 +232,7 @@ h3 {
     color: white;
 }
 
-#logInText, #openInfoText, #spinner {
+#logInText, #openInfoText {
     -webkit-transition: opacity 200ms;
     -o-transition: opacity 200ms;
     transition: opacity 200ms;
@@ -280,7 +245,7 @@ h3 {
     transition: background-color 500ms, color 500ms;
 }
 
-#logIn:hover, #openInfo:hover {
+#logIn:hover {
     background-color: white;
     color: rgb(3, 0, 19);
 }
@@ -360,16 +325,6 @@ i {
 #particles-js {
     background-color: rgb(3, 0, 19);
     overflow: hidden;
-}
-
-#spinner {
-    height: 2.3vmin;
-    width: 2.3vmin;
-    border-radius: 50%;
-    border: 0.3vmin solid rgba(255, 255, 255, 0.5);
-    border-top-color: rgba(255, 255, 255, 1);
-    -webkit-animation: spin 1.5s linear infinite;
-            animation: spin 1.5s linear infinite;
 }
 
 #username {
