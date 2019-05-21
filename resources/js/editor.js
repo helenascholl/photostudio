@@ -20,6 +20,7 @@ let layers;
 let selectedLayer = null;
 let tool = 'select_layer';
 let selectedColor = '#ffffff';
+let layerCounter = 0;
 
 window.addEventListener('load', init);
 
@@ -298,7 +299,11 @@ function move(event) {
         window.removeEventListener('mouseup', removeMouseMove);
     }
 
-    if (selectedLayer !== null && event.clientX >= parseFloat(selectedLayer.style.left) && event.clientX <= parseFloat(selectedLayer.style.left) + selectedLayer.width && event.clientY >= parseFloat(selectedLayer.style.top) && event.clientY <= parseFloat(selectedLayer.style.top) + selectedLayer.height) {
+    if (selectedLayer !== null
+        && event.clientX >= parseFloat(selectedLayer.style.left)
+        && event.clientX <= parseFloat(selectedLayer.style.left) + selectedLayer.width
+        && event.clientY >= parseFloat(selectedLayer.style.top)
+        && event.clientY <= parseFloat(selectedLayer.style.top) + selectedLayer.height) {
         window.addEventListener('mousemove', moveLayer);
         window.addEventListener('mouseup', removeMouseMove);
     }
@@ -441,12 +446,15 @@ function getImageFromUrl() {
 function createNewLayer(width, height) {
     let layer = document.createElement('canvas');
     let zIndex = document.getElementById('layers').childNodes.length + 1;
+    let layerDiv = document.createElement('div');
 
     layer.width = width;
     layer.height = height;
     layer.style.left = WORKSPACE_LEFT + (WORKSPACE_WIDTH - width) / 2 + 'px';
     layer.style.top = WORKSPACE_TOP + (WORKSPACE_HEIGHT - height) / 2 + 'px';
     layer.style.zIndex = zIndex;
+    layer.id = `layer${layerCounter}`;
+
 
     selection.style.zIndex = zIndex + 1;
     
@@ -467,6 +475,10 @@ function createNewLayer(width, height) {
             y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
         }
     ];
+
+    layerDiv.textContent = `Layer #${layerCounter}`;
+    layerDiv.id = `layer${layerCounter++}Div`;
+    document.getElementById('layerDivs').appendChild(layerDiv);
 
     drawSelectedArea();
 

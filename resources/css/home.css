@@ -84,7 +84,7 @@ h2 {
 
 #edit:hover {
     background-color: white;
-    color: rgb(3, 0, 19);
+    color: rgb(3, 0, 10);
 }
 
 #scroll {
@@ -247,7 +247,7 @@ h3 {
 
 #logIn:hover {
     background-color: white;
-    color: rgb(3, 0, 19);
+    color: rgb(3, 0, 10);
 }
 
 #openInfo {
@@ -323,7 +323,7 @@ i {
 }
 
 #particles-js {
-    background-color: rgb(3, 0, 19);
+    background-color: rgb(2, 0, 10);
     overflow: hidden;
 }
 

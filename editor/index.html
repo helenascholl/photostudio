@@ -6,6 +6,7 @@
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="../resources/css/editor.css" rel="stylesheet" type="text/css">
         <link href="../resources/css/load.css" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet">
         <script src="../resources/js/editor.js"></script>
     </head>
@@ -17,7 +18,7 @@
                 <i class="fa fa-angle-left"></i>
             </div>
             <form>
-                <input id="url" placeholder="URL to image" type="text">
+                <input id="url" placeholder="URL to image" type="text" autocomplete="off">
                 <input id="submitUrl" type="button" value="Get image">
                 <input id="filename" type="file">
             </form>
@@ -62,7 +63,9 @@
             </div>
         </section>
 
-        <section id="right"></section>
+        <section id="right">
+            <div id="layerDivs"></div>
+        </section>
 
         <canvas id="background"></canvas>
         <div id="layers"></div>
