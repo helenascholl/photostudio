@@ -110,10 +110,6 @@ form {
     font-size: 3vmin;
 }
 
-#load {
-    z-index: 10000;
-}
-
 #layerDivs {
     width: 13vw;
     height: 30vh;

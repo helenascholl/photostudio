@@ -13,10 +13,10 @@ const SUPPORTED_FILE_EXTENSIONS = [
     'jfi',
     'png'
 ];
-let selectedArea = [];
 let selection;
 let ctxSelection;
 let layers;
+let selectedArea = [];
 let selectedLayer = null;
 let tool = 'select_layer';
 let selectedColor = '#ffffff';
@@ -182,7 +182,11 @@ function fill(event) {
         let maxZIndex = '0';
 
         for (let layer of layers.childNodes) {
-            if (event.clientX >= parseFloat(layer.style.left) && event.clientX <= parseFloat(layer.style.left) + layer.width && event.clientY >= parseFloat(layer.style.top) && event.clientY <= parseFloat(layer.style.top) + layer.height && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
+            if (event.clientX >= parseFloat(layer.style.left)
+            && event.clientX <= parseFloat(layer.style.left) + layer.width
+            && event.clientY >= parseFloat(layer.style.top)
+            && event.clientY <= parseFloat(layer.style.top) + layer.height
+            && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
                 maxZIndex = layer.style.zIndex;
             }
         }
@@ -211,7 +215,11 @@ function selectLayer(event) {
     let maxZIndex = '0';
 
     for (let layer of layers.childNodes) {
-        if (event.clientX >= parseFloat(layer.style.left) && event.clientX <= parseFloat(layer.style.left) + layer.width && event.clientY >= parseFloat(layer.style.top) && event.clientY <= parseFloat(layer.style.top) + layer.height && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
+        if (event.clientX >= parseFloat(layer.style.left)
+        && event.clientX <= parseFloat(layer.style.left) + layer.width
+        && event.clientY >= parseFloat(layer.style.top)
+        && event.clientY <= parseFloat(layer.style.top) + layer.height
+        && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
             maxZIndex = layer.style.zIndex;
         }
     }
@@ -455,8 +463,8 @@ function createNewLayer(width, height) {
     layer.style.zIndex = zIndex;
     layer.id = `layer${layerCounter}`;
 
-
     selection.style.zIndex = zIndex + 1;
+    document.getElementById('load').style.zIndex = zIndex + 2;
     
     layers.appendChild(layer);
 
@@ -478,6 +486,7 @@ function createNewLayer(width, height) {
 
     layerDiv.textContent = `Layer #${layerCounter}`;
     layerDiv.id = `layer${layerCounter++}Div`;
+    layerDiv.style.backgroundColor = 'white';
     document.getElementById('layerDivs').appendChild(layerDiv);
 
     drawSelectedArea();
