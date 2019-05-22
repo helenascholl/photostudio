@@ -43,6 +43,7 @@ h1 {
     -webkit-transition: background-color 500ms;
     -o-transition: background-color 500ms;
     transition: background-color 500ms;
+    cursor: pointer;
 }
 
 #back:hover {
@@ -51,10 +52,6 @@ h1 {
 
 #back:hover i {
     color: white;
-}
-
-#back:hover {
-    cursor: pointer;
 }
 
 header {
@@ -128,9 +125,6 @@ main {
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
-}
-
-.button:hover {
     cursor: pointer;
 }
 

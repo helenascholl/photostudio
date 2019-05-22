@@ -65,9 +65,6 @@ canvas {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-}
-
-.tool:hover {
     cursor: pointer;
 }
 
@@ -106,9 +103,6 @@ form {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-}
-
-#back:hover {
     cursor: pointer;
 }
 
@@ -141,7 +135,7 @@ form {
     margin: 1vmin 0;
     border-top: 1px solid black;
     border-bottom: 1px solid black;
-    cursor: move;
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar {

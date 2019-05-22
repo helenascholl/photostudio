@@ -65,11 +65,11 @@ body {
     -webkit-transition: background-color 400ms;
     -o-transition: background-color 400ms;
     transition: background-color 400ms;
+    cursor: pointer;
 }
 
 .button:hover {
     background-color: rgb(52, 52, 255);
-    cursor: pointer;
 }
 
 .button:focus {
@@ -80,11 +80,11 @@ body {
 .switchTo {
     color: rgb(0, 0, 255);
     font-size: 2vmin;
+    cursor: pointer;
 }
 
 .switchTo:hover {
     text-decoration: underline;
-    cursor: pointer;
 }
 
 .switchTo:focus {
@@ -136,9 +136,6 @@ input {
     left: 0;
     top: 0.5vmin;
     float: right;
-}
-
-.passwordVisibility:hover {
     cursor: pointer;
 }
 
@@ -160,9 +157,6 @@ form {
 
 #checkbox {
     margin-top: 2.5vh;
-}
-
-#checkbox:hover {
     cursor: pointer;
 }
 
@@ -202,8 +196,5 @@ h1 {
     right: 1vmin;
     color: black;
     z-index: 2;
-}
-
-#close:hover {
     cursor: pointer;
 }

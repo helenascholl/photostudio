@@ -44,6 +44,7 @@ h1 {
     -webkit-transition: background-color 500ms;
     -o-transition: background-color 500ms;
     transition: background-color 500ms;
+    cursor: pointer;
 }
 
 #back:hover i {
@@ -51,7 +52,6 @@ h1 {
 }
 
 #back:hover {
-    cursor: pointer;
     background-color: black;
 }
 
@@ -147,9 +147,6 @@ input {
     left: 0;
     top: 0.5vmin;
     float: right;
-}
-
-.passwordVisibility:hover {
     cursor: pointer;
 }
 
@@ -179,10 +176,10 @@ input {
     -webkit-transition: background-color 400ms;
     -o-transition: background-color 400ms;
     transition: background-color 400ms;
+    cursor: pointer;
 }
 
 .button:hover {
-    cursor: pointer;
     background-color: rgb(52, 52, 255);
 }
 
@@ -276,11 +273,11 @@ input {
     -webkit-transition: background-color 400ms;
     -o-transition: background-color 400ms;
     transition: background-color 400ms;
+    cursor: pointer;
 }
 
 #logIn:hover {
     background-color: rgb(52, 52, 255);
-    cursor: pointer;
 }
 
 h3 {
