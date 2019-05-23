@@ -25,44 +25,14 @@ let layerCounter = 0;
 window.addEventListener('load', init);
 
 function init() {
-    let background = document.getElementById('background');
-    let ctxBackground = background.getContext('2d');
-    
     selection = document.getElementById('selection');
     layers = document.getElementById('layers');
     ctxSelection = selection.getContext('2d');
 
-    resize();
-
-    background.style.left = WORKSPACE_LEFT / (innerWidth / 100) + 'vw';
-    background.style.top = WORKSPACE_TOP / (innerHeight / 100) + 'vh';
-
-    selection.style.left = WORKSPACE_LEFT / (innerWidth / 100) + 'vw';
-    selection.style.top = WORKSPACE_TOP / (innerHeight / 100) + 'vh';
-
-    ctxBackground.rect(0, 0, background.width, background.height);
-    ctxBackground.stroke();
-
-    for (let i = 0; i < WORKSPACE_WIDTH / 10; i++) {
-        for (let j = 0; j < WORKSPACE_HEIGHT / 10; j++) {
-            if (i % 2 === 0 && j % 2 === 0 || i % 2 === 1 && j % 2 === 1) {
-                ctxBackground.fillStyle = '#999999';
-            } else {
-                ctxBackground.fillStyle = '#666666';
-            }
-
-            ctxBackground.fillRect(i * 10, j * 10, 10, 10);
-        }
-    }
+    selection.width = WORKSPACE_WIDTH;
+    selection.height = WORKSPACE_HEIGHT;
 
     // resize
-
-    selectedArea = [
-        WORKSPACE_LEFT,
-        WORKSPACE_TOP,
-        background.width + WORKSPACE_TOP,
-        background.height + WORKSPACE_LEFT
-    ];
 
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
@@ -80,21 +50,10 @@ function init() {
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
     selection.addEventListener('mousedown', mouseDown);
-    window.addEventListener('resize', resize);
 
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
-}
-
-function resize() {
-    let background = document.getElementById('background');
-
-    background.width = WORKSPACE_WIDTH;
-    background.height = WORKSPACE_HEIGHT;
-
-    selection.width = WORKSPACE_WIDTH;
-    selection.height = WORKSPACE_HEIGHT;
 }
 
 function mouseDown(event) {
@@ -366,32 +325,34 @@ function selectRectangle(event) {
 }
 
 function drawSelectedArea() {
-    ctxSelection.beginPath();
-    ctxSelection.clearRect(0, 0, selection.width, selection.height);
-    ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
-    ctxSelection.setLineDash([5, 5]);
-    ctxSelection.strokeStyle = '#000000';
+    if (selectedArea != []) {
+        ctxSelection.beginPath();
+        ctxSelection.clearRect(0, 0, selection.width, selection.height);
+        ctxSelection.moveTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.setLineDash([5, 5]);
+        ctxSelection.strokeStyle = '#000000';
 
-    for (let coordinates of selectedArea) {
-        ctxSelection.lineTo(coordinates.x, coordinates.y);
+        for (let coordinates of selectedArea) {
+            ctxSelection.lineTo(coordinates.x + WORKSPACE_LEFT, coordinates.y + WORKSPACE_TOP);
+        }
+
+        ctxSelection.lineTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.stroke();
+
+        ctxSelection.beginPath();
+        ctxSelection.moveTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.setLineDash([0, 5, 5, 0]);
+        ctxSelection.strokeStyle = '#ffffff';
+
+        for (let coordinates of selectedArea) {
+            ctxSelection.lineTo(coordinates.x + WORKSPACE_LEFT, coordinates.y + WORKSPACE_TOP);
+        }
+
+        ctxSelection.lineTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.stroke();
+
+        ctxSelection.setLineDash([]);
     }
-
-    ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
-    ctxSelection.stroke();
-
-    ctxSelection.beginPath();
-    ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
-    ctxSelection.setLineDash([0, 5, 5, 0]);
-    ctxSelection.strokeStyle = '#ffffff';
-
-    for (let coordinates of selectedArea) {
-        ctxSelection.lineTo(coordinates.x, coordinates.y);
-    }
-
-    ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
-    ctxSelection.stroke();
-
-    ctxSelection.setLineDash([]);
 }
 
 function uploadImage(event) {
@@ -410,10 +371,7 @@ function uploadImage(event) {
         img.src = URL.createObjectURL(event.target.files[0]);
 
         img.addEventListener('load', () => {
-            let layer = createNewLayer(img.width, img.height);
-            let ctx = layer.getContext('2d');
-            
-            ctx.drawImage(img, 0, 0);
+            createNewLayer(img.width, img.height).getContext('2d').drawImage(img, 0, 0);
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
@@ -439,10 +397,7 @@ function getImageFromUrl() {
         img.src = url.value;
 
         img.addEventListener('load', () => {
-            let layer = createNewLayer(img.width, img.height);
-            let ctx = layer.getContext('2d');
-            
-            ctx.drawImage(img, 0, 0);
+            createNewLayer(img.width, img.height).getContext('2d').drawImage(img, 0, 0);
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
@@ -453,13 +408,14 @@ function getImageFromUrl() {
 
 function createNewLayer(width, height) {
     let layer = document.createElement('canvas');
-    let zIndex = document.getElementById('layers').childNodes.length + 1;
+    let zIndex = document.getElementById('layers').childNodes.length;
+    let layerDivs = document.getElementById('layerDivs');
     let layerDiv = document.createElement('div');
 
     layer.width = width;
     layer.height = height;
-    layer.style.left = WORKSPACE_LEFT + (WORKSPACE_WIDTH - width) / 2 + 'px';
-    layer.style.top = WORKSPACE_TOP + (WORKSPACE_HEIGHT - height) / 2 + 'px';
+    layer.style.left = 0;
+    layer.style.top = 0;
     layer.style.zIndex = zIndex;
     layer.id = `layer${layerCounter}`;
 
@@ -484,10 +440,45 @@ function createNewLayer(width, height) {
         }
     ];
 
+    for (let div of layerDivs.childNodes) {
+        div.style.backgroundColor = 'transparent';
+    }
+
     layerDiv.textContent = `Layer #${layerCounter}`;
     layerDiv.id = `layer${layerCounter++}Div`;
     layerDiv.style.backgroundColor = 'white';
-    document.getElementById('layerDivs').appendChild(layerDiv);
+
+    layerDiv.addEventListener('click', (event) => {
+        let newSelectedLayer = document.getElementById(layerDiv.id.replace('Div', ''));
+
+        for (let div of layerDivs.childNodes) {
+            div.style.backgroundColor = 'transparent';
+        }
+
+        event.target.style.backgroundColor = 'white';
+
+        selectedLayer = newSelectedLayer;
+
+        selectedArea = [
+            {
+                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT,
+                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP
+            }, {
+                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT + newSelectedLayer.width,
+                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP
+            }, {
+                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT + newSelectedLayer.width,
+                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP + newSelectedLayer.height
+            }, {
+                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT,
+                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP + newSelectedLayer.height
+            }
+        ];
+
+        drawSelectedArea();
+    });
+
+    layerDivs.appendChild(layerDiv);
 
     drawSelectedArea();
 
