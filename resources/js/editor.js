@@ -48,7 +48,6 @@ function init() {
         }, 500);
     });
     document.getElementById('filename').addEventListener('change', uploadImage);
-    document.getElementById('submitUrl').addEventListener('click', getImageFromUrl);
     selection.addEventListener('mousedown', mouseDown);
 
     window.removeEventListener('load', init);
@@ -378,32 +377,6 @@ function uploadImage(event) {
     }
 
     event.target.value = '';
-}
-
-function getImageFromUrl() {
-    let url = document.getElementById('url');
-    let fileExtension = url.value.split('.').pop().toLowerCase();
-    let fileIsSupported = false;
-
-    for (let extension of SUPPORTED_FILE_EXTENSIONS) {
-        if (fileExtension === extension) {
-            fileIsSupported = true;
-        }
-    }
-
-    if (fileIsSupported) {
-        let img = new Image();
-
-        img.src = url.value;
-
-        img.addEventListener('load', () => {
-            createNewLayer(img.width, img.height).getContext('2d').drawImage(img, 0, 0);
-        });
-    } else if (fileExtension !== '') {
-        alert('File format is not supported!');
-    }
-
-    url.value = '';
 }
 
 function createNewLayer(width, height) {
