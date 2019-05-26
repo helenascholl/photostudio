@@ -20,6 +20,7 @@ let selectedArea = [];
 let selectedLayer = null;
 let tool = 'select_layer';
 let selectedColor = '#ffffff';
+let brushDiameter = 10;
 let layerCounter = 0;
 
 window.addEventListener('load', init);
@@ -77,6 +78,10 @@ function mouseDown(event) {
             case 'fill':
                 fill(event);
                 break;
+
+            case 'draw':
+                draw(event);
+                break;
         }
     }
 }
@@ -104,6 +109,9 @@ function freeSelect(event) {
 
         selectedArea.push({x, y});
         ctxSelection.lineTo(x, y);
+
+        ctxSelection.lineCap = 'butt';
+        ctxSelection.lineJoin = 'butt';
 
         ctxSelection.lineWidth = 2.5;
         ctxSelection.strokeStyle = '#000000';
@@ -164,47 +172,53 @@ function fill(event) {
             ctx.lineTo(selectedArea[0].x - left, selectedArea[0].y - top);
             
             ctx.fillStyle = selectedColor;
+            ctx.lineCap = 'butt';
+            ctx.lineJoin = 'butt';
             ctx.fill();
         }
     }
 }
 
-function selectLayer(event) {
-    let maxZIndex = '0';
+function draw(event) {
+    if (selectedLayer !== null) {
+        let maxZIndex = '-1';
 
     for (let layer of layers.childNodes) {
-        if (event.clientX >= parseFloat(layer.style.left)
-        && event.clientX <= parseFloat(layer.style.left) + layer.width
-        && event.clientY >= parseFloat(layer.style.top)
-        && event.clientY <= parseFloat(layer.style.top) + layer.height
+            if (event.clientX >= parseFloat(layer.style.left) + WORKSPACE_LEFT
+            && event.clientX <= parseFloat(layer.style.left) + WORKSPACE_LEFT + layer.width
+            && event.clientY >= parseFloat(layer.style.top) + WORKSPACE_TOP
+            && event.clientY <= parseFloat(layer.style.top) + WORKSPACE_TOP + layer.height
         && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
             maxZIndex = layer.style.zIndex;
         }
     }
 
-    for (let layer of layers.childNodes) {
-        if (maxZIndex === layer.style.zIndex) {
-            let layerLeft = parseFloat(layer.style.left) - WORKSPACE_LEFT;
-            let layerTop = parseFloat(layer.style.top) - WORKSPACE_TOP;
+        if (selectedLayer.style.zIndex === maxZIndex) {
+            let ctx = selectedLayer.getContext('2d');
+            ctx.beginPath();
+            ctx.moveTo(event.clientX - parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT,
+                       event.clientY - parseFloat(selectedLayer.style.top) - WORKSPACE_TOP);
+            ctx.lineTo(event.clientX - parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT,
+                       event.clientY - parseFloat(selectedLayer.style.top) - WORKSPACE_TOP);
+            ctx.strokeStyle = selectedColor;
+            ctx.lineWidth = brushDiameter;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
 
-            selectedArea = [
-                {
-                    x: layerLeft,
-                    y: layerTop
-                }, {
-                    x: layerLeft + layer.width,
-                    y: layerTop
-                }, {
-                    x: layerLeft + layer.width,
-                    y: layerTop + layer.height
-                }, {
-                    x: layerLeft,
-                    y: layerTop + layer.height
+            let drawOnLayer = (event) => {
+                ctx.lineTo(event.clientX - parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT,
+                           event.clientY - parseFloat(selectedLayer.style.top) - WORKSPACE_TOP);
+                ctx.stroke();
+            }
+
+            let removeMouseMove = () => {
+                window.removeEventListener('mousemove', drawOnLayer);
+                window.removeEventListener('mouseup', removeMouseMove);
                 }
-            ];
-            drawSelectedArea();
 
-            selectedLayer = layer;
+            window.addEventListener('mousemove', drawOnLayer);
+            window.addEventListener('mouseup', removeMouseMove);
         }
     }
 }
