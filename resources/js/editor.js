@@ -37,6 +37,11 @@ function init() {
 
     initFirebase();
 
+    scrollPosition = {
+        x: layers.scrollLeft,
+        y: layers.scrollTop
+    };
+
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
             tool = element.id;
@@ -53,6 +58,22 @@ function init() {
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('createImage').addEventListener('click', createImage);
     layers.addEventListener('mousedown', mouseDown);
+    layers.addEventListener('scroll', () => {
+        for (let coordinates of selectedArea) {
+            coordinates.x -= layers.scrollLeft - scrollPosition.x;
+            coordinates.y -= layers.scrollTop - scrollPosition.y;
+        }
+
+        scrollPosition = {
+            x: layers.scrollLeft,
+            y: layers.scrollTop
+        };
+
+        drawSelectedArea();
+    });
+    window.addEventListener('mousemove', (event) => {
+        event.preventDefault();
+    });
 
     window.removeEventListener('load', init);
 
