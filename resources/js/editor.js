@@ -49,7 +49,8 @@ function init() {
         }, 500);
     });
     document.getElementById('filename').addEventListener('change', uploadImage);
-    selection.addEventListener('mousedown', mouseDown);
+    document.getElementById('createImage').addEventListener('click', createImage);
+    layers.addEventListener('mousedown', mouseDown);
 
     window.removeEventListener('load', init);
 
@@ -223,83 +224,71 @@ function draw(event) {
     }
 }
 
-function move(event) {
-    let originalPosition = {
-        x: event.clientX,
-        y: event.clientY
-    };
+function createImage() {
+    let download = document.getElementById('download');
+    let sortedLayers = sortByZIndex(layers.childNodes);
+    let left = parseFloat(layers.childNodes[0].style.left);
+    let top = parseFloat(layers.childNodes[0].style.top);
+    let right = parseFloat(layers.childNodes[0].style.left) + layers.childNodes[0].width;
+    let bottom = parseFloat(layers.childNodes[0].style.top) + layers.childNodes[0].height;
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+    let imgData;
 
-    let moveLayer = (event) => {
-        let newLeft = parseFloat(selectedLayer.style.left) + event.clientX - originalPosition.x;
-        let newTop = parseFloat(selectedLayer.style.top) + event.clientY - originalPosition.y;
-        let layerLeft;
-        let layerTop;
+    for (let layer of sortedLayers) {
+        if (parseFloat(layer.style.left) < left) {
+            left = parseFloat(layer.style.left);
+        }
 
-        if (newLeft < WORKSPACE_LEFT) {
-            selectedLayer.style.left = WORKSPACE_LEFT + 'px';
-        } else if (newLeft + selectedLayer.width > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
-            selectedLayer.style.left = WORKSPACE_LEFT + WORKSPACE_WIDTH - selectedLayer.width + 'px';
-        } else {
-            selectedLayer.style.left = newLeft + 'px';
-            originalPosition.x = event.clientX;
+        if (parseFloat(layer.style.top) < top) {
+            top = parseFloat(layer.style.top);
         }
         
-        if (newTop < WORKSPACE_TOP) {
-            selectedLayer.style.top = WORKSPACE_TOP + 'px';
-        } else if (newTop + selectedLayer.height > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
-            selectedLayer.style.top = WORKSPACE_TOP + WORKSPACE_HEIGHT - selectedLayer.height + 'px';
-        } else {
-            selectedLayer.style.top = newTop + 'px';
-            originalPosition.y = event.clientY;
+        if (parseFloat(layer.style.left) + layer.width > right) {
+            right = parseFloat(layer.style.left) + layer.width;
         }
 
-        layerLeft = parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT;
-        layerTop = parseFloat(selectedLayer.style.top) - WORKSPACE_TOP;
-
-        selectedArea = [
-            {
-                x: layerLeft,
-                y: layerTop
-            }, {
-                x: layerLeft + selectedLayer.width,
-                y: layerTop
-            }, {
-                x: layerLeft + selectedLayer.width,
-                y: layerTop + selectedLayer.height
-            }, {
-                x: layerLeft,
-                y: layerTop + selectedLayer.height
-            }
-        ];
-        drawSelectedArea();
-    };
-
-    let removeMouseMove = () => {
-        window.removeEventListener('mousemove', moveLayer);
-        window.removeEventListener('mouseup', removeMouseMove);
+        if (parseFloat(layer.style.top) + layer.height > bottom) {
+            bottom = parseFloat(layer.style.top) + layer.height;
+        }
     }
 
-    if (selectedLayer !== null
-        && event.clientX >= parseFloat(selectedLayer.style.left)
-        && event.clientX <= parseFloat(selectedLayer.style.left) + selectedLayer.width
-        && event.clientY >= parseFloat(selectedLayer.style.top)
-        && event.clientY <= parseFloat(selectedLayer.style.top) + selectedLayer.height) {
-        window.addEventListener('mousemove', moveLayer);
-        window.addEventListener('mouseup', removeMouseMove);
+    canvas.width = right - left;
+    canvas.height = bottom - top;
+
+    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < imgData.data.length; i += 4) {
+        imgData.data[i] = 255;
+        imgData.data[i + 1] = 255;
+        imgData.data[i + 2] = 255;
+        imgData.data[i + 3] = 0;
+            }
+
+    for (let layer of sortedLayers) {
+        let data = layer.getContext('2d').getImageData(0, 0, layer.width, layer.height).data;
+
+        for (let i = 0; i < layer.height; i++) {
+            let canvasIndex = (canvas.width * 4) * (parseInt(layer.style.top) - top + i) + (parseInt(layer.style.left) - left) * 4;
+            let layerIndex = layer.width * 4 * i;
+
+            for (let j = 0; j < layer.width * 4; j += 4) {
+                let alphaA = data[layerIndex + j + 3];
+                let alphaB = imgData.data[canvasIndex + j + 3];
+                let alphaC = alphaA + (255 - alphaA) * alphaB;
+
+                imgData.data[canvasIndex + j] = (alphaA * data[layerIndex + j] + (255 - alphaA) * alphaB * imgData.data[canvasIndex + j]) / alphaC;
+                imgData.data[canvasIndex + j + 1] = (alphaA * data[layerIndex + j + 1] + (255 - alphaA) * alphaB * imgData.data[canvasIndex + j + 1]) / alphaC;
+                imgData.data[canvasIndex + j + 2] = (alphaA * data[layerIndex + j + 2] + (255 - alphaA) * alphaB * imgData.data[canvasIndex + j + 2]) / alphaC;
+                imgData.data[canvasIndex + j + 3] = alphaC;
+    }
     }
 }
 
-function selectRectangle(event) {
-    let drawSelection = (eventMouseMove) => {
-        let x;
-        let y;
+    ctx.putImageData(imgData, 0, 0);
 
-        if (eventMouseMove.clientX < WORKSPACE_LEFT) {
-            x = 0;
-        } else if (eventMouseMove.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
-            x = WORKSPACE_WIDTH;
-        } else {
-            x = eventMouseMove.clientX - WORKSPACE_LEFT;
+    download.href = canvas.toDataURL('image/png');
+    download.download = 'image.png';
         }
     
         if (eventMouseMove.clientY < WORKSPACE_TOP) {
@@ -310,31 +299,27 @@ function selectRectangle(event) {
             y = eventMouseMove.clientY - WORKSPACE_TOP;
         }
 
-        selectedArea = [
-            {
-                x: event.clientX - WORKSPACE_LEFT,
-                y: event.clientY - WORKSPACE_TOP
-            }, {
-                x,
-                y: event.clientY - WORKSPACE_TOP
-            }, {
-                x,
-                y
-            }, {
-                x: event.clientX - WORKSPACE_LEFT,
-                y
+function sortByZIndex(array) {
+    let i = array.lenght - 1;
+    let swapped;
+
+    do {
+        swapped = false;
+
+        for (let j = 0; j < i; i++) {
+            if (parseFloat(array[j].style.zIndex) > parseFloat(array[j + 1].style.zIndex)) {
+                let help = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = help;
+
+                swapped = true;
             }
-        ];
-        drawSelectedArea();
-    };
+            }
 
-    let removeMouseMove = () => {
-        window.removeEventListener('mousemove', drawSelection);
-        window.removeEventListener('mouseup', removeMouseMove);
-    };
+        i--;
+    } while (swapped && i > 0);
 
-    window.addEventListener('mousemove', drawSelection);
-    window.addEventListener('mouseup', removeMouseMove);
+    return array;
 }
 
 function drawSelectedArea() {
