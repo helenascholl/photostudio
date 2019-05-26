@@ -33,6 +33,8 @@ function init() {
     selection.width = WORKSPACE_WIDTH;
     selection.height = WORKSPACE_HEIGHT;
 
+    // TODO: resize
+
     initFirebase();
 
     for (let element of document.getElementsByClassName('tool')) {
@@ -85,6 +87,95 @@ function mouseDown(event) {
                 break;
         }
     }
+}
+
+
+function selectLayer(event) {
+    let maxZIndex = '-1';
+
+    for (let layer of layers.childNodes) {
+        if (event.clientX >= parseFloat(layer.style.left) + WORKSPACE_LEFT
+        && event.clientX <= parseFloat(layer.style.left) + WORKSPACE_LEFT + layer.width
+        && event.clientY >= parseFloat(layer.style.top) + WORKSPACE_TOP
+        && event.clientY <= parseFloat(layer.style.top) + WORKSPACE_TOP + layer.height
+        && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
+            maxZIndex = layer.style.zIndex;
+        }
+    }
+
+    for (let layer of layers.childNodes) {
+        if (maxZIndex === layer.style.zIndex) {
+            let layerLeft = parseFloat(layer.style.left);
+            let layerTop = parseFloat(layer.style.top);
+
+            selectedArea = [
+                {
+                    x: layerLeft,
+                    y: layerTop
+                }, {
+                    x: layerLeft + layer.width,
+                    y: layerTop
+                }, {
+                    x: layerLeft + layer.width,
+                    y: layerTop + layer.height
+                }, {
+                    x: layerLeft,
+                    y: layerTop + layer.height
+                }
+            ];
+            drawSelectedArea();
+
+            selectedLayer = layer;
+        }
+    }
+}
+
+function selectRectangle(event) {
+    let drawSelection = (eventMouseMove) => {
+        let x;
+        let y;
+
+        if (eventMouseMove.clientX < WORKSPACE_LEFT) {
+            x = 0;
+        } else if (eventMouseMove.clientX > WORKSPACE_LEFT + WORKSPACE_WIDTH) {
+            x = WORKSPACE_WIDTH;
+        } else {
+            x = eventMouseMove.clientX - WORKSPACE_LEFT;
+        }
+    
+        if (eventMouseMove.clientY < WORKSPACE_TOP) {
+            y = 0;
+        } else if (eventMouseMove.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
+            y = WORKSPACE_HEIGHT;
+        } else {
+            y = eventMouseMove.clientY - WORKSPACE_TOP;
+        }
+
+        selectedArea = [
+            {
+                x: event.clientX - WORKSPACE_LEFT,
+                y: event.clientY - WORKSPACE_TOP
+            }, {
+                x,
+                y: event.clientY - WORKSPACE_TOP
+            }, {
+                x,
+                y
+            }, {
+                x: event.clientX - WORKSPACE_LEFT,
+                y
+            }
+        ];
+        drawSelectedArea();
+    };
+
+    let removeMouseMove = () => {
+        window.removeEventListener('mousemove', drawSelection);
+        window.removeEventListener('mouseup', removeMouseMove);
+    };
+
+    window.addEventListener('mousemove', drawSelection);
+    window.addEventListener('mouseup', removeMouseMove);
 }
 
 function freeSelect(event) {
@@ -144,15 +235,86 @@ function freeSelect(event) {
     window.addEventListener('mouseup', removeMouseMove);
 }
 
+function move(event) {
+    if (selectedLayer !== null
+    && event.clientX >= parseFloat(selectedLayer.style.left) + WORKSPACE_LEFT
+    && event.clientX <= parseFloat(selectedLayer.style.left) + WORKSPACE_LEFT + selectedLayer.width
+    && event.clientY >= parseFloat(selectedLayer.style.top) + WORKSPACE_TOP
+    && event.clientY <= parseFloat(selectedLayer.style.top) + WORKSPACE_TOP + selectedLayer.height) {
+        let originalPosition = {
+            x: event.clientX,
+            y: event.clientY
+        };
+
+        let moveLayer = (event) => {
+            let newLeft = parseFloat(selectedLayer.style.left) + event.clientX - originalPosition.x;
+            let newTop = parseFloat(selectedLayer.style.top) + event.clientY - originalPosition.y;
+            let layerLeft = parseFloat(selectedLayer.style.left);
+            let layerTop = parseFloat(selectedLayer.style.top);
+
+            if (newLeft < 0) {
+                selectedLayer.style.left = '0px';
+
+                if (event.clientX >= layerLeft + WORKSPACE_LEFT) {
+                    originalPosition.x = event.clientX;
+                }
+            } else {
+                selectedLayer.style.left = newLeft + 'px';
+                originalPosition.x = event.clientX;
+            }
+            
+            if (newTop < 0) {
+                selectedLayer.style.top = '0px';
+
+                if (event.clientY >= layerTop + WORKSPACE_TOP) {
+                    originalPosition.y = event.clientY;
+                }
+            } else {
+                selectedLayer.style.top = newTop + 'px';
+                originalPosition.y = event.clientY;
+            }
+
+            layerLeft = parseFloat(selectedLayer.style.left);
+            layerTop = parseFloat(selectedLayer.style.top);
+
+            selectedArea = [
+                {
+                    x: layerLeft - layers.scrollLeft,
+                    y: layerTop - layers.scrollTop
+                }, {
+                    x: layerLeft + selectedLayer.width - layers.scrollLeft,
+                    y: layerTop - layers.scrollTop
+                }, {
+                    x: layerLeft + selectedLayer.width - layers.scrollLeft,
+                    y: layerTop + selectedLayer.height - layers.scrollTop
+                }, {
+                    x: layerLeft - layers.scrollLeft,
+                    y: layerTop + selectedLayer.height - layers.scrollTop
+                }
+            ];
+            drawSelectedArea();
+        };
+
+        let removeMouseMove = () => {
+            window.removeEventListener('mousemove', moveLayer);
+            window.removeEventListener('mouseup', removeMouseMove);
+        }
+
+
+        window.addEventListener('mousemove', moveLayer);
+        window.addEventListener('mouseup', removeMouseMove);
+    }
+}
+
 function fill(event) {
     if (selectedLayer !== null) {
-        let maxZIndex = '0';
+        let maxZIndex = '-1';
 
         for (let layer of layers.childNodes) {
-            if (event.clientX >= parseFloat(layer.style.left)
-            && event.clientX <= parseFloat(layer.style.left) + layer.width
-            && event.clientY >= parseFloat(layer.style.top)
-            && event.clientY <= parseFloat(layer.style.top) + layer.height
+            if (event.clientX >= parseFloat(layer.style.left) + WORKSPACE_LEFT
+            && event.clientX <= parseFloat(layer.style.left) + WORKSPACE_LEFT + layer.width
+            && event.clientY >= parseFloat(layer.style.top) + WORKSPACE_TOP
+            && event.clientY <= parseFloat(layer.style.top) + WORKSPACE_TOP + layer.height
             && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
                 maxZIndex = layer.style.zIndex;
             }
@@ -160,8 +322,8 @@ function fill(event) {
 
         if (selectedLayer.style.zIndex === maxZIndex) {
             let ctx = selectedLayer.getContext('2d');
-            let left = parseFloat(selectedLayer.style.left) - WORKSPACE_LEFT;
-            let top = parseFloat(selectedLayer.style.top) - WORKSPACE_TOP;
+            let left = parseFloat(selectedLayer.style.left);
+            let top = parseFloat(selectedLayer.style.top);
             
             ctx.beginPath();
             ctx.moveTo(selectedArea[0].x - left, selectedArea[0].y - top);
@@ -322,27 +484,29 @@ function drawSelectedArea() {
     if (selectedArea != []) {
         ctxSelection.beginPath();
         ctxSelection.clearRect(0, 0, selection.width, selection.height);
-        ctxSelection.moveTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
         ctxSelection.setLineDash([5, 5]);
         ctxSelection.strokeStyle = '#000000';
 
         for (let coordinates of selectedArea) {
-            ctxSelection.lineTo(coordinates.x + WORKSPACE_LEFT, coordinates.y + WORKSPACE_TOP);
+            ctxSelection.lineTo(coordinates.x, coordinates.y);
         }
 
-        ctxSelection.lineTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
         ctxSelection.stroke();
 
         ctxSelection.beginPath();
-        ctxSelection.moveTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
         ctxSelection.setLineDash([0, 5, 5, 0]);
         ctxSelection.strokeStyle = '#ffffff';
 
         for (let coordinates of selectedArea) {
-            ctxSelection.lineTo(coordinates.x + WORKSPACE_LEFT, coordinates.y + WORKSPACE_TOP);
+            ctxSelection.lineTo(coordinates.x, coordinates.y);
         }
 
-        ctxSelection.lineTo(selectedArea[0].x + WORKSPACE_LEFT, selectedArea[0].y + WORKSPACE_TOP);
+        ctxSelection.lineTo(selectedArea[0].x, selectedArea[0].y);
+        ctxSelection.lineCap = 'butt';
+        ctxSelection.lineJoin = 'butt';
         ctxSelection.stroke();
 
         ctxSelection.setLineDash([]);
@@ -369,6 +533,7 @@ function uploadImage(event) {
         });
     } else if (fileExtension !== '') {
         alert('File format is not supported!');
+        // TODO: remove alert
     }
 
     event.target.value = '';
@@ -376,7 +541,7 @@ function uploadImage(event) {
 
 function createNewLayer(width, height) {
     let layer = document.createElement('canvas');
-    let zIndex = document.getElementById('layers').childNodes.length;
+    let zIndex = layers.childNodes.length;
     let layerDivs = document.getElementById('layerDivs');
     let layerDiv = document.createElement('div');
 
@@ -394,17 +559,17 @@ function createNewLayer(width, height) {
 
     selectedArea = [
         {
-            x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
-            y: parseFloat(layer.style.top) - WORKSPACE_TOP
+            x: parseFloat(layer.style.left),
+            y: parseFloat(layer.style.top)
         }, {
-            x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
-            y: parseFloat(layer.style.top) - WORKSPACE_TOP
+            x: parseFloat(layer.style.left) + layer.width,
+            y: parseFloat(layer.style.top)
         }, {
-            x: parseFloat(layer.style.left) - WORKSPACE_LEFT + layer.width,
-            y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
+            x: parseFloat(layer.style.left) + layer.width,
+            y: parseFloat(layer.style.top) + layer.height
         }, {
-            x: parseFloat(layer.style.left) - WORKSPACE_LEFT,
-            y: parseFloat(layer.style.top) - WORKSPACE_TOP + layer.height
+            x: parseFloat(layer.style.left),
+            y: parseFloat(layer.style.top) + layer.height
         }
     ];
 
@@ -429,17 +594,17 @@ function createNewLayer(width, height) {
 
         selectedArea = [
             {
-                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT,
-                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP
+                x: parseFloat(newSelectedLayer.style.left),
+                y: parseFloat(newSelectedLayer.style.top)
             }, {
-                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT + newSelectedLayer.width,
-                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP
+                x: parseFloat(newSelectedLayer.style.left) + newSelectedLayer.width,
+                y: parseFloat(newSelectedLayer.style.top)
             }, {
-                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT + newSelectedLayer.width,
-                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP + newSelectedLayer.height
+                x: parseFloat(newSelectedLayer.style.left) + newSelectedLayer.width,
+                y: parseFloat(newSelectedLayer.style.top) + newSelectedLayer.height
             }, {
-                x: parseFloat(newSelectedLayer.style.left) - WORKSPACE_LEFT,
-                y: parseFloat(newSelectedLayer.style.top) - WORKSPACE_TOP + newSelectedLayer.height
+                x: parseFloat(newSelectedLayer.style.left),
+                y: parseFloat(newSelectedLayer.style.top) + newSelectedLayer.height
             }
         ];
 

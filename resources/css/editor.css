@@ -30,8 +30,9 @@ canvas {
 }
 
 #selection {
-    top: 0;
-    left: 0;
+    top: 5vh;
+    left: 3vw;
+    pointer-events: none;
 }
 
 #top {
@@ -53,7 +54,7 @@ canvas {
     border-left: 1px solid black;
 }
 
-#background {
+#layers {
     width: 82vw;
     height: 95vh;
     position: absolute;
@@ -145,4 +146,16 @@ form {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
     cursor: pointer;
+}
+
+.button {
+    cursor: pointer;
+}
+
+#createImage {
+    width: 5vw;
+    height: 3vh;
+    background-color: white;
+    color: black;
+    display: inline-block;
 }
