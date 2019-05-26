@@ -13,6 +13,15 @@ const SUPPORTED_FILE_EXTENSIONS = [
     'jfi',
     'png'
 ];
+const CURSORS = {
+    select_layer: 'pointer',
+    select_rectangle: 'default',
+    free_select: 'default',
+    move: 'move',
+    fill: 'default',
+    draw: 'default'
+}
+let scrollPosition;
 let selection;
 let ctxSelection;
 let layers;
@@ -45,6 +54,7 @@ function init() {
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
             tool = element.id;
+            layers.style.cursor = CURSORS[element.id];
         });
     }
 
@@ -245,9 +255,9 @@ function freeSelect(event) {
     }
 
     selectedArea = [{
-            x: event.clientX - WORKSPACE_LEFT,
-            y: event.clientY - WORKSPACE_TOP
-        }];
+        x: event.clientX - WORKSPACE_LEFT,
+        y: event.clientY - WORKSPACE_TOP
+    }];
 
     ctxSelection.beginPath();
     ctxSelection.moveTo(selectedArea[0].x, selectedArea[0].y);
@@ -367,15 +377,15 @@ function draw(event) {
     if (selectedLayer !== null) {
         let maxZIndex = '-1';
 
-    for (let layer of layers.childNodes) {
+        for (let layer of layers.childNodes) {
             if (event.clientX >= parseFloat(layer.style.left) + WORKSPACE_LEFT
             && event.clientX <= parseFloat(layer.style.left) + WORKSPACE_LEFT + layer.width
             && event.clientY >= parseFloat(layer.style.top) + WORKSPACE_TOP
             && event.clientY <= parseFloat(layer.style.top) + WORKSPACE_TOP + layer.height
-        && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
-            maxZIndex = layer.style.zIndex;
+            && parseFloat(maxZIndex) < parseFloat(layer.style.zIndex)) {
+                maxZIndex = layer.style.zIndex;
+            }
         }
-    }
 
         if (selectedLayer.style.zIndex === maxZIndex) {
             let ctx = selectedLayer.getContext('2d');
@@ -399,7 +409,7 @@ function draw(event) {
             let removeMouseMove = () => {
                 window.removeEventListener('mousemove', drawOnLayer);
                 window.removeEventListener('mouseup', removeMouseMove);
-                }
+            }
 
             window.addEventListener('mousemove', drawOnLayer);
             window.addEventListener('mouseup', removeMouseMove);
@@ -426,7 +436,7 @@ function createImage() {
         if (parseFloat(layer.style.top) < top) {
             top = parseFloat(layer.style.top);
         }
-        
+
         if (parseFloat(layer.style.left) + layer.width > right) {
             right = parseFloat(layer.style.left) + layer.width;
         }
@@ -446,7 +456,7 @@ function createImage() {
         imgData.data[i + 1] = 255;
         imgData.data[i + 2] = 255;
         imgData.data[i + 3] = 0;
-            }
+    }
 
     for (let layer of sortedLayers) {
         let data = layer.getContext('2d').getImageData(0, 0, layer.width, layer.height).data;
@@ -464,19 +474,19 @@ function createImage() {
                 imgData.data[canvasIndex + j + 1] = (alphaA * data[layerIndex + j + 1] + (255 - alphaA) * alphaB * imgData.data[canvasIndex + j + 1]) / alphaC;
                 imgData.data[canvasIndex + j + 2] = (alphaA * data[layerIndex + j + 2] + (255 - alphaA) * alphaB * imgData.data[canvasIndex + j + 2]) / alphaC;
                 imgData.data[canvasIndex + j + 3] = alphaC;
+            }
+        }
     }
-    }
-}
 
     ctx.putImageData(imgData, 0, 0);
 
     download.href = canvas.toDataURL('image/png');
     download.download = 'image.png';
-        }
-    
+}
+
 function uploadImageToDatabase() {
 
-        }
+}
 
 function sortByZIndex(array) {
     let i = array.lenght - 1;
@@ -493,7 +503,7 @@ function sortByZIndex(array) {
 
                 swapped = true;
             }
-            }
+        }
 
         i--;
     } while (swapped && i > 0);
