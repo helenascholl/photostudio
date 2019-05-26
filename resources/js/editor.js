@@ -33,7 +33,7 @@ function init() {
     selection.width = WORKSPACE_WIDTH;
     selection.height = WORKSPACE_HEIGHT;
 
-    // resize
+    initFirebase();
 
     for (let element of document.getElementsByClassName('tool')) {
         element.addEventListener('click', () => {
@@ -291,12 +291,8 @@ function createImage() {
     download.download = 'image.png';
         }
     
-        if (eventMouseMove.clientY < WORKSPACE_TOP) {
-            y = 0;
-        } else if (eventMouseMove.clientY > WORKSPACE_TOP + WORKSPACE_HEIGHT) {
-            y = WORKSPACE_HEIGHT;
-        } else {
-            y = eventMouseMove.clientY - WORKSPACE_TOP;
+function uploadImageToDatabase() {
+
         }
 
 function sortByZIndex(array) {
@@ -457,4 +453,15 @@ function createNewLayer(width, height) {
     selectedLayer = layer;
 
     return layer;
+}
+
+function initFirebase() {
+    firebase.initializeApp({
+        apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
+        authDomain: "webprojekt-bf181.firebaseapp.com",
+        databaseURL: "https://webprojekt-bf181.firebaseio.com",
+        projectId: "webprojekt-bf181",
+        storageBucket: "webprojekt-bf181.appspot.com",
+        messagingSenderId: "403269192570"
+    });
 }
