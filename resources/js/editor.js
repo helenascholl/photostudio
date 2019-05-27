@@ -269,7 +269,7 @@ function freeSelect(event) {
 }
 
 function move(event) {
-    if (selectedLayer !== null
+    if (selectedLayer
     && event.clientX >= parseFloat(selectedLayer.style.left) + WORKSPACE_LEFT
     && event.clientX <= parseFloat(selectedLayer.style.left) + WORKSPACE_LEFT + selectedLayer.width
     && event.clientY >= parseFloat(selectedLayer.style.top) + WORKSPACE_TOP
@@ -340,7 +340,7 @@ function move(event) {
 }
 
 function fill(event) {
-    if (selectedLayer !== null) {
+    if (selectedLayer) {
         let maxZIndex = '-1';
 
         for (let layer of layers.childNodes) {
@@ -376,7 +376,7 @@ function fill(event) {
 }
 
 function draw(event) {
-    if (selectedLayer !== null) {
+    if (selectedLayer) {
         let maxZIndex = '-1';
 
         for (let layer of layers.childNodes) {

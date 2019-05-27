@@ -34,7 +34,7 @@ function init() {
         document.getElementById('load').style.opacity = 1;
 
         setTimeout(() => {
-            if (sessionStorage.getItem('link') !== null) {
+            if (sessionStorage.getItem('link')) {
                 window.open(sessionStorage.getItem('link'), '_self');
             } else {
                 window.open('../', '_self');
@@ -191,7 +191,7 @@ function createAccount() {
                         document.getElementById('load').style.opacity = 1;
 
                         setTimeout(() => {
-                            if (sessionStorage.getItem('link') !== null) {
+                            if (sessionStorage.getItem('link')) {
                                 window.open(sessionStorage.getItem('link'), '_self');
                             } else {
                                 window.open('../', '_self');
@@ -278,7 +278,7 @@ function logIn() {
                 document.getElementById('load').style.opacity = 1;
 
                 setTimeout(() => {
-                    if (sessionStorage.getItem('link') !== null) {
+                    if (sessionStorage.getItem('link')) {
                         window.open(sessionStorage.getItem('link'), '_self');
                     } else {
                         window.open('../', '_self');
