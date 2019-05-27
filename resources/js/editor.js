@@ -491,11 +491,16 @@ function createImage() {
 }
 
 function uploadImageToDatabase() {
-    fullImage.toBlob((blob) => {
-        firebase.storage().ref().child(`${firebase.auth().currentUser.displayName}/${fullImage.filename}`).put(blob);
-    });
+    let currentDate = new Date();
+    let filename = `${fullImage.filename}-${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}-${currentDate.getUTCHours()}-${currentDate.getUTCMinutes()}-${currentDate.getUTCSeconds()}`;
 
-    // TODO: add date string to filename
+    fullImage.toBlob((blob) => {
+        firebase.storage().ref().child(`images/${firebase.auth().currentUser.uid}/${filename}`).put(blob).then(() => {
+            console.log('uploaded');
+        }).catch((error) => {
+            console.log(error.message);
+        });
+    });
 }
 
 function sortByZIndex(array) {
