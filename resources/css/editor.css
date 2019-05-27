@@ -152,7 +152,7 @@ form {
     cursor: pointer;
 }
 
-#createImage {
+#createImage, #uploadImage {
     width: 5vw;
     height: 3vh;
     background-color: white;

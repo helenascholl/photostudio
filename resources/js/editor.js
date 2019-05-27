@@ -21,6 +21,7 @@ const CURSORS = {
     fill: 'default',
     draw: 'default'
 }
+let fullImage;
 let scrollPosition;
 let selection;
 let ctxSelection;
@@ -67,6 +68,7 @@ function init() {
     });
     document.getElementById('filename').addEventListener('change', uploadImage);
     document.getElementById('createImage').addEventListener('click', createImage);
+    document.getElementById('uploadImage').addEventListener('click', uploadImageToDatabase);
     layers.addEventListener('mousedown', mouseDown);
     layers.addEventListener('scroll', () => {
         for (let coordinates of selectedArea) {
@@ -424,9 +426,11 @@ function createImage() {
     let top = parseFloat(layers.childNodes[0].style.top);
     let right = parseFloat(layers.childNodes[0].style.left) + layers.childNodes[0].width;
     let bottom = parseFloat(layers.childNodes[0].style.top) + layers.childNodes[0].height;
-    let canvas = document.createElement('canvas');
-    let ctx = canvas.getContext('2d');
+    let ctx;
     let imgData;
+
+    fullImage = document.createElement('canvas');
+    ctx = fullImage.getContext('2d');
 
     for (let layer of sortedLayers) {
         if (parseFloat(layer.style.left) < left) {
@@ -446,10 +450,10 @@ function createImage() {
         }
     }
 
-    canvas.width = right - left;
-    canvas.height = bottom - top;
+    fullImage.width = right - left;
+    fullImage.height = bottom - top;
 
-    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    imgData = ctx.getImageData(0, 0, fullImage.width, fullImage.height);
 
     for (let i = 0; i < imgData.data.length; i += 4) {
         imgData.data[i] = 255;
@@ -462,7 +466,7 @@ function createImage() {
         let data = layer.getContext('2d').getImageData(0, 0, layer.width, layer.height).data;
 
         for (let i = 0; i < layer.height; i++) {
-            let canvasIndex = (canvas.width * 4) * (parseInt(layer.style.top) - top + i) + (parseInt(layer.style.left) - left) * 4;
+            let canvasIndex = (fullImage.width * 4) * (parseInt(layer.style.top) - top + i) + (parseInt(layer.style.left) - left) * 4;
             let layerIndex = layer.width * 4 * i;
 
             for (let j = 0; j < layer.width * 4; j += 4) {
@@ -480,12 +484,18 @@ function createImage() {
 
     ctx.putImageData(imgData, 0, 0);
 
-    download.href = canvas.toDataURL('image/png');
-    download.download = 'image.png';
+    fullImage.filename = 'image.png';
+
+    download.href = fullImage.toDataURL('image/png');
+    download.download = fullImage.filename;
 }
 
 function uploadImageToDatabase() {
+    fullImage.toBlob((blob) => {
+        firebase.storage().ref().child(`${firebase.auth().currentUser.displayName}/${fullImage.filename}`).put(blob);
+    });
 
+    // TODO: add date string to filename
 }
 
 function sortByZIndex(array) {
