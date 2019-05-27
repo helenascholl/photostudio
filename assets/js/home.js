@@ -8,7 +8,7 @@ window.addEventListener('load', init);
 function init() {
     let scroll = document.getElementById('scroll');
 
-    particlesJS.load('particles-js', 'resources/js/particles.json');
+    particlesJS.load('particles-js', 'assets/js/particles.json');
 
     background = document.getElementById('particles-js');
     resize();
@@ -57,7 +57,7 @@ function init() {
         firebase.auth().signOut();
     });
     window.addEventListener('resize', resize);
-    window.addEventListener('mousemove', mousemove);
+    //window.addEventListener('mousemove', mousemove);
 
     window.removeEventListener('load', init);
 
@@ -130,7 +130,7 @@ function resize() {
     background.style.marginTop = (parseFloat(background.style.height) - innerHeight) / -2 + 'px';
 }
 
-function mousemove(event) {
+/*function mousemove(event) {
     if (lastCoordinates !== undefined) {
         background.style.marginLeft = parseFloat(background.style.marginLeft) + (event.clientX - lastCoordinates.x) / 150 + 'px';
         background.style.marginTop = parseFloat(background.style.marginTop) + (event.clientY - lastCoordinates.y) / 150 + 'px';
@@ -140,7 +140,7 @@ function mousemove(event) {
         x: event.clientX,
         y: event.clientY
     };
-}
+}*/
 
 function navigateTo(path) {
     document.getElementById('load').style.opacity = 1;
