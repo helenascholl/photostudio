@@ -139,6 +139,8 @@ function changePassword() {
                     
                     text.display = 'block';
                     loader.display = 'none';
+                }).catch((error) => {
+                    console.log(error.message);
                 });
             } else {
                 inputError(newPassword.id, 'Please choose a different password.');
@@ -146,11 +148,15 @@ function changePassword() {
                 text.display = 'block';
                 loader.display = 'none';
             }
-        }).catch(() => {
+        }).catch((error) => {
             text.display = 'block';
             loader.display = 'none';
 
-            inputError(oldPassword.id, 'Incorrect password.');
+            if (error.code === 'auth/wrong-password') {
+                inputError(oldPassword.id, 'Incorrect password.');
+            } else {
+                console.log(error.message);
+            }
         });
     }
 }
@@ -194,12 +200,18 @@ function changeUsername() {
                 loader.display = 'none';
 
                 openPopup(`Changed username to ${user.displayName}.`);
+            }).catch((error) => {
+                console.log(error.message);
             });
-        }).catch(() => {
+        }).catch((error) => {
             text.display = 'block';
             loader.display = 'none';
 
-            inputError(password.id, 'Incorrect password.');
+            if (error.code === 'auth/wrong-password') {
+                inputError(password.id, 'Incorrect password.');
+            } else {
+                console.log(error.message);
+            }
         });
     }
 }
@@ -227,12 +239,18 @@ function deleteAccount() {
             setTimeout(() => {
                 window.open('../', '_self');
             }, 1500);
+        }).catch((error) => {
+            console.log(error.message);
         });
-    }).catch(() => {
+    }).catch((error) => {
         text.display = 'block';
         loader.display = 'none';
 
-        inputError(password.id, 'Incorrect password.');
+        if (error.code === 'auth/wrong-password') {
+            inputError(password.id, 'Incorrect password.');
+        } else {
+            console.log(error.message);
+        }
     });
 }
 

@@ -197,8 +197,14 @@ function createAccount() {
                                 window.open('../', '_self');
                             }
                         }, 500);
+                    }).catch((error) => {
+                        console.log(error.message);
                     });
+                }).catch((error) => {
+                    console.log(error.message);
                 });
+            }).catch((error) => {
+                console.log(error.message);
             });
         }).catch((error) => {
             switch (error.code) {
@@ -212,6 +218,7 @@ function createAccount() {
 
                 default:
                     inputError('createAccountPassword', 'An error occured while creating an account.');
+                    console.log(error.message);
             }
             
             loader.display = 'none';
@@ -277,12 +284,18 @@ function logIn() {
                         window.open('../', '_self');
                     }
                 }, 500);
-            }).catch(() => {
+            }).catch((error) => {
                 loader.display = 'none';
                 text.display = 'block';
 
-                inputError(password.id, 'Incorrect email address or password.');
+                if (error.code === 'auth/wrong-password') {
+                    inputError(password.id, 'Incorrect email address or password.');
+                } else {
+                    console.log(error.message);
+                }
             });
+        }).catch((error) => {
+            console.log(error.message);
         });
     }
 }
