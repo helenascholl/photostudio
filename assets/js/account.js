@@ -1,7 +1,5 @@
 'use strict';
 
-let lastKey;
-
 window.addEventListener('load', init);
 
 function init() {
@@ -18,11 +16,9 @@ function init() {
         }
     };
     let preventTabBack = (event) => {
-        if (lastKey === 'Shift' && event.key === 'Tab') {
+        if (event.shiftKey && event.key === 'Tab') {
             event.preventDefault();
         }
-
-        lastKey = event.key;
     };
 
     rememberMe.checked = false;
@@ -51,20 +47,16 @@ function init() {
     addKeydownEventListener('switchToCreateAccount', (event) => {
         if (event.key === 'Enter') {
             switchToCreateAccount();
-        } else if (lastKey !== 'Shift') {
+        } else if (event.shiftKey) {
             event.preventDefault();
         }
-
-        lastKey = event.key;
     });
     addKeydownEventListener('switchToLogIn', (event) => {
         if (event.key === 'Enter') {
             switchToLogIn();
-        } else if (lastKey !== 'Shift') {
+        } else if (event.shiftKey) {
             event.preventDefault();
         }
-
-        lastKey = event.key;
     });
     addKeydownEventListener('rememberMe', (event) => {
         if (event.key === 'Enter') {
