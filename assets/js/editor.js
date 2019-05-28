@@ -493,13 +493,32 @@ function createImage() {
 function uploadImageToDatabase() {
     let currentDate = new Date();
     let filename = `${fullImage.filename}-${currentDate.getUTCFullYear()}-${currentDate.getUTCMonth() + 1}-${currentDate.getUTCDate()}-${currentDate.getUTCHours()}-${currentDate.getUTCMinutes()}-${currentDate.getUTCSeconds()}`;
+    let path = `images/${firebase.auth().currentUser.uid}`;
 
     fullImage.toBlob((blob) => {
-        firebase.storage().ref().child(`images/${firebase.auth().currentUser.uid}/${filename}`).put(blob).then(() => {
+        firebase.storage().ref().child(`${path}/${filename}`).put(blob).then(() => {
             console.log('uploaded');
+            // TODO: success message
         }).catch((error) => {
             console.log(error.message);
+            // TODO: error handling
         });
+    });
+
+    firebase.database().ref(path).once('value').then((snapshot) => {
+        let data = snapshot.val();
+
+        if (data) {
+            data.push(filename);
+        } else {
+            data = [filename];
+        }
+
+        firebase.database().ref(path).set(data).catch((error) => {
+            console.log(error.message);
+        });
+    }).catch((error) => {
+        console.log(error.message);
     });
 }
 
