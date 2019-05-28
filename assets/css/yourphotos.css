@@ -32,7 +32,7 @@ h1 {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    border-right: 1px solid black;
+    border-right: 0.1vmin solid black;
     -webkit-box-pack: center;
         -ms-flex-pack: center;
             justify-content: center;
@@ -60,7 +60,7 @@ header {
     position: fixed;
     left: 0;
     top: 0;
-    border-bottom: 1px solid black;
+    border-bottom: 0.1vmin solid black;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
     display: -webkit-box;
@@ -79,7 +79,7 @@ header {
             user-select: none;
 }
 
-main {
+#photos {
     width: 100vw;
     position: absolute;
     top: 10vh;
@@ -90,6 +90,7 @@ main {
     width: 10vmin;
     margin: 2vmin;
     display: inline-block;
+    transition: opacity 100ms, transform 150ms;
 }
 
 .file {
@@ -182,4 +183,9 @@ h2 {
 
 #load {
     z-index: 1;
+}
+
+#options {
+    position: absolute;
+    background-color: gray;
 }
