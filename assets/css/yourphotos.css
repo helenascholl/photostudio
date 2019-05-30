@@ -57,9 +57,6 @@ h1 {
 header {
     width: 100vw;
     height: 10vh;
-    position: fixed;
-    left: 0;
-    top: 0;
     border-bottom: 0.1vmin solid black;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
@@ -80,10 +77,11 @@ header {
 }
 
 #photos {
-    width: 100vw;
-    position: absolute;
-    top: 10vh;
-    left: 0;
+    width: auto;
+    height: 90vh;
+    margin: auto;
+    overflow-y: scroll;
+    transition: opacity 200ms;
 }
 
 .photo {
@@ -129,7 +127,7 @@ header {
     cursor: pointer;
 }
 
-#popup {
+#noAccount, #loader {
     width: 100vw;
     height: 90vh;
     position: fixed;
@@ -149,6 +147,17 @@ header {
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+    transition: opacity 200ms;
+}
+
+.loader {
+    width: 20vmin;
+}
+
+.loader div {
+    width: 3vmin;
+    height: 3vmin;
+    background-color: rgb(189, 189, 189);
 }
 
 #logIn {
@@ -176,16 +185,46 @@ header {
     background-color: rgb(52, 52, 255);
 }
 
-h2 {
+#logIn h2 {
     font-size: 6vmin;
     margin-top: 0;
 }
 
-#load {
-    z-index: 1;
+#contextmenu {
+    width: 15vmin;
+    box-sizing: border-box;
+    position: absolute;
+    border: 0.1vmin solid #d8d8d8;
+    border-radius: 0.5vmin;
+    background-color: white;
+    overflow: hidden;
+    font-size: 2vmin;
+    user-select: none;
+    transition: height 100ms;
 }
 
-#options {
-    position: absolute;
-    background-color: gray;
+#contextmenu div {
+    height: 4vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+
+#contextmenu div:hover {
+    background-color: #ebebeb;
+}
+
+#noPhotos {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+#noPhotos h2 {
+    font-size: 4vmin;
+    margin: 0;
+    color: rgb(189, 189, 189);
 }

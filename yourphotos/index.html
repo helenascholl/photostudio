@@ -4,18 +4,18 @@
         <meta charset="utf-8">
         <title>Your Photos</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
-        <link href="../assets/css/yourphotos.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/load.css" rel="stylesheet" type="text/css">
+        <link href="../assets/css/yourphotos.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/scrollbar.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-storage.js"></script>
         <script src="../assets/js/yourphotos.js"></script>
     </head>
     <body>
-        <div id="load" style="opacity: 1;"></div>
         <header>
             <div id="heading">
                 <div id="back">
@@ -24,26 +24,34 @@
                 <h1>Your Photos</h1>
             </div>
         </header>
-        <div id="photos"></div>
 
-        <div id="options" style="display: none; top: 0; left: 0;">
-            <div id="filename"></div>
-            <div id="rename">Rename</div>
-            <div id="delete">Delete</div>
-            <div id="info">Info</div>
+        <div id="photos" style="display: none; opacity: 0;">
+            <div id="noPhotos" style="display: none;">
+                <h2>You haven't uploaded any photos yet.</h2>
+            </div>
         </div>
 
-        <!--<div id="">
+        <div id="contextmenu" style="display: none; height: 0;">
+            <a id="download">
+                <div>Download</div>
+            </a>
+            <div id="rename">Rename</div>
+            <div id="delete">Delete</div>
+        </div>
+
+        <div id="loader" style="display: flex; opacity: 1;">
             <div class="loader">
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
-        </div>-->
+        </div>
 
-        <div id="noAccount" style="display: none;">
+        <div id="noAccount" style="display: none; opacity: 0;">
             <h2>Please log in to use Your Photos.</h2>
             <div class="button" id="logIn">Log in</div>
         </div>
+
+        <div id="load" style="opacity: 1;"></div>
     </body>
 </html>

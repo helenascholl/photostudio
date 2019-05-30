@@ -6,62 +6,40 @@ function init() {
     initFirebase();
 
     firebase.auth().onAuthStateChanged((user) => {
-        if (!user) {
-            document.getElementById('noAccount').style.display = 'flex';
-            document.getElementById('photos').style.display = 'none';
-        } else {
+        let loader = document.getElementById('loader').style;
+
+        if (user) {
+            let photos = document.getElementById('photos').style;
+
             firebase.database().ref(`images/${user.uid}`).once('value').then((snapshot) => {
                 let data = snapshot.val();
-                let delay = 1;
 
                 if (data) {
-                    for (let nameString of data) {
-                        let photo = document.createElement('div');
-                        let file = document.createElement('div');
-                        let filenameDiv = document.createElement('div');
-                        let fileImage = document.createElement('i');
-                        let splitNameString = nameString.split('-');
-                        let filename = splitNameString[0];
-
-                        photo.className = 'photo';
-                        photo.style.opacity = 0;
-                        photo.style.transform = 'scale(0, 0)';
-                        file.className = 'file';
-                        filenameDiv.className = 'filename';
-                        fileImage.className = 'fa fa-file-image-o';
-
-                        filenameDiv.textContent = filename;
-                        filenameDiv.title = filename;
-
-                        photo.filename = nameString;
-
-                        photo.date = {
-                            year: splitNameString[1],
-                            month: splitNameString[2],
-                            day: splitNameString[3],
-                            hour: splitNameString[4],
-                            minute: splitNameString[5],
-                            second: splitNameString[6]
-                        };
-
-                        photo.addEventListener('contextmenu', openOptions);
-
-                        file.appendChild(fileImage);
-                        photo.appendChild(file);
-                        photo.appendChild(filenameDiv);
-                        document.getElementById('photos').appendChild(photo);
-
-                        setTimeout(() => {
-                            photo.style.opacity = 1;
-                            photo.style.transform = 'scale(1, 1)';
-                        }, delay += 10);
-                    }
+                    createPhotos(data);
                 } else {
-                    // no photos
+                    document.getElementById('noPhotos').style.display = 'flex';
                 }
+
+                photos.display = 'block';
+                loader.opacity = 0;
+    
+                setTimeout(() => {
+                    photos.opacity = 1;
+                    loader.display = 'none';
+                }, 200);
             }).catch((error) => {
                 console.log(error.message);
             });
+        } else {
+            let noAccount = document.getElementById('noAccount').style;
+
+            noAccount.display = 'flex';
+            loader.opacity = 0;
+
+            setTimeout(() => {
+                noAccount.opacity = 1;
+                loader.display = 'none';
+            }, 200);
         }
     });
 
@@ -72,6 +50,9 @@ function init() {
         sessionStorage.setItem('link', '../yourphotos');
         navigateTo('../account');
     });
+    document.getElementById('download').addEventListener('click', downloadPhoto);
+    document.getElementById('rename').addEventListener('click', renamePhoto);
+    document.getElementById('delete').addEventListener('click', deletePhoto);
     window.removeEventListener('load', init);
 
     document.getElementById('load').style.opacity = 0;
@@ -85,6 +66,83 @@ function navigateTo(path) {
     }, 500);
 }
 
+function downloadPhoto() {
+    let photo = document.getElementById('contextmenu').selectedPhoto;
+
+    firebase.storage().ref(`images/${firebase.auth().currentUser.uid}/${photo}`).getDownloadURL().then((url) => {
+        let xhr = new XMLHttpRequest();
+        let a = document.createElement('a');
+
+        a.download = photo.split('-')[0];
+
+        xhr.responseType = 'blob';
+        xhr.addEventListener('load', () => {
+            a.href = xhr.response;
+        });
+        xhr.open('GET', url);
+        xhr.send();
+
+        // a.href = url;
+        // a.download = photo.split('-')[0];
+        // a.click();
+    });
+}
+
+function renamePhoto() {
+
+}
+
+function deletePhoto() {
+
+}
+
+function createPhotos(data) {
+    let delay = 1;
+
+    for (let nameString of data) {
+        let photo = document.createElement('div');
+        let file = document.createElement('div');
+        let filenameDiv = document.createElement('div');
+        let fileImage = document.createElement('i');
+        let splitNameString = nameString.split('-');
+        let filename = splitNameString[0];
+        let photos = document.getElementById('photos');
+
+        photo.className = 'photo';
+        photo.style.opacity = 0;
+        photo.style.transform = 'scale(0, 0)';
+        file.className = 'file';
+        filenameDiv.className = 'filename';
+        fileImage.className = 'fa fa-file-image-o';
+
+        filenameDiv.textContent = filename;
+        filenameDiv.title = filename;
+
+        photo.filename = nameString;
+
+        file.addEventListener('contextmenu', openContextmenu);
+        photos.addEventListener('click', () => {
+            let contextmenu = document.getElementById('contextmenu').style;
+
+            contextmenu.height = '0';
+
+            setTimeout(() => {
+                document.getElementById('contextmenu').style.display = 'none';
+            }, 100);
+        });
+
+        file.appendChild(fileImage);
+        photo.appendChild(file);
+        photo.appendChild(filenameDiv);
+        photos.appendChild(photo);
+
+        setTimeout(() => {
+            photo.style.opacity = 1;
+            photo.style.transform = 'scale(1, 1)';
+        }, delay += 10);
+    }
+}
+
 function initFirebase() {
     firebase.initializeApp({
         apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
@@ -96,12 +154,33 @@ function initFirebase() {
     });
 }
 
-function openOptions(event) {
-    let options = document.getElementById('options');
+function openContextmenu(event) {
+    let contextmenu = document.getElementById('contextmenu');
+    let photo = event.target;
+
+    while (photo.className !== 'photo') {
+        photo = photo.parentNode;
+    }
+
+    contextmenu.selectedPhoto = photo.filename;
 
     event.preventDefault();
 
-    options.style.left = event.clientX + 'px';
-    options.style.top = event.clientY + 'px';
-    options.style.display = 'flex';
+    if (contextmenu.style.height === '12vmin') {
+        contextmenu.style.height = '0';
+
+        setTimeout(() => {
+            contextmenu.style.left = event.clientX + 'px';
+            contextmenu.style.top = event.clientY + 'px';
+            contextmenu.style.height = '12vmin';
+        }, 100);
+    } else {
+        contextmenu.style.display = 'block';
+        contextmenu.style.left = event.clientX + 'px';
+        contextmenu.style.top = event.clientY + 'px';
+
+        setTimeout(() => {
+            contextmenu.style.height = '12vmin';
+        }, 100);
+    }
 }
