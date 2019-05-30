@@ -14,7 +14,7 @@ body {
     top: 20vh;
     left: 35vw;
     border-radius: 2vmin;
-    border: 1px solid #d8d8d8;
+    border: 0.1vmin solid #d8d8d8;
     overflow: hidden;
     -webkit-user-select: none;
        -moz-user-select: none;
@@ -108,7 +108,7 @@ input {
 
 .inputBorder {
     width: 20vw;
-    height: 1px;
+    height: 0.11vmin;
     -webkit-transition: background-color 200ms;
     -o-transition: background-color 200ms;
     transition: background-color 200ms;
@@ -194,6 +194,7 @@ h1 {
     position: absolute;
     top: 1vmin;
     right: 1vmin;
+    font-size: 3vmin;
     color: black;
     z-index: 2;
     cursor: pointer;
