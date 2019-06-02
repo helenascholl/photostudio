@@ -124,9 +124,9 @@ header {
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     overflow: hidden;
-    -webkit-transform: opacity 200ms;
-        -ms-transform: opacity 200ms;
-            transform: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+            -o-transition: opacity 200ms;
+            transition: opacity 200ms;
 }
 
 .button {

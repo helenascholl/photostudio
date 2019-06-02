@@ -57,11 +57,6 @@
     content: '';
 }
 
-.loader div:nth-child(1) {
-    -webkit-animation-delay: 0;
-            animation-delay: 0;
-}
-
 .loader div:nth-child(2) {
     -webkit-animation-delay: 100ms;
             animation-delay: 100ms;
