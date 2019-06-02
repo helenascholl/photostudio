@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
     <head>
+        <meta name="author" content="Sebastian Scholl">
         <meta charset="utf-8">
-        <title>Your Photos</title>
+        <title>Your Photos - photo studio</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="../assets/css/load.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/yourphotos.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/scrollbar.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-storage.js"></script>
         <script src="../assets/js/yourphotos.js"></script>
+        <script src="../assets/js/firebase.js"></script>
     </head>
     <body>
         <header>
@@ -32,14 +35,13 @@
         </div>
 
         <div id="contextmenu" style="display: none; height: 0;">
-            <a id="download">
-                <div>Download</div>
-            </a>
-            <div id="rename">Rename</div>
+            <div id="download">Download</div>
+            <div id="edit">Edit</div>
+            <div id="openRenamePopup">Rename</div>
             <div id="delete">Delete</div>
         </div>
 
-        <div id="loader" style="display: flex; opacity: 1;">
+        <div id="loader" style="display: flex;">
             <div class="loader">
                 <div></div>
                 <div></div>
@@ -50,6 +52,32 @@
         <div id="noAccount" style="display: none; opacity: 0;">
             <h2>Please log in to use Your Photos.</h2>
             <div class="button" id="logIn">Log in</div>
+        </div>
+
+        <div id="wrapper" style="pointer-events: none;">
+            <div id="renamePopup" style="transform: scale(0, 0); opacity: 0;">
+                <i id="close" class="material-icons">close</i>
+    
+                <h3>Rename</h3>
+    
+                <form>
+                    <div id="renameText" style="font-size: 2vmin; padding-top: 1.9vmin;">New name</div>
+                    <input type="text" id="newName" tabindex="1" autocomplete="off">
+                    <div id="renameBorder" style="background-color: lightgray;"></div>
+                </form>
+                
+                <p id="renameError" style="opacity: 0;">error</p>
+
+                <div class="button" id="rename" tabindex="2">
+                    <div id="buttonText">Rename</div>
+
+                    <div id="buttonLoader" class="loader" style="display: none;">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="load" style="opacity: 1;"></div>

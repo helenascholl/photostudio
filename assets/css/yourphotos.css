@@ -7,6 +7,7 @@ h1 {
     margin: 0;
     font-size: 3.5vmin;
     display: inline;
+    text-transform: uppercase;
 }
 
 #heading {
@@ -117,14 +118,41 @@ header {
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     overflow: hidden;
+    transform: opacity 200ms;
 }
 
 .button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-radius: 1vmin;
+    color: white;
+    background-color: rgb(81, 81, 255);
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
     cursor: pointer;
+    -webkit-transition: background-color 400ms;
+    -o-transition: background-color 400ms;
+    transition: background-color 400ms;
+}
+
+#logIn {
+    width: 10vmin;
+    height: 4.8vmin;
+    font-size: 2.5vmin;
+}
+
+.button:hover, .button:focus {
+    background-color: rgb(52, 52, 255);
+    outline: none;
 }
 
 #noAccount, #loader {
@@ -150,42 +178,17 @@ header {
     transition: opacity 200ms;
 }
 
-.loader {
+#loader .loader {
     width: 20vmin;
 }
 
-.loader div {
+#loader .loader div {
     width: 3vmin;
     height: 3vmin;
     background-color: rgb(189, 189, 189);
 }
 
-#logIn {
-    width: 10vmin;
-    height: 4.8vmin;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    border-radius: 1vmin;
-    color: white;
-    background-color: rgb(81, 81, 255);
-    font-size: 2.5vmin;
-    -webkit-transition: background-color 400ms;
-    -o-transition: background-color 400ms;
-    transition: background-color 400ms;
-}
-
-#logIn:hover {
-    background-color: rgb(52, 52, 255);
-}
-
-#logIn h2 {
+#noAccount h2 {
     font-size: 6vmin;
     margin-top: 0;
 }
@@ -227,4 +230,104 @@ header {
     font-size: 4vmin;
     margin: 0;
     color: rgb(189, 189, 189);
+}
+
+#wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#renamePopup {
+    width: 50vw;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: white;
+    border: 0.1vmin solid #d8d8d8;
+    border-radius: 1vmin;
+    pointer-events: all;
+    user-select: none;
+    box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    transition: opacity 100ms, transform 150ms;
+}
+
+form {
+    margin-left: 5vw;
+}
+
+input {
+    width: 40vw;
+    display: block;
+    height: 3vmin;
+    outline: none;
+    border: none;
+    font-size: 2vmin;
+}
+
+#renameBorder {
+    width: 40vw;
+    height: 0.11vmin;
+    -webkit-transition: background-color 200ms;
+    -o-transition: background-color 200ms;
+    transition: background-color 200ms;
+}
+
+#renameText {
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 1.5vmin;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    pointer-events: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: font-size 200ms, padding-top 200ms, color 200ms;
+    -o-transition: font-size 200ms, padding-top 200ms, color 200ms;
+    transition: font-size 200ms, padding-top 200ms, color 200ms;
+}
+
+#renameError {
+    font-size: 2vmin;
+    color: red;
+    margin: 2vw 5vw 2vw 5vw;
+    transition: opacity 200ms;
+    word-wrap: break-word;
+}
+
+#rename {
+    width: 8vmin;
+    height: 3.5vmin;
+    font-size: 2vmin;
+    margin: 3vmin 5vw 5vh 0;
+    float: right;
+}
+
+#buttonLoader {
+    width: 5vmin;
+}
+
+#buttonLoader div {
+    width: 0.5vmin;
+    height: 0.5vmin;
+}
+
+#close {
+    cursor: pointer;
+    font-size: 2.5vmin;
+    float: right;
+    margin: 1vmin;
+}
+
+h3 {
+    margin: 5vh 0 0 0;
+    font-size: 3vmin;
+    text-align: center;
 }

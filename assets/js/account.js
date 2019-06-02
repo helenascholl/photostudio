@@ -7,16 +7,18 @@ function init() {
 
     let logInKeydown = (event) => {
         if (event.key === 'Enter') {
+            document.getElementById('logIn').focus();
             logIn();
         }
     };
     let createAccountKeydown = (event) => {
         if (event.key === 'Enter') {
+            document.getElementById('createAccount').focus();
             createAccount();
         }
     };
     let preventTabBack = (event) => {
-        if (event.shiftKey && event.key === 'Tab') {
+        if (event.key === 'Tab' && event.shiftKey) {
             event.preventDefault();
         }
     };
@@ -47,14 +49,14 @@ function init() {
     addKeydownEventListener('switchToCreateAccount', (event) => {
         if (event.key === 'Enter') {
             switchToCreateAccount();
-        } else if (event.shiftKey) {
+        } else if (event.key === 'Tab' && !event.shiftKey) {
             event.preventDefault();
         }
     });
     addKeydownEventListener('switchToLogIn', (event) => {
         if (event.key === 'Enter') {
             switchToLogIn();
-        } else if (event.shiftKey) {
+        } else if (event.key === 'Tab' && !event.shiftKey) {
             event.preventDefault();
         }
     });
@@ -96,6 +98,7 @@ function addKeydownEventListener(id, callback) {
 function switchToLogIn() {
     document.getElementById('logInForm').style.left = '0';
     document.getElementById('createAccountForm').style.left = '30vw';
+    document.getElementById('title').textContent = 'Log in - Photo Studio';
 
     setTimeout(() => {
         document.getElementById('logInEmail').focus();
@@ -105,21 +108,11 @@ function switchToLogIn() {
 function switchToCreateAccount() {
     document.getElementById('logInForm').style.left = '-30vw';
     document.getElementById('createAccountForm').style.left = '0';
+    document.getElementById('title').textContent = 'Create Account - Photo Studio';
     
     setTimeout(() => {
         document.getElementById('createAccountUsername').focus();
     }, 200);
-}
-
-function initFirebase() {
-    firebase.initializeApp({
-        apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
-        authDomain: "webprojekt-bf181.firebaseapp.com",
-        databaseURL: "https://webprojekt-bf181.firebaseio.com",
-        projectId: "webprojekt-bf181",
-        storageBucket: "webprojekt-bf181.appspot.com",
-        messagingSenderId: "403269192570"
-    });
 }
 
 function checkRememberMe() {
@@ -135,89 +128,90 @@ function checkRememberMe() {
 }
 
 function createAccount() {
-    let isValid = true;
-    let username = document.getElementById('createAccountUsername');
-    let email = document.getElementById('createAccountEmail');
-    let password = document.getElementById('createAccountPassword');
-    let confirm = document.getElementById('createAccountConfirm');
+    let loader = document.getElementById('createAccountLoader').style;
 
-    if (confirm.value !== password.value) {
-        isValid = inputError(confirm.id, 'Please enter the same password again.');
-    }
-    if (!/[^a-zA-Z0-9]/.test(password.value)) {
-        isValid = inputError(password.id, 'Your password must contain at least one special character.');
-    }
-    if (!/[0-9]/.test(password.value)) {
-        isValid = inputError(password.id, 'Your password must contain at least one number.');
-    }
-    if (!/[A-Z]/.test(password.value)) {
-        isValid = inputError(password.id, 'Your password must contain at least one uppercase letter.');
-    }
-    if (!/[a-z]/.test(password.value)) {
-        isValid = inputError(password.id, 'Your password must contain at least one lowercase letter.');
-    }
-    if (password.value.length < 8) {
-        isValid = inputError(password.id, 'Your password must contain at least eight characters.');
-    }
-    if (email.value === '') {
-        isValid = inputError(email.id, 'You must enter an email address to create an account.');    
-    }
-    if (/[^a-z0-9._]/i.test(username.value)) {
-        isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
-    }
-    if (username.value.length < 4) {
-        isValid = inputError(username.id, 'Your username must contain at least four characters.');
-    }
+    if (loader.display !== 'flex') {
+        let isValid = true;
+        let username = document.getElementById('createAccountUsername');
+        let email = document.getElementById('createAccountEmail');
+        let password = document.getElementById('createAccountPassword');
+        let confirm = document.getElementById('createAccountConfirm');
 
-    if (isValid) {
-        let loader = document.getElementById('createAccountLoader').style;
-        let text = document.getElementById('createAccountText').style;
+        if (confirm.value !== password.value) {
+            isValid = inputError(confirm.id, 'Please enter the same password again.');
+        }
+        if (!/[^a-zA-Z0-9]/.test(password.value)) {
+            isValid = inputError(password.id, 'Your password must contain at least one special character.');
+        }
+        if (!/[0-9]/.test(password.value)) {
+            isValid = inputError(password.id, 'Your password must contain at least one number.');
+        }
+        if (!/[A-Z]/.test(password.value)) {
+            isValid = inputError(password.id, 'Your password must contain at least one uppercase letter.');
+        }
+        if (!/[a-z]/.test(password.value)) {
+            isValid = inputError(password.id, 'Your password must contain at least one lowercase letter.');
+        }
+        if (password.value.length < 8) {
+            isValid = inputError(password.id, 'Your password must contain at least eight characters.');
+        }
+        if (email.value === '') {
+            isValid = inputError(email.id, 'You must enter an email address to create an account.');    
+        }
+        if (/[^a-z0-9._]/i.test(username.value)) {
+            isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
+        }
+        if (username.value.length < 4) {
+            isValid = inputError(username.id, 'Your username must contain at least four characters.');
+        }
 
-        loader.display = 'flex';
-        text.display = 'none';
+        if (isValid) {
+            let text = document.getElementById('createAccountText').style;
 
-        firebase.auth().createUserWithEmailAndPassword(email.value, password.value).then(() => {
-            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
-                firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
-                    firebase.auth().currentUser.updateProfile({displayName: username.value}).then(() => {
-                        document.getElementById('load').style.opacity = 1;
+            loader.display = 'flex';
+            text.display = 'none';
 
-                        setTimeout(() => {
-                            if (sessionStorage.getItem('link')) {
-                                window.open(sessionStorage.getItem('link'), '_self');
-                            } else {
-                                window.open('../', '_self');
-                            }
-                        }, 500);
+            firebase.auth().createUserWithEmailAndPassword(email.value, password.value).then(() => {
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+                    firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+                        firebase.auth().currentUser.updateProfile({displayName: username.value}).then(() => {
+                            document.getElementById('load').style.opacity = 1;
+
+                            setTimeout(() => {
+                                if (sessionStorage.getItem('link')) {
+                                    window.open(sessionStorage.getItem('link'), '_self');
+                                } else {
+                                    window.open('../', '_self');
+                                }
+                            }, 500);
+                        }).catch((error) => {
+                            console.error(error.message);
+                        });
                     }).catch((error) => {
-                        console.log(error.message);
+                        console.error(error.message);
                     });
                 }).catch((error) => {
-                    console.log(error.message);
+                    console.error(error.message);
                 });
             }).catch((error) => {
-                console.log(error.message);
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        inputError('createAccountEmail', error.message);
+                        break;
+
+                    case 'auth/invalid-email':
+                        inputError('createAccountEmail', 'Please enter a valid email address.');
+                        break;
+
+                    default:
+                        inputError('createAccountPassword', 'An error occured while creating an account.');
+                        console.error(error.message);
+                }
+                
+                loader.display = 'none';
+                text.display = 'block';
             });
-        }).catch((error) => {
-            switch (error.code) {
-                case 'auth/email-already-in-use':
-                    inputError('createAccountEmail', error.message);
-                    break;
-
-                case 'auth/invalid-email':
-                    inputError('createAccountEmail', 'Please enter a valid email address.');
-                    break;
-
-                default:
-                    inputError('createAccountPassword', 'An error occured while creating an account.');
-                    console.log(error.message);
-            }
-            
-            loader.display = 'none';
-            text.display = 'block';
-        });
-
-        
+        }
     }
 }
 
@@ -240,55 +234,58 @@ function inputError(id, message) {
 }
 
 function logIn() {
-    let email = document.getElementById('logInEmail');
-    let password = document.getElementById('logInPassword');
-    let persistence;
-    let isValid = true;
+    let loader = document.getElementById('logInLoader').style;
 
-    if (password.value === '') {
-        isValid = inputError(password.id, 'Please enter a password.');
-    }
-    if (email.value === '') {
-        isValid = inputError(email.id, 'Please enter an email address.');
-    }
+    if (loader.display !== 'flex') {
+        let email = document.getElementById('logInEmail');
+        let password = document.getElementById('logInPassword');
+        let persistence;
+        let isValid = true;
 
-    if (isValid) {
-        let loader = document.getElementById('logInLoader').style;
-        let text = document.getElementById('logInText').style;
-
-        loader.display = 'flex';
-        text.display = 'none';
-
-        if (document.getElementById('rememberMe').checked) {
-            persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        } else {
-            persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+        if (password.value === '') {
+            isValid = inputError(password.id, 'Please enter a password.');
         }
-    
-        persistence.then(() => {
-            firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
-                document.getElementById('load').style.opacity = 1;
+        if (email.value === '') {
+            isValid = inputError(email.id, 'Please enter an email address.');
+        }
 
-                setTimeout(() => {
-                    if (sessionStorage.getItem('link')) {
-                        window.open(sessionStorage.getItem('link'), '_self');
+        if (isValid) {
+            let text = document.getElementById('logInText').style;
+
+            loader.display = 'flex';
+            text.display = 'none';
+
+            if (document.getElementById('rememberMe').checked) {
+                persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+            } else {
+                persistence = firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+            }
+        
+            persistence.then(() => {
+                firebase.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+                    document.getElementById('load').style.opacity = 1;
+
+                    setTimeout(() => {
+                        if (sessionStorage.getItem('link')) {
+                            window.open(sessionStorage.getItem('link'), '_self');
+                        } else {
+                            window.open('../', '_self');
+                        }
+                    }, 500);
+                }).catch((error) => {
+                    loader.display = 'none';
+                    text.display = 'block';
+
+                    if (error.code === 'auth/wrong-password') {
+                        inputError(password.id, 'Incorrect email address or password.');
                     } else {
-                        window.open('../', '_self');
+                        console.error(error.message);
                     }
-                }, 500);
+                });
             }).catch((error) => {
-                loader.display = 'none';
-                text.display = 'block';
-
-                if (error.code === 'auth/wrong-password') {
-                    inputError(password.id, 'Incorrect email address or password.');
-                } else {
-                    console.log(error.message);
-                }
+                console.error(error.message);
             });
-        }).catch((error) => {
-            console.log(error.message);
-        });
+        }
     }
 }
 

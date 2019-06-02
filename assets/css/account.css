@@ -21,7 +21,8 @@ body {
         -ms-user-select: none;
             user-select: none;
     background-color: white;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 #logInForm, #createAccountForm {
@@ -40,9 +41,16 @@ body {
 }
 
 .bottom {
+    width: 20vw;
     position: absolute;
     bottom: 4vh;
     left: 5vw;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .button {
@@ -61,7 +69,7 @@ body {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
-    margin-right: 0.5vw;
+    margin-right: 0.8vw;
     -webkit-transition: background-color 400ms;
     -o-transition: background-color 400ms;
     transition: background-color 400ms;
@@ -198,4 +206,13 @@ h1 {
     color: black;
     z-index: 2;
     cursor: pointer;
+}
+
+.loader {
+    width: 5vmin;
+}
+
+.loader div {
+    width: 0.6vmin;
+    height: 0.6vmin;
 }

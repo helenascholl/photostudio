@@ -1,77 +1,126 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
     <head>
+        <meta name="author" content="Sebastian Scholl">
         <meta charset="utf-8">
-        <title>Editor</title>
+        <title>Editor - photo studio</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="../assets/css/editor.css" rel="stylesheet" type="text/css">
         <link href="../assets/css/load.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
         <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-storage.js"></script>
         <script src="../assets/js/editor.js"></script>
+        <script src="../assets/js/tools.js"></script>
+        <script src="../assets/js/firebase.js"></script>
     </head>
     <body id="body">
-        <section id="top">
+        <div id="top">
             <div id="back">
                 <i class="fa fa-angle-left"></i>
             </div>
+
             <form>
-                <input id="filename" type="file">
+                <div class="button" id="styledFilename">Open</div>
+                <input id="file" type="file">
             </form>
-            <div class="button" id="createImage">Create image</div>
-            <a id="download">Download</a>
-            <div id="uploadImage" class="button">Upload image</div>
-        </section>
 
-        <section id="tools">
-            <div class="tool" id="select_layer">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-            <div class="tool" id="select_rectangle">
-                <img src="../assets/img/icons/select_rectangle.png">
-            </div>
-            <div class="tool" id="free_select">
-                <img src="../assets/img/icons/free_select.png">
-            </div>
-            <div class="tool" id="move">
-                <img src="../assets/img/icons/move.png">
-            </div>
-            <div class="tool" id="fill">
-                <img src="../assets/img/icons/fill.png">
-            </div>
-            <div class="tool" id="draw">
-                <img src="../assets/img/icons/draw.png">
-            </div>
-            <div class="tool" id="crop">
-                <img src="../assets/img/icons/crop.png">
-            </div>
-            <div class="tool">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-            <div class="tool">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-            <div class="tool">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-            <div class="tool">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-            <div class="tool">
-                <img src="../assets/img/icons/select_layer.png">
-            </div>
-        </section>
+            <div class="button" id="openSavePopup">Save</div>
 
-        <section id="right">
-            <div id="layerDivs"></div>
-        </section>
+            <div id="wrapper" style="pointer-events: none;">
+                <div id="savePopup" style="z-index: 1; opacity: 0; transform: scale(0, 0);">
+                    <i id="close" class="material-icons">close</i>
+        
+                    <h1>Save</h1>
+        
+                    <form>
+                        <div id="filenameText" style="font-size: 2vmin; padding-top: 1.9vmin;">Filename</div>
+                        <input type="text" id="filename" tabindex="6" autocomplete="off">
+                        <select id="fileExtension" tabindex="7"></select>
+                        <div id="filenameBorder" style="background-color: lightgray;"></div>
+                    </form>
+                    
+                    <p id="saveError" style="opacity: 0;">error</p>
+
+                    <div id="download" class="button" tabindex="9">
+                        <div id="downloadText">Download</div>
+                    </div>
+
+                    <div id="uploadImage" class="button" tabindex="8">
+                        <div id="uploadImageText">Save to Your Photos</div>
+
+                        <div id="uploadImageLoader" class="loader" style="display: none;">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="layers"></div>
         <canvas id="selection"></canvas>
+
+        <div id="right">
+            <div id="tools">
+                <div class="tool" id="select_layer" title="Select a layer">
+                    <img src="../assets/img/icons/select_layer.png">
+                </div>
+                <div class="tool" id="select_rectangle" title="Select a rectangle">
+                    <img src="../assets/img/icons/select_rectangle.png">
+                </div>
+                <div class="tool" id="free_select" title="Free select">
+                    <img src="../assets/img/icons/free_select.png">
+                </div>
+                <div class="tool" id="move" title="Move a layer">
+                    <img src="../assets/img/icons/move.png">
+                </div>
+                <div class="tool" id="fill" title="Fill">
+                    <img src="../assets/img/icons/fill.png">
+                </div>
+                <div class="tool" id="draw" title="Draw">
+                    <img src="../assets/img/icons/draw.png">
+                </div>
+            </div>
+
+            <form>
+                <canvas id="styledSelectedColor"></canvas>
+                <input id="selectedColor" type="color" value="#ffffff">
+            </form>
+
+            <div id="layerDivs"></div>
+            <div id="openAddLayerPopup">
+                <i class="material-icons">add</i>
+            </div>
+            <div id="addLayerPopup" style="z-index: 1; display: none; bottom: 2vw; opacity: 0;">
+                <h1>New layer</h1>
+
+                <form>
+                    <div>
+                        <h2>Width:</h2>
+                        <input id="addLayerWidth" type="number" min="1" step="1" tabindex="1">
+                    </div>
+
+                    <div>
+                        <h2>Height:</h2>
+                        <input id="addLayerHeight" type="number" min="1" step="1" tabindex="2">
+                    </div>
+
+                    <div>
+                        <h2>Color:</h2>
+                        <input id="addLayerColor" type="color" tabindex="3">
+                    </div>
+                </form>
+
+                <div id="addLayer" class="button" tabindex="4">Create</div>
+                <div id="cancelAddLayer" class="button" tabindex="5">Cancel</div>
+            </div>
+        </div>
 
         <div id="load" style="opacity: 1; z-index: 2;"></div>
     </body>

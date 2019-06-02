@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html dir="ltr" id="html" lang="en">
     <head>
+        <meta name="author" content="Sebastian Scholl">
         <meta charset="utf-8">
-        <title>Photo editor</title>
+        <title>photo studio</title>
         <meta content="width=device-width, initial-scale=1" name="viewport">
         <link href="./assets/css/home.css" rel="stylesheet" type="text/css">
         <link href="./assets/css/load.css" rel="stylesheet" type="text/css">
         <link href="./assets/css/scrollbar.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed|Rubik&display=swap" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
         <script src="./assets/js/home.js"></script>
         <script src="./assets/js/particles.min.js"></script>
+        <script src="./assets/js/firebase.js"></script>
     </head>
     <body id="body">
         <div id="particles-js"></div>
         <div id="headings">
-            <h1>Photo editor</h1>
-            <h2>Edit your photos with the best online Photo editor.</h2>
+            <h1>photo studio</h1>
+            <h2>Edit your photos with the best online photo editor.</h2>
             <div class="button editor" id="edit">Start editing</div>
             <a class="fa fa-angle-double-down" href="#links" id="scroll"></a>
         </div>
@@ -47,11 +49,11 @@
 
         <div id="links">
             <div id="first">
-                <img src="./assets/img/placeholder.png">
+                <img src="./assets/img/editor.png" draggable="false">
                 <div class="margin"></div>
                 <div class="content">
                     <h3>Editor</h3>
-                    <p>Description</p>
+                    <p>Edit your photos width this simple, fast and free online editor.</p>
                     <div class="button editor">
                         <span>Editor
                             <i class="fa fa-angle-double-right"></i>
@@ -62,7 +64,7 @@
             <div id="second">
                 <div class="content">
                     <h3>Your Photos</h3>
-                    <p>Description</p>
+                    <p>Manage your edited photos and access them from everywhere.</p>
                     <div class="button" id="yourPhotos">
                         <span>Your Photos
                             <i class="fa fa-angle-double-right"></i>
@@ -70,11 +72,10 @@
                     </div>
                 </div>
                 <div class="margin"></div>
-                <img src="./assets/img/placeholder.png">
+                <img src="./assets/img/yourphotos.png" draggable="false">
             </div>
         </div>
 
         <div id="load" style="opacity: 1;"></div>
-        <a href="https://dorfingerjonas.github.io/VirtualNavigation/">Beste SEITE EU WEST</a>
     </body>
 </html>

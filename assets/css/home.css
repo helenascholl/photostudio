@@ -61,7 +61,7 @@ h2 {
 }
 
 #edit {
-    width: 25vmin;
+    width: 30vmin;
     height: 10vmin;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -102,7 +102,7 @@ h2 {
 }
 
 #links {
-    height: 100vh;
+    height: 100vw;
     width: 100vw;
     position: absolute;
     top: 100vh;
@@ -165,6 +165,7 @@ h3 {
 #links img {
     width: 40vmin;
     display: inline-block;
+    border: 0.1vmin solid black;
 }
 
 .content {

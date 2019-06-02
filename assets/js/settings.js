@@ -5,9 +5,30 @@ function init() {
     initInputs();
 
     firebase.auth().onAuthStateChanged((user) => {
-        if (!user) {
-            document.getElementById('noAccount').style.display = 'flex';
-            document.getElementById('forms').style.display = 'none';
+        let loader = document.getElementById('loader').style;
+        let forms = document.getElementById('forms').style;
+        let noAccount = document.getElementById('noAccount').style;
+
+        if (user) {
+            forms.display = 'block';
+            loader.opacity = 0;
+            noAccount.opacity = 0;
+    
+            setTimeout(() => {
+                forms.opacity = 1;
+                loader.display = 'none';
+                noAccount.display = 'none';
+            }, 200);
+        } else {
+            noAccount.display = 'flex';
+            loader.opacity = 0;
+            forms.opacity = 0;
+    
+            setTimeout(() => {
+                noAccount.opacity = 1;
+                loader.display = 'none';
+                forms.display = 'none';
+            }, 200);
         }
     });
 
@@ -86,122 +107,199 @@ function inputError(id, message) {
 }
 
 function changePassword() {
-    let oldPassword = document.getElementById('changePasswordOldPassword');
-    let newPassword = document.getElementById('changePasswordNewPassword');
-    let confirm = document.getElementById('changePasswordConfirm');
-    let text = document.getElementById('changePasswordText').style;
     let loader = document.getElementById('changePasswordLoader').style;
-    let user = firebase.auth().currentUser;
-    let isValid = true;
-    
-    if (confirm.value !== newPassword.value) {
-        isValid = inputError(confirm.id, 'Please enter the same password again.');
-    }
-    if (!/[^a-zA-Z0-9]/.test(newPassword.value)) {
-        isValid = inputError(newPassword.id, 'Your password must contain at least one special character.');
-    }
-    if (!/[0-9]/.test(newPassword.value)) {
-        isValid = inputError(newPassword.id, 'Your password must contain at least one number.');
-    }
-    if (!/[A-Z]/.test(newPassword.value)) {
-        isValid = inputError(newPassword.id, 'Your password must contain at least one uppercase letter.');
-    }
-    if (!/[a-z]/.test(newPassword.value)) {
-        isValid = inputError(newPassword.id, 'Your password must contain at least one lowercase letter.');
-    }
-    if (newPassword.value.length < 8) {
-        isValid = inputError(newPassword.id, 'Your password must contain at least eight characters.');
-    }
 
-    if (isValid) {
-        text.display = 'none';
-        loader.display = 'flex';
+    if (loader.display !== 'flex') {
+        let oldPassword = document.getElementById('changePasswordOldPassword');
+        let newPassword = document.getElementById('changePasswordNewPassword');
+        let confirm = document.getElementById('changePasswordConfirm');
+        let text = document.getElementById('changePasswordText').style;
+        let user = firebase.auth().currentUser;
+        let isValid = true;
+        
+        if (confirm.value !== newPassword.value) {
+            isValid = inputError(confirm.id, 'Please enter the same password again.');
+        }
+        if (!/[^a-zA-Z0-9]/.test(newPassword.value)) {
+            isValid = inputError(newPassword.id, 'Your password must contain at least one special character.');
+        }
+        if (!/[0-9]/.test(newPassword.value)) {
+            isValid = inputError(newPassword.id, 'Your password must contain at least one number.');
+        }
+        if (!/[A-Z]/.test(newPassword.value)) {
+            isValid = inputError(newPassword.id, 'Your password must contain at least one uppercase letter.');
+        }
+        if (!/[a-z]/.test(newPassword.value)) {
+            isValid = inputError(newPassword.id, 'Your password must contain at least one lowercase letter.');
+        }
+        if (newPassword.value.length < 8) {
+            isValid = inputError(newPassword.id, 'Your password must contain at least eight characters.');
+        }
 
-        user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, oldPassword.value)).then(() => {
-            if (oldPassword.value !== newPassword.value) {
-                user.updatePassword(newPassword.value).then(() => {
-                    let oldPasswordText = document.getElementById('changePasswordOldPasswordText').style;
-                    let newPasswordText = document.getElementById('changePasswordNewPasswordText').style;
-                    let confirmText = document.getElementById('changePasswordConfirmText').style;
-    
-                    oldPassword.value = '';
-                    newPassword.value = '';
-                    confirm.value = '';
-    
-                    oldPasswordText.fontSize = '2vmin';
-                    oldPasswordText.paddingTop = '1.9vmin';
-                    newPasswordText.fontSize = '2vmin';
-                    newPasswordText.paddingTop = '1.9vmin';
-                    confirmText.fontSize = '2vmin';
-                    confirmText.paddingTop = '1.9vmin';
-    
-                    openPopup('Changed password.');
-                    
+        if (isValid) {
+            text.display = 'none';
+            loader.display = 'flex';
+
+            user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, oldPassword.value)).then(() => {
+                if (oldPassword.value !== newPassword.value) {
+                    user.updatePassword(newPassword.value).then(() => {
+                        let oldPasswordText = document.getElementById('changePasswordOldPasswordText').style;
+                        let newPasswordText = document.getElementById('changePasswordNewPasswordText').style;
+                        let confirmText = document.getElementById('changePasswordConfirmText').style;
+        
+                        oldPassword.value = '';
+                        newPassword.value = '';
+                        confirm.value = '';
+        
+                        oldPasswordText.fontSize = '2vmin';
+                        oldPasswordText.paddingTop = '1.9vmin';
+                        newPasswordText.fontSize = '2vmin';
+                        newPasswordText.paddingTop = '1.9vmin';
+                        confirmText.fontSize = '2vmin';
+                        confirmText.paddingTop = '1.9vmin';
+        
+                        openPopup('Changed password.');
+                        
+                        text.display = 'block';
+                        loader.display = 'none';
+                    }).catch((error) => {
+                        console.error(error.message);
+                    });
+                } else {
+                    inputError(newPassword.id, 'Please choose a different password.');
+                        
                     text.display = 'block';
                     loader.display = 'none';
-                }).catch((error) => {
-                    console.log(error.message);
-                });
-            } else {
-                inputError(newPassword.id, 'Please choose a different password.');
-                    
+                }
+            }).catch((error) => {
                 text.display = 'block';
                 loader.display = 'none';
-            }
-        }).catch((error) => {
-            text.display = 'block';
-            loader.display = 'none';
 
-            if (error.code === 'auth/wrong-password') {
-                inputError(oldPassword.id, 'Incorrect password.');
-            } else {
-                console.log(error.message);
-            }
-        });
+                if (error.code === 'auth/wrong-password') {
+                    inputError(oldPassword.id, 'Incorrect password.');
+                } else {
+                    console.error(error.message);
+                }
+            });
+        }
     }
 }
 
 function changeUsername() {
-    let username = document.getElementById('changeUsernameUsername');
-    let password = document.getElementById('changeUsernamePassword');
-    let text = document.getElementById('changeUsernameText').style;
     let loader = document.getElementById('changeUsernameLoader').style;
-    let user = firebase.auth().currentUser;
-    let isValid = true;
 
-    if (/[^a-z0-9._]/i.test(username.value)) {
-        isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
-    }
-    if (username.value.length < 4) {
-        isValid = inputError(username.id, 'Your username must contain at least four characters.');
-    }
-    if (username.value === user.displayName) {
-        isValid = inputError(username.id, 'Please choose a different username.');
-    }
+    if (loader.display !== 'flex') {
+        let username = document.getElementById('changeUsernameUsername');
+        let password = document.getElementById('changeUsernamePassword');
+        let text = document.getElementById('changeUsernameText').style;
+        let user = firebase.auth().currentUser;
+        let isValid = true;
 
-    if (isValid) {
+        if (/[^a-z0-9._]/i.test(username.value)) {
+            isValid = inputError(username.id, 'Your username must consist of letters, numbers, dots and underscores.');
+        }
+        if (username.value.length < 4) {
+            isValid = inputError(username.id, 'Your username must contain at least four characters.');
+        }
+        if (username.value === user.displayName) {
+            isValid = inputError(username.id, 'Please choose a different username.');
+        }
+
+        if (isValid) {
+            text.display = 'none';
+            loader.display = 'flex';
+
+            user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
+                user.updateProfile({displayName: username.value}).then(() => {
+                    let usernameText = document.getElementById('changeUsernameUsernameText').style;
+                    let usernamePasswordText = document.getElementById('changeUsernamePasswordText').style;
+
+                    username.value = '';
+                    password.value = '';
+
+                    usernameText.fontSize = '2vmin';
+                    usernameText.paddingTop = '1.9vmin';
+                    usernamePasswordText.fontSize = '2vmin';
+                    usernamePasswordText.paddingTop = '1.9vmin';
+
+                    text.display = 'block';
+                    loader.display = 'none';
+
+                    openPopup(`Changed username to ${user.displayName}.`);
+                }).catch((error) => {
+                    console.error(error.message);
+                });
+            }).catch((error) => {
+                text.display = 'block';
+                loader.display = 'none';
+
+                if (error.code === 'auth/wrong-password') {
+                    inputError(password.id, 'Incorrect password.');
+                } else {
+                    console.error(error.message);
+                }
+            });
+        }
+    }
+}
+
+function deleteAccount() {
+    let loader = document.getElementById('deleteAccountLoader').style;
+
+
+    if (loader.display !== 'flex') {
+        let password = document.getElementById('deleteAccountPassword');
+        let text = document.getElementById('deleteAccountText').style;
+        let user = firebase.auth().currentUser;
+
+        let deleteDatabaseEntry = () => {
+            firebase.database().ref(`images/${firebase.auth().currentUser.uid}`).set(null).then(() => {
+                user.delete().then(() => {
+                    text.display = 'block';
+                    loader.display = 'none';
+
+                    openPopup('Account deleted.');
+
+                    setTimeout(() => {
+                        document.getElementById('load').style.opacity = 1;
+                    }, 1000);
+
+                    setTimeout(() => {
+                        window.open('../', '_self');
+                    }, 1500);
+                }).catch((error) => {
+                    console.error(error.message);
+                });
+            }).catch((error) => {
+                console.error(error.message);
+            });
+        }
+
         text.display = 'none';
         loader.display = 'flex';
 
         user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
-            user.updateProfile({displayName: username.value}).then(() => {
-                let usernameText = document.getElementById('changeUsernameUsernameText').style;
-                let usernamePasswordText = document.getElementById('changeUsernamePasswordText').style;
+            firebase.database().ref(`images/${firebase.auth().currentUser.uid}`).once('value').then((snapshot) => {
+                let data = snapshot.val();
+                let count = 0;
 
-                username.value = '';
-                password.value = '';
+                if (data) {
+                    for (let filename of data) {
+                        firebase.storage().ref(`images/${firebase.auth().currentUser.uid}/${filename}`).delete().then(() => {
+                            count++;
 
-                usernameText.fontSize = '2vmin';
-                usernameText.paddingTop = '1.9vmin';
-                usernamePasswordText.fontSize = '2vmin';
-                usernamePasswordText.paddingTop = '1.9vmin';
-
-                text.display = 'block';
-                loader.display = 'none';
-
-                openPopup(`Changed username to ${user.displayName}.`);
+                            if (count === data.length) {
+                                deleteDatabaseEntry();
+                            }
+                        }).catch((error) => {
+                            console.error(error.message);
+                        });
+                    }
+                } else {
+                    deleteDatabaseEntry();
+                }
             }).catch((error) => {
-                console.log(error.message);
+                console.error(error.message);
             });
         }).catch((error) => {
             text.display = 'block';
@@ -210,48 +308,10 @@ function changeUsername() {
             if (error.code === 'auth/wrong-password') {
                 inputError(password.id, 'Incorrect password.');
             } else {
-                console.log(error.message);
+                console.error(error.message);
             }
         });
     }
-}
-
-function deleteAccount() {
-    let password = document.getElementById('deleteAccountPassword');
-    let text = document.getElementById('deleteAccountText').style;
-    let loader = document.getElementById('deleteAccountLoader').style;
-    let user = firebase.auth().currentUser;
-
-    text.display = 'none';
-    loader.display = 'flex';
-
-    user.reauthenticateAndRetrieveDataWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, password.value)).then(() => {
-        user.delete().then(() => {
-            text.display = 'block';
-            loader.display = 'none';
-
-            openPopup('Account deleted.');
-
-            setTimeout(() => {
-                document.getElementById('load').style.opacity = 1;
-            }, 1000);
-
-            setTimeout(() => {
-                window.open('../', '_self');
-            }, 1500);
-        }).catch((error) => {
-            console.log(error.message);
-        });
-    }).catch((error) => {
-        text.display = 'block';
-        loader.display = 'none';
-
-        if (error.code === 'auth/wrong-password') {
-            inputError(password.id, 'Incorrect password.');
-        } else {
-            console.log(error.message);
-        }
-    });
 }
 
 function openPopup(message) {
@@ -263,17 +323,6 @@ function openPopup(message) {
     setTimeout(() => {
         popup.style.bottom = '-7vh';
     }, 1700);
-}
-
-function initFirebase() {
-    firebase.initializeApp({
-        apiKey: "AIzaSyAXDk6pM8wT-6AbE-gl7li9oRmelyfUsbM",
-        authDomain: "webprojekt-bf181.firebaseapp.com",
-        databaseURL: "https://webprojekt-bf181.firebaseio.com",
-        projectId: "webprojekt-bf181",
-        storageBucket: "webprojekt-bf181.appspot.com",
-        messagingSenderId: "403269192570"
-    });
 }
 
 function initInputs() {

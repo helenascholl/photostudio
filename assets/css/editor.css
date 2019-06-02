@@ -2,6 +2,10 @@ body {
     margin: 0;
     background-color: #454545;
     font-family: 'Barlow Semi Condensed', sans-serif;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }
 
 canvas {
@@ -9,29 +13,27 @@ canvas {
 }
 
 #tools {
-    width: 3vw;
-    height: 95vh;
-    position: absolute;
-    top: 5vh;
+    width: 15vw;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
     -webkit-box-pack: space-evenly;
         -ms-flex-pack: space-evenly;
             justify-content: space-evenly;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    border-right: 1px solid black;
+    -ms-flex-line-pack: distribute;
+        align-content: space-around;
+    
 }
 
 #selection {
     top: 5vh;
-    left: 3vw;
+    left: 0;
     pointer-events: none;
 }
 
@@ -42,7 +44,7 @@ canvas {
     top: 0;
     left: 0;
     z-index: 2;
-    border-bottom: 1px solid black;
+    border-bottom: 0.1vmin solid black;
 }
 
 #right {
@@ -51,24 +53,25 @@ canvas {
     position: absolute;
     top: 5vh;
     right: 0;
-    border-left: 1px solid black;
+    border-left: 0.1vmin solid black;
 }
 
 #layers {
-    width: 82vw;
+    width: 85vw;
     height: 95vh;
     position: absolute;
-    left: 3vw;
+    left: 0;
     top: 5vh;
     overflow: scroll;
 }
 
 .tool {
-    width: 2.5vw;
-    height: 2.5vw;
+    width: 4vw;
+    height: 4vw;
+    margin-top: 0.9vw;
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
-    border: 0.1vmin solid black;
+    border: 0.15vw solid black;
     border-radius: 0.5vmin;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -80,34 +83,52 @@ canvas {
         -ms-flex-align: center;
             align-items: center;
     cursor: pointer;
+    -webkit-transition: background-color 200ms;
+    -o-transition: background-color 200ms;
+    transition: background-color 200ms;
 }
 
 .tool img {
-    height: 1.5vw;
+    height: 2.5vw;
+    -webkit-transition: -webkit-filter 200ms;
+    transition: -webkit-filter 200ms;
+    -o-transition: filter 200ms;
+    transition: filter 200ms;
+    transition: filter 200ms, -webkit-filter 200ms;
 }
 
-form {
-    margin-left: 7vw;
-    height: 5vh;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    display: inline-block;
+.tool:hover {
+    background-color: rgb(46, 46, 46);
 }
 
-#filename {
-    margin-left: 1vw;
+.tool:hover img {
+    -webkit-filter: invert(80%);
+            filter: invert(80%);
+}
+
+#selectedColor, #styledSelectedColor {
+    position: absolute;
+    top: 12vw;
+    left: 4.5vw;
+    border-radius: 0.7vmin;
+    border: 0.1vmin solid black;
+}
+
+#selectedColor {
+    width: 6vw;
+    height: 3vw;
+    border: none;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
 }
 
 #back {
     margin: 0;
     height: 5vh;
     width: 3vw;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-right: 0.1vmin solid black;
+    border-bottom: 0.1vmin solid black;
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -118,44 +139,412 @@ form {
         -ms-flex-align: center;
             align-items: center;
     cursor: pointer;
+    -webkit-transition: background-color 400ms;
+    -o-transition: background-color 400ms;
+    transition: background-color 400ms;
+}
+
+#back:hover {
+    background-color: black;
 }
 
 #back i {
     font-size: 3vmin;
+    -webkit-transition: color 400ms;
+    -o-transition: color 400ms;
+    transition: color 400ms;
+}
+
+#back:hover i {
+    color: white;
 }
 
 #layerDivs {
     width: 13vw;
     height: 30vh;
-    margin-left: 1vw;
+    position: absolute;
+    bottom: 5vw;
+    right: 1vw;
     background-color: #2c2c2c;
     overflow-x: hidden;
     overflow-y: scroll;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
-#layerDivs div {
+.layerDiv, #openAddLayerPopup {
     width: 13vw;
     height: 4.5vmin;
     font-size: 2vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    user-select: none;
-    justify-content: center;
-    align-items: center;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     margin: 1vmin 0;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 0.1vmin solid black;
+    border-bottom: 0.1vmin solid black;
+}
+
+#openAddLayerPopup {
+    height: 3vw;
+    position: absolute;
+    bottom: 1vw;
+    right: 1vw;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 0.5vmin;
+}
+
+.layerDiv div i {
+    font-size: 2.5vmin;
+    display: block;
     cursor: pointer;
 }
 
-.button {
-    cursor: pointer;
+.layerDiv div {
+    margin: 0 1vw 0 0.5vw;
 }
 
-#createImage, #uploadImage {
-    width: 5vw;
-    height: 3vh;
+.layerDiv span {
+    -webkit-user-select: text;
+       -moz-user-select: text;
+        -ms-user-select: text;
+            user-select: text;
+}
+
+#addLayerPopup .button, #savePopup .button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    font-size: 2vmin;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-radius: 1vmin;
+    color: white;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    cursor: pointer;
+    float: right;
+    -webkit-transition: background-color 400ms;
+    -o-transition: background-color 400ms;
+    transition: background-color 400ms;
+}
+
+#addLayerPopup .button {
+    height: 3.5vmin;
+    width: 7vmin;
+    margin: 2vmin 0 0 0.5vw;
+}
+
+.button:focus {
+    outline: none;
+}
+
+#addLayer:hover, #addLayer:focus {
+    background-color: rgb(52, 52, 255);
+}
+
+#addLayer {
+    background-color: rgb(81, 81, 255);
+}
+
+#cancelAddLayer {
+    background-color: #838383;
+}
+
+#cancelAddLayer:hover, #cancelAddLayer:focus {
+    background-color: #686868;
+}
+
+#addLayerPopup {
+    width: 20vw;
+    background-color: white;
+    position: absolute;
+    right: 14.5vw;
+    padding: 2vmin 2.5vw;
+    border: 0.1vmin solid #d8d8d8;
+    border-radius: 1vmin;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    -webkit-transition: opacity 100ms, bottom 100ms;
+    -o-transition: opacity 100ms, bottom 100ms;
+    transition: opacity 100ms, bottom 100ms;
+}
+
+#addLayerPopup h1 {
+    text-align: center;
+    margin: 0 0 2vmin 0;
+    font-size: 2.5vmin;
+}
+
+#addLayerPopup h2 {
+    margin: 0;
+    font-size: 2vmin;
+    display: inline;
+    font-weight: normal;
+}
+
+#addLayerPopup input {
+    width: 5vmin;
+    height: 2vmin;
+    font-size: 1.5vmin;
+    margin-right: 0.1vmin;
+    padding: 0.3vmin;
+    border: 0.1vmin solid black;
+}
+
+#addLayerPopup input:focus {
+    outline: none;
+}
+
+#addLayerPopup input[type=color] {
+    cursor: pointer;    
+    -webkit-transition: background-color 200ms;    
+    -o-transition: background-color 200ms;    
+    transition: background-color 200ms;
+}
+
+#addLayerPopup input[type=color]:focus, #addLayerPopup input[type=color]:hover {
+    background-color: #838383;
+}
+
+#addLayerPopup form {
+    width: 15vw;
+}
+
+#addLayerPopup form div {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin: 0.5vmin 0;
+}
+
+#openAddLayerPopup {
+    margin-left: 1vw;
+    background-color: white;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    border: none;
+}
+
+#openAddLayerPopup i {
+    font-size: 3vmin;
+}
+
+#styledFilename, #openSavePopup {
+    width: 8vmin;
+    height: 3.6vh;
+    position: absolute;
+    top: 0.5vh;
+    border-radius: 2vmin;
+    font-size: 2vmin;
+    font-weight: bold;
+    color: white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border: 0.2vmin solid white;
+    cursor: pointer;
+    -webkit-transition: background-color 400ms, color 400ms;
+    -o-transition: background-color 400ms, color 400ms;
+    transition: background-color 400ms, color 400ms;
+}
+
+#openSavePopup {
+    right: 1.5vmin;
+}
+
+#openSavePopup:hover, #top form:hover #styledFilename {
     background-color: white;
     color: black;
-    display: inline-block;
+}
+
+#file, #styledFilename {
+    right: 11.4vmin;
+}
+
+#file {
+    width: 8.4vmin;
+    height: 4vh;
+    position: absolute;
+    top: 0.5vh;
+    font-size: 0;
+    cursor: pointer;
+    opacity: 0;
+}
+
+#wrapper {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+
+#savePopup {
+    width: 80vmin;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background-color: white;
+    border: 0.1vmin solid #d8d8d8;
+    border-radius: 1vmin;
+    pointer-events: all;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    -webkit-transition: opacity 100ms, -webkit-transform 150ms;
+    transition: opacity 100ms, -webkit-transform 150ms;
+    -o-transition: opacity 100ms, transform 150ms;
+    transition: opacity 100ms, transform 150ms;
+    transition: opacity 100ms, transform 150ms, -webkit-transform 150ms;
+}
+
+#savePopup form {
+    margin-left: 10vmin;
+}
+
+#savePopup input, #savePopup select {
+    height: 3vmin;
+    outline: none;
+    font-size: 2vmin;
+    border: none;
+}
+
+#savePopup select {
+    border: 0.1vmin solid white;
+    -webkit-transition: border-color 400ms;
+    -o-transition: border-color 400ms;
+    transition: border-color 400ms;
+}
+
+#savePopup select:focus {
+    border-color: rgb(0, 191, 255);
+}
+
+#filename {
+    width: 53vmin;
+}
+
+#fileExtension {
+    width: 7vmin;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#filenameBorder {
+    width: 60vmin;
+    height: 0.11vmin;
+    -webkit-transition: background-color 200ms;
+    -o-transition: background-color 200ms;
+    transition: background-color 200ms;
+}
+
+#filenameText {
+    height: 3vmin;
+    position: relative;
+    left: 0;
+    top: 1.5vmin;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    pointer-events: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: font-size 200ms, padding-top 200ms, color 200ms;
+    -o-transition: font-size 200ms, padding-top 200ms, color 200ms;
+    transition: font-size 200ms, padding-top 200ms, color 200ms;
+}
+
+#saveError {
+    font-size: 2vmin;
+    color: red;
+    margin: 2vmin 10vmin 0 10vmin;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
+    transition: opacity 200ms;
+    word-wrap: break-word;
+}
+
+#savePopup .button {
+    height: 4vmin;
+    float: right;
+    background-color: rgb(81, 81, 255);
+}
+
+#download {
+    width: 10vmin;
+    margin: 3vmin 10vmin 5vh 0;
+}
+
+#uploadImage {
+    width: 20vmin;
+    margin: 3vmin 2.5vmin 5vh 0;
+}
+
+#savePopup .button:hover, #savePopup .button:focus {
+    background-color: rgb(52, 52, 255);
+}
+
+#uploadImageLoader {
+    width: 5vmin;
+}
+
+#uploadImageLoader div {
+    width: 0.5vmin;
+    height: 0.5vmin;
+}
+
+#close {
+    cursor: pointer;
+    font-size: 2.5vmin;
+    float: right;
+    margin: 1vmin;
+}
+
+#savePopup h1 {
+    margin: 5vh 0 0 0;
+    font-size: 3vmin;
+    text-align: center;
 }
