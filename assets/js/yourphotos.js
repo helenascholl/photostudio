@@ -323,7 +323,7 @@ function deletePhoto() {
         console.error(error.message);
     });
 
-    contextmenu.style.top = 0;
+    contextmenu.style.height = 0;
 
     setTimeout(() => {
         contextmenu.style.display = 'none';
