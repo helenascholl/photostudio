@@ -82,6 +82,8 @@ header {
     height: 90vh;
     margin: auto;
     overflow-y: scroll;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
 }
 
@@ -89,7 +91,11 @@ header {
     width: 10vmin;
     margin: 2vmin;
     display: inline-block;
+    -webkit-transition: opacity 100ms, -webkit-transform 150ms;
+    transition: opacity 100ms, -webkit-transform 150ms;
+    -o-transition: opacity 100ms, transform 150ms;
     transition: opacity 100ms, transform 150ms;
+    transition: opacity 100ms, transform 150ms, -webkit-transform 150ms;
 }
 
 .file {
@@ -118,7 +124,9 @@ header {
     -o-text-overflow: ellipsis;
        text-overflow: ellipsis;
     overflow: hidden;
-    transform: opacity 200ms;
+    -webkit-transform: opacity 200ms;
+        -ms-transform: opacity 200ms;
+            transform: opacity 200ms;
 }
 
 .button {
@@ -175,6 +183,8 @@ header {
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
 }
 
@@ -195,23 +205,37 @@ header {
 
 #contextmenu {
     width: 15vmin;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     position: absolute;
     border: 0.1vmin solid #d8d8d8;
     border-radius: 0.5vmin;
     background-color: white;
     overflow: hidden;
     font-size: 2vmin;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-transition: height 100ms;
+    -o-transition: height 100ms;
     transition: height 100ms;
 }
 
 #contextmenu div {
     height: 4vmin;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     cursor: pointer;
+    -webkit-transition: background-color 200ms;
+    -o-transition: background-color 200ms;
     transition: background-color 200ms;
 }
 
@@ -222,8 +246,12 @@ header {
 #noPhotos {
     width: 100%;
     height: 100%;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 #noPhotos h2 {
@@ -238,22 +266,39 @@ header {
     position: absolute;
     top: 0;
     left: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 #renamePopup {
     width: 50vw;
-    align-items: center;
-    box-sizing: border-box;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     background-color: white;
     border: 0.1vmin solid #d8d8d8;
     border-radius: 1vmin;
     pointer-events: all;
-    user-select: none;
-    box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+            box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.75);
+    -webkit-transition: opacity 100ms, -webkit-transform 150ms;
+    transition: opacity 100ms, -webkit-transform 150ms;
+    -o-transition: opacity 100ms, transform 150ms;
     transition: opacity 100ms, transform 150ms;
+    transition: opacity 100ms, transform 150ms, -webkit-transform 150ms;
 }
 
 form {
@@ -298,6 +343,8 @@ input {
     font-size: 2vmin;
     color: red;
     margin: 2vw 5vw 2vw 5vw;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
     word-wrap: break-word;
 }

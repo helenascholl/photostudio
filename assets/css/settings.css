@@ -245,6 +245,8 @@ input {
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
 }
 
@@ -291,6 +293,8 @@ h3 {
     width: 100vw;
     height: 90vh;
     overflow-x: scroll;
+    -webkit-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
     transition: opacity 200ms;
 }
 
