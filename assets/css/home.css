@@ -102,8 +102,7 @@ h2 {
 }
 
 #links {
-    height: 100vw;
-    width: 100vw;
+    height: 100vh;
     position: absolute;
     top: 100vh;
     left: 0;
