@@ -31,37 +31,6 @@
             </form>
 
             <div class="button" id="openSavePopup">Save</div>
-
-            <div id="wrapper" style="pointer-events: none;">
-                <div id="savePopup" style="z-index: 1; opacity: 0; transform: scale(0, 0);">
-                    <i id="close" class="material-icons">close</i>
-        
-                    <h1>Save</h1>
-        
-                    <form>
-                        <div id="filenameText" style="font-size: 2vmin; padding-top: 1.9vmin;">Filename</div>
-                        <input type="text" id="filename" tabindex="6" autocomplete="off">
-                        <select id="fileExtension" tabindex="7"></select>
-                        <div id="filenameBorder" style="background-color: lightgray;"></div>
-                    </form>
-                    
-                    <p id="saveError" style="opacity: 0;">error</p>
-
-                    <div id="download" class="button" tabindex="9">
-                        <div id="downloadText">Download</div>
-                    </div>
-
-                    <div id="uploadImage" class="button" tabindex="8">
-                        <div id="uploadImageText">Save to Your Photos</div>
-
-                        <div id="uploadImageLoader" class="loader" style="display: none;">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div id="layers"></div>
@@ -120,6 +89,37 @@
 
                 <div id="addLayer" class="button" tabindex="4">Create</div>
                 <div id="cancelAddLayer" class="button" tabindex="5">Cancel</div>
+            </div>
+        </div>
+
+        <div id="wrapper" style="pointer-events: none;">
+            <div id="savePopup" style="z-index: 1; opacity: 0; transform: scale(0, 0);">
+                <i id="close" class="material-icons">close</i>
+    
+                <h1>Save</h1>
+    
+                <form>
+                    <div id="filenameText" style="font-size: 2vmin; padding-top: 1.9vmin;">Filename</div>
+                    <input type="text" id="filename" tabindex="6" autocomplete="off">
+                    <select id="fileExtension" tabindex="7"></select>
+                    <div id="filenameBorder" style="background-color: lightgray;"></div>
+                </form>
+                
+                <p id="saveError" style="opacity: 0;">error</p>
+
+                <div id="download" class="button" tabindex="9">
+                    <div id="downloadText">Download</div>
+                </div>
+
+                <div id="uploadImage" class="button" tabindex="8">
+                    <div id="uploadImageText">Save to Your Photos</div>
+
+                    <div id="uploadImageLoader" class="loader" style="display: none;">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
             </div>
         </div>
 
