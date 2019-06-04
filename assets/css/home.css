@@ -16,6 +16,7 @@ html {
 
 body {
     margin: 0;
+    width: 100%;
     overflow-x: hidden;
     font-family: 'Barlow Semi Condensed', sans-serif;
 }
@@ -103,9 +104,6 @@ h2 {
 
 #links {
     height: 100vh;
-    position: absolute;
-    top: 100vh;
-    left: 0;
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
@@ -329,4 +327,10 @@ i {
        text-overflow: ellipsis;
     width: 13vmin;
     overflow: hidden;
+}
+
+#particleWrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
 }
