@@ -204,7 +204,6 @@ function createAccount() {
                         break;
 
                     default:
-                        inputError('createAccountPassword', 'An error occured while creating an account.');
                         console.error(error.message);
                 }
                 
@@ -276,10 +275,17 @@ function logIn() {
                     loader.display = 'none';
                     text.display = 'block';
 
-                    if (error.code === 'auth/wrong-password') {
-                        inputError(password.id, 'Incorrect email address or password.');
-                    } else {
-                        console.error(error.message);
+                    switch (error.code) {
+                        case 'auth/wrong-password':
+                            inputError(password.id, 'Wrong password.');
+                            break;
+                            
+                        case 'auth/user-not-found':
+                            inputError(email.id, "The user doesn't exist.");
+                            break;
+                           
+                        default:
+                            console.error(error.message);
                     }
                 });
             }).catch((error) => {
