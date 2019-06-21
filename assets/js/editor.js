@@ -203,6 +203,12 @@ function addKeydownEventListeners() {
             event.preventDefault();
         }
     };
+    
+    let preventEnter = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+        }
+    };
 
     let addKeydownEventListener = (id, callback) => {
         let element = document.getElementById(id);
@@ -221,6 +227,7 @@ function addKeydownEventListeners() {
     addKeydownEventListener('addLayerWidth', addLayerWidthKeydown);
     addKeydownEventListener('addLayer', addLayerKeydown);
     addKeydownEventListener('cancelAddLayer', cancelAddLayerKeydown);
+    addKeydownEventListener('filename', preventEnter);
 }
 
 function authStateChanged(user) {
